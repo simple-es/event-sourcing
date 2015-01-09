@@ -5,4 +5,11 @@ php:
   - "5.5"
   - "5.4"
 
+matrix:
+  allow_failures:
+    - php: hhvm
+
+install:
+  - composer install --prefer-dist --dev --no-progress --optimize-autoloader
+
 script: phpunit --coverage-text
