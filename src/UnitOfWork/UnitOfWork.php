@@ -42,7 +42,7 @@ class UnitOfWork implements TracksAggregates
     /**
      * @param ResolvesRepositories $repositoryResolver
      */
-    function __construct(ResolvesRepositories $repositoryResolver)
+    public function __construct(ResolvesRepositories $repositoryResolver)
     {
         $this->repositoryResolver = $repositoryResolver;
         $this->identityMap        = [];
