@@ -4,6 +4,8 @@ A lightweight Event Sourcing library to complement [SimpleBus][1], inspired by [
 
 By [Jasper N. Brouwer](https://github.com/jaspernbrouwer).
 
+[![Build Status](https://travis-ci.org/f500/event-sourcing.svg?branch=master)](https://travis-ci.org/f500/event-sourcing)
+
 ## Work in progress
 
 This library is still in its development stage, more will follow soon...

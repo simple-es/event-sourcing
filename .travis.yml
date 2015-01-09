@@ -12,4 +12,4 @@ matrix:
 install:
   - composer install --prefer-dist --dev --no-progress --optimize-autoloader
 
-script: phpunit --coverage-text
+script: vendor/bin/phpunit --coverage-text
