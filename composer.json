@@ -1,0 +1,33 @@
+{
+    "name": "f500/event-sourcing",
+    "description": "A lightweight Event Sourcing library to complement SimpleBus",
+    "type": "library",
+    "keywords": ["event sourcing"],
+    "homepage": "https://github.com/f500/event-sourcing",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jasper N. Brouwer",
+            "email": "jasper@nerdsweide.nl"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.4",
+        "simple-bus/command-event-bridge": "~1.0"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "~4.3"
+    },
+
+    "autoload": {
+        "psr-4" : { "F500\\EventSourcing\\" : "src" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "F500\\EventSourcing\\Example\\": "examples",
+            "F500\\EventSourcing\\Test\\": "tests"
+        }
+    }
+}
