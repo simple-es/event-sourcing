@@ -68,7 +68,6 @@ class MetadataEnrichingDecorator implements StoresEvents
 
         /** @var EventEnvelope $eventEnvelope */
         foreach ($envelopeStream as $eventEnvelope) {
-
             /** @var EnrichesMetadata $metadataEnricher */
             foreach ($this->metadataEnrichers as $metadataEnricher) {
                 $eventEnvelope = $metadataEnricher->enrich($eventEnvelope);

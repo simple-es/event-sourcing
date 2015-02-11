@@ -79,5 +79,5 @@ abstract class AggregateRepository implements Repository
      * @param AggregateHistory $aggregateHistory
      * @return ReconstitutesFromHistory
      */
-    protected abstract function reconstituteAggregate(AggregateHistory $aggregateHistory);
+    abstract protected function reconstituteAggregate(AggregateHistory $aggregateHistory);
 }
