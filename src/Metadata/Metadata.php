@@ -13,7 +13,7 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Event;
+namespace F500\EventSourcing\Metadata;
 
 use F500\EventSourcing\Exception\ObjectIsImmutable;
 use F500\EventSourcing\Serializer\Serializable;
@@ -25,7 +25,7 @@ use F500\EventSourcing\Serializer\Serializable;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class Metadata implements \ArrayAccess, Serializable
+final class Metadata implements \ArrayAccess, Serializable
 {
     /**
      * @var array

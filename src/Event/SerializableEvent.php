@@ -13,31 +13,17 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Exception;
+namespace F500\EventSourcing\Event;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Serializer\Serializable;
 
 /**
- * Exception DuplicateAggregateFound
+ * Interface SerializableEvent
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-final class DuplicateAggregateFound extends \UnexpectedValueException implements Exception
+interface SerializableEvent extends Event, Serializable
 {
-    /**
-     * @param IdentifiesAggregate $aggregateId
-     * @return DuplicateAggregateFound
-     */
-    public static function create(IdentifiesAggregate $aggregateId)
-    {
-        return new DuplicateAggregateFound(
-            sprintf(
-                'Duplicate aggregate with id %s(%s) found',
-                get_class($aggregateId),
-                (string)$aggregateId
-            )
-        );
-    }
 }

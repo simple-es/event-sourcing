@@ -13,31 +13,22 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Exception;
+namespace F500\EventSourcing\Metadata;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Event\EventEnvelope;
 
 /**
- * Exception DuplicateAggregateFound
+ * Interface EnrichesMetadata
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-final class DuplicateAggregateFound extends \UnexpectedValueException implements Exception
+interface EnrichesMetadata
 {
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @return DuplicateAggregateFound
+     * @param EventEnvelope $eventEnvelope
+     * @return EventEnvelope
      */
-    public static function create(IdentifiesAggregate $aggregateId)
-    {
-        return new DuplicateAggregateFound(
-            sprintf(
-                'Duplicate aggregate with id %s(%s) found',
-                get_class($aggregateId),
-                (string)$aggregateId
-            )
-        );
-    }
+    public function enrich(EventEnvelope $eventEnvelope);
 }

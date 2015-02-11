@@ -13,31 +13,27 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Exception;
+namespace F500\EventSourcing\Example\Basket;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Aggregate\ReconstitutesFromHistory;
+use F500\EventSourcing\Collection\AggregateHistory;
+use F500\EventSourcing\Repository\AggregateRepository;
 
 /**
- * Exception DuplicateAggregateFound
+ * Class BasketRepository
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-final class DuplicateAggregateFound extends \UnexpectedValueException implements Exception
+class BasketRepository extends AggregateRepository
 {
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @return DuplicateAggregateFound
+     * @param AggregateHistory $aggregateHistory
+     * @return ReconstitutesFromHistory
      */
-    public static function create(IdentifiesAggregate $aggregateId)
+    protected function reconstituteAggregate(AggregateHistory $aggregateHistory)
     {
-        return new DuplicateAggregateFound(
-            sprintf(
-                'Duplicate aggregate with id %s(%s) found',
-                get_class($aggregateId),
-                (string)$aggregateId
-            )
-        );
+        return Basket::fromHistory($aggregateHistory);
     }
 }

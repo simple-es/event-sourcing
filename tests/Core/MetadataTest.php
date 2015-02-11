@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Test\Core;
 
-use F500\EventSourcing\Event\Metadata;
+use F500\EventSourcing\Metadata\Metadata;
 
 /**
  * Test Metadata
@@ -34,7 +34,11 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->metadata = new Metadata(
-            ['item1' => 'Some value', 'item2' => 'Other value']
+            [
+                'some-key'  => 'Some value',
+                'other-key' => 'Other value',
+                'third-key' => 'Third value'
+            ]
         );
     }
 
@@ -43,8 +47,11 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesWetherAnItemExistsOrNot()
     {
-        $this->assertTrue(isset($this->metadata['item1']));
-        $this->assertFalse(isset($this->metadata['item3']));
+        $this->assertTrue(isset($this->metadata['some-key']));
+        $this->assertTrue(isset($this->metadata['other-key']));
+        $this->assertTrue(isset($this->metadata['third-key']));
+
+        $this->assertFalse(isset($this->metadata['non-existing-key']));
     }
 
     /**
@@ -52,7 +59,9 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesAnItem()
     {
-        $this->assertSame('Some value', $this->metadata['item1']);
+        $this->assertSame('Some value', $this->metadata['some-key']);
+        $this->assertSame('Other value', $this->metadata['other-key']);
+        $this->assertSame('Third value', $this->metadata['third-key']);
     }
 
     /**
@@ -60,7 +69,7 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesNullWhenAnItemDoesNotExist()
     {
-        $this->assertSame(null, $this->metadata['item3']);
+        $this->assertNull($this->metadata['non-existing-key']);
     }
 
     /**
@@ -69,7 +78,7 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
      */
     public function itCannotChangeAnItem()
     {
-        $this->metadata['item3'] = 'Yet another value';
+        $this->metadata['some-key'] = 'Yet another value';
     }
 
     /**
@@ -78,7 +87,7 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
      */
     public function itCannotRemoveAnItem()
     {
-        unset($this->metadata['item2']);
+        unset($this->metadata['some-key']);
     }
 
     /**
@@ -87,14 +96,18 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
     public function itMergesAnother()
     {
         $other = new Metadata(
-            ['item2' => 'Second value', 'item3' => 'Yet another value']
+            [
+                'other-key'  => 'Yet another value',
+                'fourth-key' => 'Fourth value'
+            ]
         );
 
-        $metadata = $this->metadata->merge($other);
+        $mergedMetadata = $this->metadata->merge($other);
 
-        $this->assertSame('Some value', $metadata['item1']);
-        $this->assertSame('Second value', $metadata['item2']);
-        $this->assertSame('Yet another value', $metadata['item3']);
+        $this->assertSame('Some value', $mergedMetadata['some-key']);
+        $this->assertSame('Yet another value', $mergedMetadata['other-key']);
+        $this->assertSame('Third value', $mergedMetadata['third-key']);
+        $this->assertSame('Fourth value', $mergedMetadata['fourth-key']);
     }
 
     /**
@@ -103,14 +116,18 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
     public function itDoesNotChangeItselfWhenAnotherIsMerged()
     {
         $other = new Metadata(
-            ['item2' => 'Second value', 'item3' => 'Yet another value']
+            [
+                'other-key'  => 'Yet another value',
+                'fourth-key' => 'Fourth value'
+            ]
         );
 
         $this->metadata->merge($other);
 
-        $this->assertSame('Some value', $this->metadata['item1']);
-        $this->assertSame('Other value', $this->metadata['item2']);
-        $this->assertNull($this->metadata['item3']);
+        $this->assertSame('Some value', $this->metadata['some-key']);
+        $this->assertSame('Other value', $this->metadata['other-key']);
+        $this->assertSame('Third value', $this->metadata['third-key']);
+        $this->assertNull($this->metadata['fourth-key']);
     }
 
     /**
@@ -118,12 +135,17 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
      */
     public function itIsDeserializable()
     {
-        $metadata = Metadata::deserialize(
-            ['item1' => 'Some value', 'item2' => 'Other value']
+        $deserializedMetadata = Metadata::deserialize(
+            [
+                'some-key'  => 'Some value',
+                'other-key' => 'Other value',
+                'third-key' => 'Third value'
+            ]
         );
 
-        $this->assertSame('Some value', $metadata['item1']);
-        $this->assertSame('Other value', $metadata['item2']);
+        $this->assertSame('Some value', $deserializedMetadata['some-key']);
+        $this->assertSame('Other value', $deserializedMetadata['other-key']);
+        $this->assertSame('Third value', $deserializedMetadata['third-key']);
     }
 
     /**
@@ -131,9 +153,12 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
      */
     public function itIsSerializable()
     {
-        $this->assertSame(
-            ['item1' => 'Some value', 'item2' => 'Other value'],
-            $this->metadata->serialize()
-        );
+        $serialized = [
+            'some-key'  => 'Some value',
+            'other-key' => 'Other value',
+            'third-key' => 'Third value'
+        ];
+
+        $this->assertSame($serialized, $this->metadata->serialize());
     }
 }

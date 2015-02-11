@@ -13,31 +13,38 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Exception;
+namespace F500\EventSourcing\Collection;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Event\SerializableEvent;
+use F500\EventSourcing\Exception\CollectionIsEmpty;
+use F500\EventSourcing\Exception\InvalidItemInCollection;
 
 /**
- * Exception DuplicateAggregateFound
+ * Class EventStream
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-final class DuplicateAggregateFound extends \UnexpectedValueException implements Exception
+final class EventStream extends Collection
 {
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @return DuplicateAggregateFound
+     * {@inheritdoc}
      */
-    public static function create(IdentifiesAggregate $aggregateId)
+    protected function guardItem($item)
     {
-        return new DuplicateAggregateFound(
-            sprintf(
-                'Duplicate aggregate with id %s(%s) found',
-                get_class($aggregateId),
-                (string)$aggregateId
-            )
-        );
+        if (!($item instanceof SerializableEvent)) {
+            throw InvalidItemInCollection::create($item, 'F500\EventSourcing\Event\SerializableEvent');
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function guardAmountOfItems($amount)
+    {
+        if ($amount === 0) {
+            throw CollectionIsEmpty::create();
+        }
     }
 }

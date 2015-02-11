@@ -16,8 +16,6 @@
 namespace F500\EventSourcing\Event;
 
 use F500\EventSourcing\Aggregate\IdentifiesAggregate;
-use F500\EventSourcing\Serializer\Serializable;
-use SimpleBus\Event\Event as SimpleBusEvent;
 
 /**
  * Interface Event
@@ -26,7 +24,7 @@ use SimpleBus\Event\Event as SimpleBusEvent;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-interface Event extends SimpleBusEvent, Serializable
+interface Event
 {
     /**
      * @return IdentifiesAggregate

@@ -13,27 +13,24 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Event;
-
-use F500\EventSourcing\Collection\Collection;
-use F500\EventSourcing\Exception\InvalidItemInCollection;
+namespace F500\EventSourcing\Exception;
 
 /**
- * Class EventStream
+ * Exception CollectionIsEmpty
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class EventStream extends Collection
+final class CollectionIsEmpty extends \InvalidArgumentException implements Exception
 {
     /**
-     * {@inheritdoc}
+     * @return CollectionIsEmpty
      */
-    protected function guardItem($item)
+    public static function create()
     {
-        if (!($item instanceof EventEnvelope)) {
-            throw InvalidItemInCollection::create($item, 'F500\EventSourcing\Event\EventEnvelope');
-        }
+        return new CollectionIsEmpty(
+            'Collection cannot be empty'
+        );
     }
 }

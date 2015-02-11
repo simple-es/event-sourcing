@@ -15,6 +15,7 @@
 
 namespace F500\EventSourcing\Example\Basket;
 
+use F500\EventSourcing\Aggregate\AggregateIdentifyingCapabilities;
 use F500\EventSourcing\Aggregate\IdentifiesAggregate;
 
 /**
@@ -24,42 +25,7 @@ use F500\EventSourcing\Aggregate\IdentifiesAggregate;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class BasketId implements IdentifiesAggregate
+final class BasketId implements IdentifiesAggregate
 {
-    /**
-     * @var string
-     */
-    private $id;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromString($string)
-    {
-        return new BasketId($string);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
-    {
-        return $this->id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function equals(IdentifiesAggregate $other)
-    {
-        return ($other instanceof BasketId && $other->id === $this->id);
-    }
-
-    /**
-     * @param string $id
-     */
-    private function __construct($id)
-    {
-        $this->id = (string)$id;
-    }
+    use AggregateIdentifyingCapabilities;
 }

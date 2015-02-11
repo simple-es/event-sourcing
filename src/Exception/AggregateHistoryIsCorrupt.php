@@ -24,7 +24,7 @@ use F500\EventSourcing\Aggregate\IdentifiesAggregate;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class AggregateHistoryIsCorrupt extends \InvalidArgumentException implements Exception
+final class AggregateHistoryIsCorrupt extends \InvalidArgumentException implements Exception
 {
     /**
      * @param IdentifiesAggregate $invalidId

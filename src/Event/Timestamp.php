@@ -22,7 +22,7 @@ namespace F500\EventSourcing\Event;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class Timestamp
+final class Timestamp
 {
     const ISO8601_TIME_FORMAT = 'Y-m-d\TH:i:s.uO';
 

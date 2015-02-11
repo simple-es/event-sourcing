@@ -27,7 +27,7 @@ use F500\EventSourcing\Repository\ResolvesRepositories;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class UnitOfWork implements TracksAggregates
+final class UnitOfWork implements TracksAggregates
 {
     /**
      * @var ResolvesRepositories
@@ -53,13 +53,13 @@ class UnitOfWork implements TracksAggregates
      */
     public function track(TracksEvents $aggregate)
     {
-        $key = $this->createLookupKey($aggregate->aggregateId());
+        $lookupKey = $this->createLookupKey($aggregate->aggregateId());
 
-        if (isset($this->identityMap[$key])) {
+        if (isset($this->identityMap[$lookupKey])) {
             throw DuplicateAggregateFound::create($aggregate->aggregateId());
         }
 
-        $this->identityMap[$key] = $aggregate;
+        $this->identityMap[$lookupKey] = $aggregate;
     }
 
     /**
@@ -83,6 +83,7 @@ class UnitOfWork implements TracksAggregates
      */
     public function commit()
     {
+        /** @var TracksEvents $aggregate */
         foreach ($this->identityMap as $aggregate) {
             if ($aggregate->hasRecordedEvents()) {
                 $repository = $this->repositoryResolver->resolve($aggregate->aggregateId());
@@ -97,9 +98,9 @@ class UnitOfWork implements TracksAggregates
      */
     private function inIdentityMap(IdentifiesAggregate $aggregateId)
     {
-        $key = $this->createLookupKey($aggregateId);
+        $lookupKey = $this->createLookupKey($aggregateId);
 
-        return isset($this->identityMap[$key]);
+        return isset($this->identityMap[$lookupKey]);
     }
 
     /**
@@ -108,13 +109,9 @@ class UnitOfWork implements TracksAggregates
      */
     private function getFromIdentityMap(IdentifiesAggregate $aggregateId)
     {
-        $key = $this->createLookupKey($aggregateId);
+        $lookupKey = $this->createLookupKey($aggregateId);
 
-        if (!isset($this->identityMap[$key])) {
-            return null;
-        }
-
-        return $this->identityMap[$key];
+        return $this->identityMap[$lookupKey];
     }
 
     /**

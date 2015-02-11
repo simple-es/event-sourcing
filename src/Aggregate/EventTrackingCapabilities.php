@@ -15,10 +15,9 @@
 
 namespace F500\EventSourcing\Aggregate;
 
-use F500\EventSourcing\Event\AggregateHistory;
-use F500\EventSourcing\Event\Event;
-use F500\EventSourcing\Event\EventEnvelope;
-use F500\EventSourcing\Event\EventStream;
+use F500\EventSourcing\Collection\AggregateHistory;
+use F500\EventSourcing\Collection\EventStream;
+use F500\EventSourcing\Event\SerializableEvent;
 
 /**
  * Trait EventTrackingCapabilities
@@ -30,14 +29,9 @@ use F500\EventSourcing\Event\EventStream;
 trait EventTrackingCapabilities
 {
     /**
-     * @var EventEnvelope[]
+     * @var SerializableEvent[]
      */
     private $recordedEvents = [];
-
-    /**
-     * @var int
-     */
-    private $playhead = -1;
 
     /**
      * @return EventStream
@@ -70,36 +64,37 @@ trait EventTrackingCapabilities
      */
     private function replayHistory(AggregateHistory $aggregateHistory)
     {
-        /** @var EventEnvelope $envelope */
-        foreach ($aggregateHistory as $envelope) {
-            $this->playhead = $envelope->playhead();
-
-            $this->when($envelope->event());
+        /** @var SerializableEvent $event */
+        foreach ($aggregateHistory as $event) {
+            $this->when($event);
         }
     }
 
     /**
-     * @param Event $event
+     * @param SerializableEvent $event
      */
-    private function recordThat(Event $event)
+    private function recordThat(SerializableEvent $event)
     {
-        $this->recordedEvents[] = EventEnvelope::wrap(
-            $event,
-            ++$this->playhead
-        );
+        $this->recordedEvents[] = $event;
 
         $this->when($event);
     }
 
     /**
-     * @param Event $event
+     * @param SerializableEvent $event
      */
-    private function when(Event $event)
+    private function when(SerializableEvent $event)
     {
-        $method = 'when' . ucfirst($event->name());
+        $method = get_class($event);
+
+        if (($pos = strrpos($method, '\\')) !== false) {
+            $method = substr($method, $pos + 1);
+        }
+
+        $method = 'when' . ucfirst($method);
 
         if (is_callable([$this, $method])) {
-            $this->$method($event);
+            call_user_func([$this, $method], $event);
         }
     }
 }

@@ -15,9 +15,9 @@
 
 namespace F500\EventSourcing\Test\Core;
 
-use F500\EventSourcing\Event\EventEnvelope;
-use F500\EventSourcing\Event\EventStream;
+use F500\EventSourcing\Collection\EventStream;
 use F500\EventSourcing\Example\Basket\BasketId;
+use F500\EventSourcing\Test\TestHelper;
 
 /**
  * Test EventStream
@@ -29,61 +29,55 @@ use F500\EventSourcing\Example\Basket\BasketId;
 class EventStreamTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var TestHelper
+     */
+    private $testHelper;
+
+    /**
      * @var EventStream
      */
     private $eventStream;
 
-    /**
-     * @var EventEnvelope
-     */
-    private $envelope1;
-
-    /**
-     * @var EventEnvelope
-     */
-    private $envelope2;
-
-    /**
-     * @var EventEnvelope
-     */
-    private $envelope3;
-
     public function setUp()
     {
-        $id = BasketId::fromString('id');
+        $this->testHelper = new TestHelper($this);
 
-        $event = $this->getMockBuilder('F500\EventSourcing\Event\Event')->getMock();
-        $event
-            ->method('aggregateId')
-            ->will($this->returnValue($id));
-
-        $this->envelope1 = EventEnvelope::wrap($event, 0);
-        $this->envelope2 = EventEnvelope::wrap($event, 1);
-        $this->envelope3 = EventEnvelope::wrap($event, 2);
+        $id = BasketId::fromString('some-id');
 
         $this->eventStream = new EventStream(
-            [$this->envelope1, $this->envelope2, $this->envelope3]
+            [
+                $this->testHelper->getEventStreamEventOne($id),
+                $this->testHelper->getEventStreamEventTwo($id),
+                $this->testHelper->getEventStreamEventThree($id)
+            ]
+        );
+    }
+
+    public function tearDown()
+    {
+        $this->testHelper->tearDown();
+    }
+
+    /**
+     * @test
+     * @expectedException \F500\EventSourcing\Exception\InvalidItemInCollection
+     */
+    public function itContainsOnlyEventEnvelopes()
+    {
+        new EventStream(
+            [new \stdClass()]
         );
     }
 
     /**
      * @test
+     * @expectedException \F500\EventSourcing\Exception\CollectionIsEmpty
      */
-    public function itCanBeIteratedOver()
+    public function itCannotBeEmpty()
     {
-        foreach ($this->eventStream as $i => $event) {
-            switch ($i) {
-                case 0:
-                    $this->assertSame($this->envelope1, $event);
-                    break;
-                case 1:
-                    $this->assertSame($this->envelope2, $event);
-                    break;
-                case 2:
-                    $this->assertSame($this->envelope3, $event);
-                    break;
-            }
-        }
+        new EventStream(
+            []
+        );
     }
 
     /**
@@ -103,11 +97,38 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesItemsByKey()
     {
-        $this->assertSame($this->envelope1, $this->eventStream[0]);
-        $this->assertSame($this->envelope2, $this->eventStream[1]);
-        $this->assertSame($this->envelope3, $this->eventStream[2]);
+        $id = BasketId::fromString('some-id');
+
+        $eventOne   = $this->testHelper->getEventStreamEventOne($id);
+        $eventTwo   = $this->testHelper->getEventStreamEventTwo($id);
+        $eventThree = $this->testHelper->getEventStreamEventThree($id);
+
+        $this->assertSame($eventOne, $this->eventStream[0]);
+        $this->assertSame($eventTwo, $this->eventStream[1]);
+        $this->assertSame($eventThree, $this->eventStream[2]);
 
         $this->assertNull($this->eventStream[3]);
+    }
+
+    /**
+     * @test
+     * @expectedException \F500\EventSourcing\Exception\ObjectIsImmutable
+     */
+    public function itemsCannotBeReplaced()
+    {
+        $id    = BasketId::fromString('some-id');
+        $event = $this->testHelper->getEventStreamEventOne($id);
+
+        $this->eventStream[0] = $event;
+    }
+
+    /**
+     * @test
+     * @expectedException \F500\EventSourcing\Exception\ObjectIsImmutable
+     */
+    public function itemsCannotBeRemoved()
+    {
+        unset($this->eventStream[0]);
     }
 
     /**
@@ -120,12 +141,21 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\InvalidItemInCollection
      */
-    public function itContainsOnlyEventEnvelopes()
+    public function itCanBeIteratedOver()
     {
-        new EventStream(
-            [new \stdClass()]
-        );
+        foreach ($this->eventStream as $event) {
+            $this->assertInstanceOf('F500\EventSourcing\Event\SerializableEvent', $event);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function itCanBeIterateOverWithIndexes()
+    {
+        foreach ($this->eventStream as $index => $event) {
+            $this->assertInternalType('int', $index);
+        }
     }
 }

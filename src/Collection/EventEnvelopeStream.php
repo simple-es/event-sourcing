@@ -13,45 +13,21 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Event;
+namespace F500\EventSourcing\Collection;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
-use F500\EventSourcing\Exception\AggregateHistoryIsCorrupt;
+use F500\EventSourcing\Event\EventEnvelope;
+use F500\EventSourcing\Exception\CollectionIsEmpty;
 use F500\EventSourcing\Exception\InvalidItemInCollection;
 
 /**
- * Class AggregateHistory
+ * Class EventEnvelopeStream
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class AggregateHistory extends EventStream
+final class EventEnvelopeStream extends Collection
 {
-    /**
-     * @var IdentifiesAggregate
-     */
-    private $aggregateId;
-
-    /**
-     * @param IdentifiesAggregate $aggregateId
-     * @param array               $items
-     */
-    public function __construct(IdentifiesAggregate $aggregateId, array $items)
-    {
-        $this->aggregateId = $aggregateId;
-
-        parent::__construct($items);
-    }
-
-    /**
-     * @return IdentifiesAggregate
-     */
-    public function aggregateId()
-    {
-        return $this->aggregateId;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -60,9 +36,15 @@ class AggregateHistory extends EventStream
         if (!($item instanceof EventEnvelope)) {
             throw InvalidItemInCollection::create($item, 'F500\EventSourcing\Event\EventEnvelope');
         }
+    }
 
-        if (!$item->aggregateId()->equals($this->aggregateId)) {
-            throw AggregateHistoryIsCorrupt::create($item->aggregateId(), $this->aggregateId);
+    /**
+     * {@inheritdoc}
+     */
+    protected function guardAmountOfItems($amount)
+    {
+        if ($amount === 0) {
+            throw CollectionIsEmpty::create();
         }
     }
 }

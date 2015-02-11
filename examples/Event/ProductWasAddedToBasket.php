@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Example\Event;
 
-use F500\EventSourcing\Event\Event;
+use F500\EventSourcing\Event\SerializableEvent;
 use F500\EventSourcing\Example\Basket\BasketId;
 use F500\EventSourcing\Example\Product\ProductId;
 
@@ -26,7 +26,7 @@ use F500\EventSourcing\Example\Product\ProductId;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class ProductWasAddedToBasket implements Event
+final class ProductWasAddedToBasket implements SerializableEvent
 {
     /**
      * @var BasketId

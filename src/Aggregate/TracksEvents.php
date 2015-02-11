@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Aggregate;
 
-use F500\EventSourcing\Event\EventStream;
+use F500\EventSourcing\Collection\EventStream;
 
 /**
  * Interface TracksEvents

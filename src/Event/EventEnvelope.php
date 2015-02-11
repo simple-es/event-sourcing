@@ -15,8 +15,7 @@
 
 namespace F500\EventSourcing\Event;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
-use SimpleBus\Event\Event as SimpleBusEvent;
+use F500\EventSourcing\Metadata\Metadata;
 
 /**
  * Class EventEnvelope
@@ -25,10 +24,10 @@ use SimpleBus\Event\Event as SimpleBusEvent;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class EventEnvelope implements SimpleBusEvent
+final class EventEnvelope implements Event
 {
     /**
-     * @var Event
+     * @var SerializableEvent
      */
     private $event;
 
@@ -48,12 +47,12 @@ class EventEnvelope implements SimpleBusEvent
     private $tookPlaceAt;
 
     /**
-     * @param Event     $event
-     * @param int       $playhead
-     * @param Metadata  $metadata
-     * @param Timestamp $tookPlaceAt
+     * @param SerializableEvent $event
+     * @param int               $playhead
+     * @param Metadata          $metadata
+     * @param Timestamp         $tookPlaceAt
      */
-    public function __construct(Event $event, $playhead, Metadata $metadata, Timestamp $tookPlaceAt)
+    public function __construct(SerializableEvent $event, $playhead, Metadata $metadata, Timestamp $tookPlaceAt)
     {
         $this->event       = $event;
         $this->playhead    = (int)$playhead;
@@ -62,11 +61,11 @@ class EventEnvelope implements SimpleBusEvent
     }
 
     /**
-     * @param Event $event
-     * @param int   $playhead
+     * @param SerializableEvent $event
+     * @param int               $playhead
      * @return EventEnvelope
      */
-    public static function wrap(Event $event, $playhead)
+    public static function wrap(SerializableEvent $event, $playhead)
     {
         return new EventEnvelope(
             $event,
@@ -79,21 +78,13 @@ class EventEnvelope implements SimpleBusEvent
     /**
      * {@inheritdoc}
      */
-    public function name()
-    {
-        return $this->event->name();
-    }
-
-    /**
-     * @return IdentifiesAggregate
-     */
     public function aggregateId()
     {
         return $this->event->aggregateId();
     }
 
     /**
-     * @return Event
+     * @return SerializableEvent
      */
     public function event()
     {

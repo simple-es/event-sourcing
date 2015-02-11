@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Aggregate;
 
-use F500\EventSourcing\Event\AggregateHistory;
+use F500\EventSourcing\Collection\AggregateHistory;
 
 /**
  * Interface ReconstitutesFromHistory

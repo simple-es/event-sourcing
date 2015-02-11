@@ -17,27 +17,50 @@ namespace F500\EventSourcing\EventStore;
 
 use F500\EventSourcing\Aggregate\IdentifiesAggregate;
 use F500\EventSourcing\Collection\EventEnvelopeStream;
+use F500\EventSourcing\Event\EventEnvelope;
 use F500\EventSourcing\Exception\AggregateIdNotFound;
 
 /**
- * Interface StoresEvents
+ * Class InMemoryEventStore
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-interface StoresEvents
+final class InMemoryEventStore implements StoresEvents
 {
     /**
-     * @param EventEnvelopeStream $envelopeStream
-     * @return void
+     * @var EventEnvelope[]
      */
-    public function commit(EventEnvelopeStream $envelopeStream);
+    private $store;
 
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @return EventEnvelopeStream
-     * @throws AggregateIdNotFound
+     * {@inheritdoc}
      */
-    public function get(IdentifiesAggregate $aggregateId);
+    public function commit(EventEnvelopeStream $envelopeStream)
+    {
+        foreach ($envelopeStream as $eventEnvelope) {
+            $this->store[] = $eventEnvelope;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get(IdentifiesAggregate $aggregateId)
+    {
+        $eventEnvelopes = [];
+
+        foreach ($this->store as $eventEnvelope) {
+            if ($eventEnvelope->aggregateId()->equals($aggregateId)) {
+                $eventEnvelopes[] = $eventEnvelope;
+            }
+        }
+
+        if (!$eventEnvelopes) {
+            throw AggregateIdNotFound::create($aggregateId);
+        }
+
+        return new EventEnvelopeStream($eventEnvelopes);
+    }
 }

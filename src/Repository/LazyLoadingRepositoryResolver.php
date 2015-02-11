@@ -26,7 +26,7 @@ use F500\EventSourcing\Exception\RepositoryForAggregateNotFound;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class LazyLoadingRepositoryResolver implements ResolvesRepositories
+final class LazyLoadingRepositoryResolver implements ResolvesRepositories
 {
     /**
      * @var callable

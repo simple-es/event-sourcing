@@ -22,7 +22,7 @@ namespace F500\EventSourcing\Exception;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class InvalidRepositoryFound extends \InvalidArgumentException implements Exception
+final class InvalidRepositoryFound extends \InvalidArgumentException implements Exception
 {
     /**
      * @param mixed  $invalidObject

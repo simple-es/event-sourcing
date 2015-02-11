@@ -13,31 +13,53 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Exception;
-
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+namespace F500\EventSourcing\Aggregate;
 
 /**
- * Exception DuplicateAggregateFound
+ * Trait AggregateIdentifyingCapabilities
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-final class DuplicateAggregateFound extends \UnexpectedValueException implements Exception
+trait AggregateIdentifyingCapabilities
 {
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @return DuplicateAggregateFound
+     * @var string
      */
-    public static function create(IdentifiesAggregate $aggregateId)
+    private $id;
+
+    /**
+     * @param string $string
+     * @return IdentifiesAggregate
+     */
+    public static function fromString($string)
     {
-        return new DuplicateAggregateFound(
-            sprintf(
-                'Duplicate aggregate with id %s(%s) found',
-                get_class($aggregateId),
-                (string)$aggregateId
-            )
-        );
+        return new static($string);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param IdentifiesAggregate $other
+     * @return bool
+     */
+    public function equals(IdentifiesAggregate $other)
+    {
+        return ($other instanceof static && $other->id === $this->id);
+    }
+
+    /**
+     * @param string $id
+     */
+    private function __construct($id)
+    {
+        $this->id = (string)$id;
     }
 }

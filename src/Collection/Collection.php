@@ -19,13 +19,13 @@ use F500\EventSourcing\Exception\Exception;
 use F500\EventSourcing\Exception\ObjectIsImmutable;
 
 /**
- * Class Collection
+ * Abstract class Collection
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-abstract class Collection implements \Iterator, \ArrayAccess, \Countable
+abstract class Collection implements \ArrayAccess, \Countable, \Iterator
 {
     /**
      * @var array
@@ -48,46 +48,8 @@ abstract class Collection implements \Iterator, \ArrayAccess, \Countable
             $this->items[] = $item;
         }
 
-        $this->position = 0;
-    }
+        $this->guardAmountOfItems(count($this->items));
 
-    /**
-     * {@inheritdoc}
-     */
-    public function current()
-    {
-        return $this->items[$this->position];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
-    {
-        $this->position++;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function key()
-    {
-        return $this->position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
-    {
-        return isset($this->items[$this->position]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
         $this->position = 0;
     }
 
@@ -138,9 +100,56 @@ abstract class Collection implements \Iterator, \ArrayAccess, \Countable
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function current()
+    {
+        return $this->items[$this->position];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function next()
+    {
+        $this->position++;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function key()
+    {
+        return $this->position;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function valid()
+    {
+        return isset($this->items[$this->position]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    /**
      * @param mixed $item
      * @return void
      * @throws Exception
      */
     abstract protected function guardItem($item);
+
+    /**
+     * @param int $amount
+     * @return void
+     * @throws Exception
+     */
+    abstract protected function guardAmountOfItems($amount);
 }

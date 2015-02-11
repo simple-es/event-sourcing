@@ -13,31 +13,31 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Exception;
+namespace F500\EventSourcing\Example\Auxiliary;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Event\EventEnvelope;
+use F500\EventSourcing\Metadata\EnrichesMetadata;
+use F500\EventSourcing\Metadata\Metadata;
 
 /**
- * Exception DuplicateAggregateFound
+ * Class EnrichesMetadataWithARandomString
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-final class DuplicateAggregateFound extends \UnexpectedValueException implements Exception
+class EnrichesMetadataWithARandomString implements EnrichesMetadata
 {
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @return DuplicateAggregateFound
+     * @param EventEnvelope $eventEnvelope
+     * @return EventEnvelope
      */
-    public static function create(IdentifiesAggregate $aggregateId)
+    public function enrich(EventEnvelope $eventEnvelope)
     {
-        return new DuplicateAggregateFound(
-            sprintf(
-                'Duplicate aggregate with id %s(%s) found',
-                get_class($aggregateId),
-                (string)$aggregateId
-            )
+        $randomString = base64_encode(openssl_random_pseudo_bytes(48));
+
+        return $eventEnvelope->enrichMetadata(
+            new Metadata(['random_string' => $randomString])
         );
     }
 }

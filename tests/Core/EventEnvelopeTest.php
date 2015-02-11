@@ -16,8 +16,10 @@
 namespace F500\EventSourcing\Test\Core;
 
 use F500\EventSourcing\Event\EventEnvelope;
-use F500\EventSourcing\Event\Metadata;
 use F500\EventSourcing\Event\Timestamp;
+use F500\EventSourcing\Example\Basket\BasketId;
+use F500\EventSourcing\Metadata\Metadata;
+use F500\EventSourcing\Test\TestHelper;
 
 /**
  * Test EventEnvelope
@@ -29,9 +31,14 @@ use F500\EventSourcing\Event\Timestamp;
 class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var TestHelper
+     */
+    private $testHelper;
+
+    /**
      * @var EventEnvelope
      */
-    private $envelope;
+    private $eventEnvelope;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -50,15 +57,13 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->event = $this->getMockBuilder('F500\EventSourcing\Event\Event')->getMock();
+        $this->testHelper = new TestHelper($this);
 
-        $this->metadata = $this->getMockBuilder('F500\EventSourcing\Event\Metadata')
-            ->setConstructorArgs([[]])
-            ->getMock();
-
+        $this->event       = $this->testHelper->mockEvent(BasketId::fromString('some-id'));
+        $this->metadata    = new Metadata(['some-key' => 'Some value']);
         $this->tookPlaceAt = Timestamp::now();
 
-        $this->envelope = new EventEnvelope(
+        $this->eventEnvelope = new EventEnvelope(
             $this->event,
             0,
             $this->metadata,
@@ -66,23 +71,19 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function tearDown()
+    {
+        $this->testHelper->tearDown();
+    }
+
     /**
      * @test
      */
     public function itWrapsAnEvent()
     {
-        $envelope = EventEnvelope::wrap($this->event, 0);
+        $eventEnvelope = EventEnvelope::wrap($this->event, 0);
 
-        $this->assertInstanceOf('F500\EventSourcing\Event\EventEnvelope', $envelope);
-    }
-
-    public function itExposesAName()
-    {
-        $this->event
-            ->expects($this->once())
-            ->method('name');
-
-        $this->envelope->name();
+        $this->assertInstanceOf('F500\EventSourcing\Event\EventEnvelope', $eventEnvelope);
     }
 
     /**
@@ -94,7 +95,7 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('aggregateId');
 
-        $this->envelope->aggregateId();
+        $this->eventEnvelope->aggregateId();
     }
 
     /**
@@ -102,7 +103,9 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesAPlayhead()
     {
-        $this->assertSame(0, $this->envelope->playhead());
+        $exposedPlayhead = $this->eventEnvelope->playhead();
+
+        $this->assertSame(0, $exposedPlayhead);
     }
 
     /**
@@ -110,7 +113,9 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesAnEvent()
     {
-        $this->assertSame($this->event, $this->envelope->event());
+        $exposedEvent = $this->eventEnvelope->event();
+
+        $this->assertSame($this->event, $exposedEvent);
     }
 
     /**
@@ -118,7 +123,9 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesMetadata()
     {
-        $this->assertSame($this->metadata, $this->envelope->metadata());
+        $exposedMetadata = $this->eventEnvelope->metadata();
+
+        $this->assertSame($this->metadata, $exposedMetadata);
     }
 
     /**
@@ -126,16 +133,13 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     public function itEnrichesMetadata()
     {
-        $moreMetadata   = new Metadata([]);
-        $mergedMetadata = new Metadata([]);
+        $metadata = new Metadata(['other-key' => 'Other value']);
 
-        $this->metadata
-            ->expects($this->once())
-            ->method('merge')
-            ->with($this->equalTo($moreMetadata))
-            ->will($this->returnValue($mergedMetadata));
+        $enrichedEventEnvelope = $this->eventEnvelope->enrichMetadata($metadata);
+        $enrichedMetadata      = $enrichedEventEnvelope->metadata();
 
-        $this->envelope->enrichMetadata($moreMetadata);
+        $this->assertSame('Some value', $enrichedMetadata['some-key']);
+        $this->assertSame('Other value', $enrichedMetadata['other-key']);
     }
 
     /**
@@ -143,16 +147,11 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     public function itDoesNotChangeItselfWhenMetadataIsenrich()
     {
-        $moreMetadata   = new Metadata([]);
-        $mergedMetadata = new Metadata([]);
+        $metadata = new Metadata(['other-key' => 'Other value']);
 
-        $this->metadata
-            ->method('merge')
-            ->will($this->returnValue($mergedMetadata));
+        $this->eventEnvelope->enrichMetadata($metadata);
 
-        $this->envelope->enrichMetadata($moreMetadata);
-
-        $this->assertSame($this->metadata, $this->envelope->metadata());
+        $this->assertSame($this->metadata, $this->eventEnvelope->metadata());
     }
 
     /**
@@ -160,6 +159,8 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesWhenItTookPlace()
     {
-        $this->assertSame($this->tookPlaceAt, $this->envelope->tookPlaceAt());
+        $exposedTookPlaceAt = $this->eventEnvelope->tookPlaceAt();
+
+        $this->assertSame($this->tookPlaceAt, $exposedTookPlaceAt);
     }
 }

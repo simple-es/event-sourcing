@@ -61,7 +61,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             ->method('resolve')
             ->will($this->returnValue($this->repository));
 
-        $this->id = BasketId::fromString('id');
+        $this->id = BasketId::fromString('some-id');
 
         $this->aggregate = $this->getMockBuilder('F500\EventSourcing\Aggregate\TracksEvents')->getMock();
         $this->aggregate

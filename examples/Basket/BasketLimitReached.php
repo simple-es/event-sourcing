@@ -22,7 +22,7 @@ namespace F500\EventSourcing\Example\Basket;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class BasketLimitReached extends \RuntimeException
+final class BasketLimitReached extends \RuntimeException
 {
     /**
      * @param $limit

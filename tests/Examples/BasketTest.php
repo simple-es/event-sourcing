@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Test\Examples;
 
-use F500\EventSourcing\Event\AggregateHistory;
+use F500\EventSourcing\Collection\AggregateHistory;
 use F500\EventSourcing\Example\Basket\Basket;
 use F500\EventSourcing\Example\Basket\BasketId;
 use F500\EventSourcing\Example\Product\ProductId;
@@ -57,7 +57,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesAStreamOfRecordedEvents()
     {
-        $this->assertInstanceOf('F500\EventSourcing\Event\EventStream', $this->basket->recordedEvents());
+        $this->assertInstanceOf('F500\EventSourcing\Collection\EventStream', $this->basket->recordedEvents());
     }
 
     /**
@@ -75,7 +75,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'F500\EventSourcing\Example\Event\BasketWasPickedUp',
-            $this->basket->recordedEvents()[0]->event()
+            $this->basket->recordedEvents()[0]
         );
     }
 
@@ -86,7 +86,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'F500\EventSourcing\Example\Event\ProductWasAddedToBasket',
-            $this->basket->recordedEvents()[1]->event()
+            $this->basket->recordedEvents()[1]
         );
     }
 
@@ -97,18 +97,8 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'F500\EventSourcing\Example\Event\ProductWasRemovedFromBasket',
-            $this->basket->recordedEvents()[2]->event()
+            $this->basket->recordedEvents()[2]
         );
-    }
-
-    /**
-     * @test
-     */
-    public function theEventsHaveTheCorrectPlayhead()
-    {
-        $this->assertSame(0, $this->basket->recordedEvents()[0]->playhead());
-        $this->assertSame(1, $this->basket->recordedEvents()[1]->playhead());
-        $this->assertSame(2, $this->basket->recordedEvents()[2]->playhead());
     }
 
     /**
@@ -122,6 +112,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $this->basket->addProduct($productId);
         $this->basket->addProduct($productId);
         $this->basket->addProduct($productId);
+
         $this->basket->addProduct($productId);
     }
 
@@ -144,8 +135,8 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     public function itIsTheSameAfterReconstitution()
     {
         $events = [];
-        foreach ($this->basket->recordedEvents() as $envelope) {
-            $events[] = $envelope;
+        foreach ($this->basket->recordedEvents() as $event) {
+            $events[] = $event;
         }
 
         $this->basket->clearRecordedEvents();

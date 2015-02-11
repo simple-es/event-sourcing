@@ -15,18 +15,18 @@
 
 namespace F500\EventSourcing\Test\Core;
 
-use F500\EventSourcing\Collection\AggregateHistory;
+use F500\EventSourcing\Collection\EventEnvelopeStream;
 use F500\EventSourcing\Example\Basket\BasketId;
 use F500\EventSourcing\Test\TestHelper;
 
 /**
- * Test AggregateHistory
+ * Test EventEnvelopeStream
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
+class EventEnvelopeStreamTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TestHelper
@@ -34,9 +34,9 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
     private $testHelper;
 
     /**
-     * @var AggregateHistory
+     * @var EventEnvelopeStream
      */
-    private $aggregateHistory;
+    private $envelopeStream;
 
     public function setUp()
     {
@@ -44,12 +44,11 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
 
         $id = BasketId::fromString('some-id');
 
-        $this->aggregateHistory = new AggregateHistory(
-            $id,
+        $this->envelopeStream = new EventEnvelopeStream(
             [
-                $this->testHelper->getAggregateHistoryEventOne($id),
-                $this->testHelper->getAggregateHistoryEventTwo($id),
-                $this->testHelper->getAggregateHistoryEventThree($id)
+                $this->testHelper->getEnvelopeStreamEnvelopeOne($id),
+                $this->testHelper->getEnvelopeStreamEnvelopeTwo($id),
+                $this->testHelper->getEnvelopeStreamEnvelopeThree($id)
             ]
         );
     }
@@ -61,43 +60,12 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     */
-    public function itExposesAnAggregateId()
-    {
-        $id = BasketId::fromString('some-id');
-
-        $exposedId = $this->aggregateHistory->aggregateId();
-
-        $this->assertTrue($id->equals($exposedId));
-    }
-
-    /**
-     * @test
      * @expectedException \F500\EventSourcing\Exception\InvalidItemInCollection
      */
     public function itContainsOnlyEventEnvelopes()
     {
-        $id = BasketId::fromString('some-id');
-
-        new AggregateHistory(
-            $id,
+        new EventEnvelopeStream(
             [new \stdClass()]
-        );
-    }
-
-    /**
-     * @test
-     * @expectedException \F500\EventSourcing\Exception\AggregateHistoryIsCorrupt
-     */
-    public function itContainsOnlyEventEnvelopesWithTheSameAggregateIdAsItself()
-    {
-        $id = BasketId::fromString('some-id');
-
-        $event = $this->testHelper->mockEvent(BasketId::fromString('other-id'));
-
-        new AggregateHistory(
-            $id,
-            [$event]
         );
     }
 
@@ -107,10 +75,7 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itCannotBeEmpty()
     {
-        $id = BasketId::fromString('some-id');
-
-        new AggregateHistory(
-            $id,
+        new EventEnvelopeStream(
             []
         );
     }
@@ -120,11 +85,11 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesWhetherAKeyExistsOrNot()
     {
-        $this->assertTrue(isset($this->aggregateHistory[0]));
-        $this->assertTrue(isset($this->aggregateHistory[1]));
-        $this->assertTrue(isset($this->aggregateHistory[2]));
+        $this->assertTrue(isset($this->envelopeStream[0]));
+        $this->assertTrue(isset($this->envelopeStream[1]));
+        $this->assertTrue(isset($this->envelopeStream[2]));
 
-        $this->assertFalse(isset($this->aggregateHistory[3]));
+        $this->assertFalse(isset($this->envelopeStream[3]));
     }
 
     /**
@@ -134,15 +99,15 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('some-id');
 
-        $eventOne   = $this->testHelper->getAggregateHistoryEventOne($id);
-        $eventTwo   = $this->testHelper->getAggregateHistoryEventTwo($id);
-        $eventThree = $this->testHelper->getAggregateHistoryEventThree($id);
+        $envelopeOne   = $this->testHelper->getEnvelopeStreamEnvelopeOne($id);
+        $envelopeTwo   = $this->testHelper->getEnvelopeStreamEnvelopeTwo($id);
+        $envelopeThree = $this->testHelper->getEnvelopeStreamEnvelopeThree($id);
 
-        $this->assertSame($eventOne, $this->aggregateHistory[0]);
-        $this->assertSame($eventTwo, $this->aggregateHistory[1]);
-        $this->assertSame($eventThree, $this->aggregateHistory[2]);
+        $this->assertSame($envelopeOne, $this->envelopeStream[0]);
+        $this->assertSame($envelopeTwo, $this->envelopeStream[1]);
+        $this->assertSame($envelopeThree, $this->envelopeStream[2]);
 
-        $this->assertNull($this->aggregateHistory[3]);
+        $this->assertNull($this->envelopeStream[3]);
     }
 
     /**
@@ -151,10 +116,10 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itemsCannotBeReplaced()
     {
-        $id    = BasketId::fromString('some-id');
-        $event = $this->testHelper->getAggregateHistoryEventOne($id);
+        $id       = BasketId::fromString('some-id');
+        $envelope = $this->testHelper->getEnvelopeStreamEnvelopeOne($id);
 
-        $this->aggregateHistory[0] = $event;
+        $this->envelopeStream[0] = $envelope;
     }
 
     /**
@@ -163,7 +128,7 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itemsCannotBeRemoved()
     {
-        unset($this->aggregateHistory[0]);
+        unset($this->envelopeStream[0]);
     }
 
     /**
@@ -171,7 +136,7 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itCanBeCounted()
     {
-        $this->assertCount(3, $this->aggregateHistory);
+        $this->assertCount(3, $this->envelopeStream);
     }
 
     /**
@@ -179,8 +144,8 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itCanBeIteratedOver()
     {
-        foreach ($this->aggregateHistory as $event) {
-            $this->assertInstanceOf('F500\EventSourcing\Event\SerializableEvent', $event);
+        foreach ($this->envelopeStream as $envelope) {
+            $this->assertInstanceOf('F500\EventSourcing\Event\EventEnvelope', $envelope);
         }
     }
 
@@ -189,7 +154,7 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itCanBeIterateOverWithIndexes()
     {
-        foreach ($this->aggregateHistory as $index => $event) {
+        foreach ($this->envelopeStream as $index => $event) {
             $this->assertInternalType('int', $index);
         }
     }

@@ -32,7 +32,7 @@ class LazyLoadingRepositoryResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function itResolvesARepository()
     {
-        $id = BasketId::fromString('id');
+        $id = BasketId::fromString('some-id');
 
         $repository = $this->getMockBuilder('F500\EventSourcing\Repository\Repository')->getMock();
 
@@ -55,13 +55,12 @@ class LazyLoadingRepositoryResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function itDoesNotResolveWhenTheRepositoryAnAggregateIdIsNotFound()
     {
-        $id = BasketId::fromString('id');
+        $id = BasketId::fromString('some-id');
 
         $serviceLocator = function () {
         };
 
-        $repositories = [
-        ];
+        $repositories = [];
 
         $repositoryResolver = new LazyLoadingRepositoryResolver($serviceLocator, $repositories);
 
@@ -74,7 +73,7 @@ class LazyLoadingRepositoryResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function itDoesNotResolveWhenAnInvalidRepositoryIsFound()
     {
-        $id = BasketId::fromString('id');
+        $id = BasketId::fromString('some-id');
 
         $serviceLocator = function () {
             return new \stdClass();

@@ -22,7 +22,7 @@ namespace F500\EventSourcing\Exception;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class ObjectIsImmutable extends \BadMethodCallException implements Exception
+final class ObjectIsImmutable extends \BadMethodCallException implements Exception
 {
     /**
      * @param object $object
