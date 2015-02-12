@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Test\Core;
 
-use F500\EventSourcing\Event\Timestamp;
+use F500\EventSourcing\Timestamp\Timestamp;
 
 /**
  * Test Timestamp
@@ -33,7 +33,7 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
     {
         $timestamp = Timestamp::now();
 
-        $this->assertInstanceOf('F500\EventSourcing\Event\Timestamp', $timestamp);
+        $this->assertInstanceOf('F500\EventSourcing\Timestamp\Timestamp', $timestamp);
     }
 
     /**
@@ -43,7 +43,7 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
     {
         $timestamp = Timestamp::fromString('2014-12-23T17:30:00.000000+0000');
 
-        $this->assertInstanceOf('F500\EventSourcing\Event\Timestamp', $timestamp);
+        $this->assertInstanceOf('F500\EventSourcing\Timestamp\Timestamp', $timestamp);
     }
 
     /**
@@ -53,7 +53,7 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
     {
         $timestamp = Timestamp::fromDateTime(new \DateTime());
 
-        $this->assertInstanceOf('F500\EventSourcing\Event\Timestamp', $timestamp);
+        $this->assertInstanceOf('F500\EventSourcing\Timestamp\Timestamp', $timestamp);
     }
 
     /**

@@ -13,7 +13,7 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Event;
+namespace F500\EventSourcing\Timestamp;
 
 /**
  * Class Timestamp

@@ -16,6 +16,7 @@
 namespace F500\EventSourcing\Event;
 
 use F500\EventSourcing\Metadata\Metadata;
+use F500\EventSourcing\Timestamp\Timestamp;
 
 /**
  * Class EventEnvelope

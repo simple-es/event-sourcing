@@ -16,7 +16,7 @@
 namespace F500\EventSourcing\Test\Core;
 
 use F500\EventSourcing\Event\EventEnvelope;
-use F500\EventSourcing\Event\Timestamp;
+use F500\EventSourcing\Timestamp\Timestamp;
 use F500\EventSourcing\Example\Basket\BasketId;
 use F500\EventSourcing\Metadata\Metadata;
 use F500\EventSourcing\Test\TestHelper;
