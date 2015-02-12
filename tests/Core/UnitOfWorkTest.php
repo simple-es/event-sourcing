@@ -38,11 +38,6 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     private $repository;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $repositoryResolver;
-
-    /**
      * @var BasketId
      */
     private $id;
@@ -56,11 +51,6 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $this->repository = $this->getMockBuilder('F500\EventSourcing\Repository\Repository')->getMock();
 
-        $this->repositoryResolver = $this->getMockBuilder('F500\EventSourcing\Repository\ResolvesRepositories')->getMock();
-        $this->repositoryResolver
-            ->method('resolve')
-            ->will($this->returnValue($this->repository));
-
         $this->id = BasketId::fromString('some-id');
 
         $this->aggregate = $this->getMockBuilder('F500\EventSourcing\Aggregate\TracksEvents')->getMock();
@@ -68,7 +58,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             ->method('aggregateId')
             ->will($this->returnValue($this->id));
 
-        $this->unitOfWork = new UnitOfWork($this->repositoryResolver);
+        $this->unitOfWork = new UnitOfWork($this->repository);
     }
 
     /**

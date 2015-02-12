@@ -15,9 +15,9 @@
 
 namespace F500\EventSourcing\Repository;
 
+use F500\EventSourcing\Aggregate\Factory\ReconstitutesAggregates;
 use F500\EventSourcing\Aggregate\IdentifiesAggregate;
 use F500\EventSourcing\Aggregate\TracksEvents;
-use F500\EventSourcing\Collection\AggregateHistory;
 use F500\EventSourcing\Event\WrapsEvents;
 use F500\EventSourcing\EventStore\StoresEvents;
 
@@ -28,7 +28,7 @@ use F500\EventSourcing\EventStore\StoresEvents;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-abstract class AggregateRepository implements Repository
+final class AggregateRepository implements Repository
 {
     /**
      * @var WrapsEvents
@@ -41,13 +41,23 @@ abstract class AggregateRepository implements Repository
     private $eventStore;
 
     /**
-     * @param WrapsEvents  $eventWrapper
-     * @param StoresEvents $eventStore
+     * @var ReconstitutesAggregates
      */
-    public function __construct(WrapsEvents $eventWrapper, StoresEvents $eventStore)
-    {
-        $this->eventWrapper = $eventWrapper;
-        $this->eventStore   = $eventStore;
+    private $aggregateFactory;
+
+    /**
+     * @param WrapsEvents             $eventWrapper
+     * @param StoresEvents            $eventStore
+     * @param ReconstitutesAggregates $aggregateFactory
+     */
+    public function __construct(
+        WrapsEvents $eventWrapper,
+        StoresEvents $eventStore,
+        ReconstitutesAggregates $aggregateFactory
+    ) {
+        $this->eventWrapper     = $eventWrapper;
+        $this->eventStore       = $eventStore;
+        $this->aggregateFactory = $aggregateFactory;
     }
 
     /**
@@ -71,12 +81,6 @@ abstract class AggregateRepository implements Repository
         $envelopeStream = $this->eventStore->get($aggregateId);
         $history        = $this->eventWrapper->unwrap($aggregateId, $envelopeStream);
 
-        return $this->reconstituteAggregate($history);
+        return $this->aggregateFactory->reconstituteFromHistory($history);
     }
-
-    /**
-     * @param AggregateHistory $aggregateHistory
-     * @return TracksEvents
-     */
-    abstract protected function reconstituteAggregate(AggregateHistory $aggregateHistory);
 }

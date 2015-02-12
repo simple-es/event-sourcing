@@ -16,24 +16,24 @@
 namespace F500\EventSourcing\Exception;
 
 /**
- * Class RepositoryForAggregateNotFound
+ * Class IdNotMappedToAggregate
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-final class RepositoryForAggregateNotFound extends \InvalidArgumentException implements Exception
+final class IdNotMappedToAggregate extends \RuntimeException implements Exception
 {
     /**
-     * @param string $typeOfAggregateId
-     * @return RepositoryForAggregateNotFound
+     * @param string $aggregateIdClass
+     * @return IdNotMappedToAggregate
      */
-    public static function create($typeOfAggregateId)
+    public static function create($aggregateIdClass)
     {
-        return new RepositoryForAggregateNotFound(
+        return new IdNotMappedToAggregate(
             sprintf(
-                'Repository for aggregate type %s not found',
-                $typeOfAggregateId
+                'Aggregate id class %s not mapped to an aggregate class',
+                $aggregateIdClass
             )
         );
     }

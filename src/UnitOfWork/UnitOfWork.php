@@ -18,7 +18,7 @@ namespace F500\EventSourcing\UnitOfWork;
 use F500\EventSourcing\Aggregate\IdentifiesAggregate;
 use F500\EventSourcing\Aggregate\TracksEvents;
 use F500\EventSourcing\Exception\DuplicateAggregateFound;
-use F500\EventSourcing\Repository\ResolvesRepositories;
+use F500\EventSourcing\Repository\Repository;
 
 /**
  * Class UnitOfWork
@@ -30,9 +30,9 @@ use F500\EventSourcing\Repository\ResolvesRepositories;
 final class UnitOfWork implements TracksAggregates
 {
     /**
-     * @var ResolvesRepositories
+     * @var Repository
      */
-    private $repositoryResolver;
+    private $repository;
 
     /**
      * @var TracksEvents[]
@@ -40,12 +40,12 @@ final class UnitOfWork implements TracksAggregates
     private $identityMap;
 
     /**
-     * @param ResolvesRepositories $repositoryResolver
+     * @param Repository $repository
      */
-    public function __construct(ResolvesRepositories $repositoryResolver)
+    public function __construct(Repository $repository)
     {
-        $this->repositoryResolver = $repositoryResolver;
-        $this->identityMap        = [];
+        $this->repository  = $repository;
+        $this->identityMap = [];
     }
 
     /**
@@ -86,8 +86,7 @@ final class UnitOfWork implements TracksAggregates
         /** @var TracksEvents $aggregate */
         foreach ($this->identityMap as $aggregate) {
             if ($aggregate->hasRecordedEvents()) {
-                $repository = $this->repositoryResolver->resolve($aggregate->aggregateId());
-                $repository->add($aggregate);
+                $this->repository->add($aggregate);
             }
         }
     }
@@ -120,9 +119,7 @@ final class UnitOfWork implements TracksAggregates
      */
     private function findInRepository(IdentifiesAggregate $aggregateId)
     {
-        $repository = $this->repositoryResolver->resolve($aggregateId);
-
-        return $repository->find($aggregateId);
+        return $this->repository->find($aggregateId);
     }
 
     /**

@@ -15,19 +15,19 @@
 
 namespace F500\EventSourcing\Test\Examples;
 
+use F500\EventSourcing\Example\Basket\Basket;
 use F500\EventSourcing\Example\Basket\BasketId;
-use F500\EventSourcing\Example\Basket\BasketRepository;
 use F500\EventSourcing\Repository\AggregateRepository;
 use F500\EventSourcing\Test\TestHelper;
 
 /**
- * Test BasketRepository
+ * Test AggregateRepository
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class BasketRepositoryTest extends \PHPUnit_Framework_TestCase
+class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TestHelper
@@ -49,15 +49,22 @@ class BasketRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     private $eventWrapper;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $aggregateFactory;
+
     public function setUp()
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->eventWrapper = $this->getMockBuilder('F500\EventSourcing\Event\WrapsEvents')->getMock();
+        $this->eventWrapper = $this->getMock('F500\EventSourcing\Event\WrapsEvents');
 
-        $this->eventStore = $this->getMockBuilder('F500\EventSourcing\EventStore\StoresEvents')->getMock();
+        $this->eventStore = $this->getMock('F500\EventSourcing\EventStore\StoresEvents');
 
-        $this->repository = new BasketRepository($this->eventWrapper, $this->eventStore);
+        $this->aggregateFactory = $this->getMock('F500\EventSourcing\Aggregate\Factory\ReconstitutesAggregates');
+
+        $this->repository = new AggregateRepository($this->eventWrapper, $this->eventStore, $this->aggregateFactory);
     }
 
     public function tearDown()
@@ -111,6 +118,8 @@ class BasketRepositoryTest extends \PHPUnit_Framework_TestCase
         $envelopeStream   = $this->testHelper->getEnvelopeStream($id);
         $aggregateHistory = $this->testHelper->getAggregateHistory($id);
 
+        $aggregate = Basket::pickUp($id);
+
         $this->eventStore
             ->expects($this->once())
             ->method('get')
@@ -126,8 +135,14 @@ class BasketRepositoryTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($aggregateHistory));
 
-        $basket = $this->repository->find($id);
+        $this->aggregateFactory
+            ->expects($this->once())
+            ->method('reconstituteFromHistory')
+            ->with($this->equalTo($aggregateHistory))
+            ->will($this->returnValue($aggregate));
 
-        $this->assertInstanceOf('F500\EventSourcing\Example\Basket\Basket', $basket);
+        $foundAggregate = $this->repository->find($id);
+
+        $this->assertSame($aggregate, $foundAggregate);
     }
 }

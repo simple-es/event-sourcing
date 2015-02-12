@@ -13,27 +13,23 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Example\Basket;
+namespace F500\EventSourcing\Aggregate\Factory;
 
 use F500\EventSourcing\Aggregate\TracksEvents;
 use F500\EventSourcing\Collection\AggregateHistory;
-use F500\EventSourcing\Repository\AggregateRepository;
 
 /**
- * Class BasketRepository
+ * Interface ReconstitutesAggregates
  *
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-class BasketRepository extends AggregateRepository
+interface ReconstitutesAggregates
 {
     /**
      * @param AggregateHistory $aggregateHistory
      * @return TracksEvents
      */
-    protected function reconstituteAggregate(AggregateHistory $aggregateHistory)
-    {
-        return Basket::fromHistory($aggregateHistory);
-    }
+    public function reconstituteFromHistory(AggregateHistory $aggregateHistory);
 }
