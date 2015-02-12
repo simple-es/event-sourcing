@@ -15,6 +15,7 @@
 
 namespace F500\EventSourcing\Aggregate;
 
+use F500\EventSourcing\Collection\AggregateHistory;
 use F500\EventSourcing\Collection\EventStream;
 
 /**
@@ -26,6 +27,12 @@ use F500\EventSourcing\Collection\EventStream;
  */
 interface TracksEvents
 {
+    /**
+     * @param AggregateHistory $aggregateHistory
+     * @return TracksEvents
+     */
+    public static function fromHistory(AggregateHistory $aggregateHistory);
+
     /**
      * @return IdentifiesAggregate
      */

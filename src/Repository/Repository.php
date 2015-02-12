@@ -16,7 +16,6 @@
 namespace F500\EventSourcing\Repository;
 
 use F500\EventSourcing\Aggregate\IdentifiesAggregate;
-use F500\EventSourcing\Aggregate\ReconstitutesFromHistory;
 use F500\EventSourcing\Aggregate\TracksEvents;
 use F500\EventSourcing\Exception\AggregateIdNotFound;
 
@@ -37,7 +36,7 @@ interface Repository
 
     /**
      * @param IdentifiesAggregate $aggregateId
-     * @return ReconstitutesFromHistory
+     * @return TracksEvents
      * @throws AggregateIdNotFound
      */
     public function find(IdentifiesAggregate $aggregateId);

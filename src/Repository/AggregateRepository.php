@@ -16,7 +16,6 @@
 namespace F500\EventSourcing\Repository;
 
 use F500\EventSourcing\Aggregate\IdentifiesAggregate;
-use F500\EventSourcing\Aggregate\ReconstitutesFromHistory;
 use F500\EventSourcing\Aggregate\TracksEvents;
 use F500\EventSourcing\Collection\AggregateHistory;
 use F500\EventSourcing\Event\WrapsEvents;
@@ -77,7 +76,7 @@ abstract class AggregateRepository implements Repository
 
     /**
      * @param AggregateHistory $aggregateHistory
-     * @return ReconstitutesFromHistory
+     * @return TracksEvents
      */
     abstract protected function reconstituteAggregate(AggregateHistory $aggregateHistory);
 }

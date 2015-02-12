@@ -16,7 +16,6 @@
 namespace F500\EventSourcing\Example\Basket;
 
 use F500\EventSourcing\Aggregate\EventTrackingCapabilities;
-use F500\EventSourcing\Aggregate\ReconstitutesFromHistory;
 use F500\EventSourcing\Aggregate\TracksEvents;
 use F500\EventSourcing\Collection\AggregateHistory;
 use F500\EventSourcing\Example\Event\BasketWasPickedUp;
@@ -31,7 +30,7 @@ use F500\EventSourcing\Example\Product\ProductId;
  * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
-final class Basket implements TracksEvents, ReconstitutesFromHistory
+final class Basket implements TracksEvents
 {
     use EventTrackingCapabilities;
 

@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Example\Basket;
 
-use F500\EventSourcing\Aggregate\ReconstitutesFromHistory;
+use F500\EventSourcing\Aggregate\TracksEvents;
 use F500\EventSourcing\Collection\AggregateHistory;
 use F500\EventSourcing\Repository\AggregateRepository;
 
@@ -30,7 +30,7 @@ class BasketRepository extends AggregateRepository
 {
     /**
      * @param AggregateHistory $aggregateHistory
-     * @return ReconstitutesFromHistory
+     * @return TracksEvents
      */
     protected function reconstituteAggregate(AggregateHistory $aggregateHistory)
     {
