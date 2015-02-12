@@ -15,12 +15,10 @@
 
 namespace F500\EventSourcing\Event;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use F500\EventSourcing\Collection\AggregateHistory;
 use F500\EventSourcing\Collection\EventEnvelopeStream;
 use F500\EventSourcing\Collection\EventStream;
-use F500\EventSourcing\Event\EventEnvelope;
-use F500\EventSourcing\Event\SerializableEvent;
 
 /**
  * Class EventWrapper

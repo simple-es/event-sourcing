@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Exception;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 
 /**
  * Exception AggregateHistoryIsCorrupt

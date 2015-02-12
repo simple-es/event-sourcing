@@ -15,8 +15,8 @@
 
 namespace F500\EventSourcing\Example\Basket;
 
-use F500\EventSourcing\Aggregate\AggregateIdentifyingCapabilities;
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Aggregate\Identifier\AggregateIdentifyingCapabilities;
+use F500\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 
 /**
  * Class BasketId

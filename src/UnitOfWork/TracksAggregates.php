@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\UnitOfWork;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use F500\EventSourcing\Aggregate\TracksEvents;
 
 /**

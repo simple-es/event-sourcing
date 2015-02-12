@@ -15,8 +15,6 @@
 
 namespace F500\EventSourcing\Aggregate\Factory;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
-use F500\EventSourcing\Aggregate\TracksEvents;
 use F500\EventSourcing\Collection\AggregateHistory;
 use F500\EventSourcing\Exception\IdNotMappedToAggregate;
 use F500\EventSourcing\Exception\InvalidItemInCollection;
@@ -78,8 +76,10 @@ class ClassMappingFactory implements ReconstitutesAggregates
      */
     private function guardIdClass($class)
     {
-        if (!is_string($class) || !is_subclass_of($class, 'F500\EventSourcing\Aggregate\IdentifiesAggregate')) {
-            throw InvalidItemInCollection::create($class, 'F500\EventSourcing\Aggregate\IdentifiesAggregate');
+        $interface = 'F500\EventSourcing\Aggregate\Identifier\IdentifiesAggregate';
+
+        if (!is_string($class) || !is_subclass_of($class, $interface)) {
+            throw InvalidItemInCollection::create($class, $interface);
         }
     }
 
@@ -89,8 +89,10 @@ class ClassMappingFactory implements ReconstitutesAggregates
      */
     private function guardAggregateClass($class)
     {
-        if (!is_string($class) || !is_subclass_of($class, 'F500\EventSourcing\Aggregate\TracksEvents')) {
-            throw InvalidItemInCollection::create($class, 'F500\EventSourcing\Aggregate\TracksEvents');
+        $interface = 'F500\EventSourcing\Aggregate\TracksEvents';
+
+        if (!is_string($class) || !is_subclass_of($class, $interface)) {
+            throw InvalidItemInCollection::create($class, $interface);
         }
     }
 }

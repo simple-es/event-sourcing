@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\EventStore\Decorator;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use F500\EventSourcing\Collection\EventEnvelopeStream;
 use F500\EventSourcing\Event\EventEnvelope;
 use F500\EventSourcing\EventStore\StoresEvents;

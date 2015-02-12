@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Collection;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use F500\EventSourcing\Event\SerializableEvent;
 use F500\EventSourcing\Exception\AggregateHistoryIsCorrupt;
 use F500\EventSourcing\Exception\CollectionIsEmpty;

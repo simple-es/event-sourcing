@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Repository;
 
-use F500\EventSourcing\Aggregate\IdentifiesAggregate;
+use F500\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use F500\EventSourcing\Aggregate\TracksEvents;
 use F500\EventSourcing\Exception\AggregateIdNotFound;
 

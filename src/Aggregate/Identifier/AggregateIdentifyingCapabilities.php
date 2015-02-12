@@ -13,7 +13,7 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Aggregate;
+namespace F500\EventSourcing\Aggregate\Identifier;
 
 /**
  * Trait AggregateIdentifyingCapabilities
