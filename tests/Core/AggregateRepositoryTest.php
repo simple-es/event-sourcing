@@ -58,7 +58,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->eventWrapper = $this->getMock('F500\EventSourcing\Event\WrapsEvents');
+        $this->eventWrapper = $this->getMock('F500\EventSourcing\Event\Wrapper\WrapsEvents');
 
         $this->eventStore = $this->getMock('F500\EventSourcing\EventStore\StoresEvents');
 

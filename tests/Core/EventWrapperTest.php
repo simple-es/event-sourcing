@@ -15,7 +15,7 @@
 
 namespace F500\EventSourcing\Test\Core;
 
-use F500\EventSourcing\Event\EventWrapper;
+use F500\EventSourcing\Event\Wrapper\EventWrapper;
 use F500\EventSourcing\Example\Basket\BasketId;
 use F500\EventSourcing\Test\TestHelper;
 

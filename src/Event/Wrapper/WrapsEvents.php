@@ -13,7 +13,7 @@
  * this source code.
  */
 
-namespace F500\EventSourcing\Event;
+namespace F500\EventSourcing\Event\Wrapper;
 
 use F500\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use F500\EventSourcing\Collection\AggregateHistory;
