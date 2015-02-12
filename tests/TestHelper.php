@@ -343,7 +343,7 @@ class TestHelper
     {
         $class = 'F500\EventSourcing\Event\SerializableEvent';
 
-        $event = $this->testCase->getMockBuilder($class)->getMock();
+        $event = $this->testCase->getMock($class);
         $event
             ->method('aggregateId')
             ->will($this->testCase->returnValue($id));
@@ -359,7 +359,7 @@ class TestHelper
     {
         $class = 'F500\EventSourcing\Aggregate\TracksEvents';
 
-        $aggregate = $this->testCase->getMockBuilder($class)->getMock();
+        $aggregate = $this->testCase->getMock($class);
         $aggregate
             ->method('aggregateId')
             ->will($this->testCase->returnValue($id));
@@ -374,7 +374,7 @@ class TestHelper
     {
         $class = 'F500\EventSourcing\EventStore\Middleware\EventStoreMiddleware';
 
-        $middleware = $this->testCase->getMockBuilder($class)->getMock();
+        $middleware = $this->testCase->getMock($class);
         $middleware
             ->expects($this->testCase->once())
             ->method('commit')
@@ -396,7 +396,7 @@ class TestHelper
     {
         $class = 'F500\EventSourcing\EventStore\Middleware\EventStoreMiddleware';
 
-        $middleware = $this->testCase->getMockBuilder($class)->getMock();
+        $middleware = $this->testCase->getMock($class);
         $middleware
             ->expects($this->testCase->once())
             ->method('get')

@@ -49,11 +49,11 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->repository = $this->getMockBuilder('F500\EventSourcing\Repository\Repository')->getMock();
+        $this->repository = $this->getMock('F500\EventSourcing\Repository\Repository');
 
         $this->id = BasketId::fromString('some-id');
 
-        $this->aggregate = $this->getMockBuilder('F500\EventSourcing\Aggregate\TracksEvents')->getMock();
+        $this->aggregate = $this->getMock('F500\EventSourcing\Aggregate\TracksEvents');
         $this->aggregate
             ->method('aggregateId')
             ->will($this->returnValue($this->id));

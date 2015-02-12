@@ -52,9 +52,9 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->nextEventStore = $this->getMockBuilder('F500\EventSourcing\EventStore\StoresEvents')->getMock();
+        $this->nextEventStore = $this->getMock('F500\EventSourcing\EventStore\StoresEvents');
 
-        $this->metadataEnricher = $this->getMockBuilder('F500\EventSourcing\Metadata\EnrichesMetadata')->getMock();
+        $this->metadataEnricher = $this->getMock('F500\EventSourcing\Metadata\EnrichesMetadata');
 
         $this->eventStore = new MetadataEnrichingDecorator([$this->metadataEnricher], $this->nextEventStore);
     }
