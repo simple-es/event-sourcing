@@ -12,7 +12,7 @@ use SimpleES\EventSourcing\Example\Product\ProductId;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
- * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
+ * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
 final class ProductWasRemovedFromBasket implements SerializableEvent
 {

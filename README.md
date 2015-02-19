@@ -5,6 +5,7 @@
 A "simple" Event Sourcing library for PHP, inspired by [Buttercup.Protects][buttercup] and [Broadway][broadway], following the philosophy of [SimpleBus][simplebus].
 
 Authored by [Jasper N. Brouwer][jaspernbrouwer].
+
 Under the collective flag of [Future500 B.V.][f500]
 
 ## Work in progress

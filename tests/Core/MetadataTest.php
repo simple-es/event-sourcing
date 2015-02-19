@@ -10,7 +10,7 @@ use SimpleES\EventSourcing\Metadata\Metadata;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
- * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
+ * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
 class MetadataTest extends \PHPUnit_Framework_TestCase
 {

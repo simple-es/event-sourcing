@@ -8,7 +8,7 @@ namespace SimpleES\EventSourcing\Aggregate\Identifier;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
- * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
+ * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
 trait AggregateIdentifyingCapabilities
 {
