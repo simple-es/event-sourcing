@@ -1,29 +1,17 @@
 <?php
 
 /**
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * For more information, please view the LICENSE file that was distributed with
- * this source code.
+ * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace F500\EventSourcing\Test\Core;
+namespace SimpleES\EventSourcing\Test\Core;
 
-use F500\EventSourcing\Collection\EventEnvelopeStream;
-use F500\EventSourcing\Example\Basket\BasketId;
-use F500\EventSourcing\Test\TestHelper;
+use SimpleES\EventSourcing\Collection\EventEnvelopeStream;
+use SimpleES\EventSourcing\Example\Basket\BasketId;
+use SimpleES\EventSourcing\Test\TestHelper;
 
 /**
- * Test EventEnvelopeStream
- *
  * @copyright Copyright (c) 2015 Future500 B.V.
- * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
 class EventEnvelopeStreamTest extends \PHPUnit_Framework_TestCase
@@ -60,7 +48,7 @@ class EventEnvelopeStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\InvalidItemInCollection
+     * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
      */
     public function itContainsOnlyEventEnvelopes()
     {
@@ -71,7 +59,7 @@ class EventEnvelopeStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\CollectionIsEmpty
+     * @expectedException \SimpleES\EventSourcing\Exception\CollectionIsEmpty
      */
     public function itCannotBeEmpty()
     {
@@ -112,7 +100,7 @@ class EventEnvelopeStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\ObjectIsImmutable
+     * @expectedException \SimpleES\EventSourcing\Exception\ObjectIsImmutable
      */
     public function itemsCannotBeReplaced()
     {
@@ -124,7 +112,7 @@ class EventEnvelopeStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\ObjectIsImmutable
+     * @expectedException \SimpleES\EventSourcing\Exception\ObjectIsImmutable
      */
     public function itemsCannotBeRemoved()
     {
@@ -145,7 +133,7 @@ class EventEnvelopeStreamTest extends \PHPUnit_Framework_TestCase
     public function itCanBeIteratedOver()
     {
         foreach ($this->envelopeStream as $envelope) {
-            $this->assertInstanceOf('F500\EventSourcing\Event\EventEnvelope', $envelope);
+            $this->assertInstanceOf('SimpleES\EventSourcing\Event\EventEnvelope', $envelope);
         }
     }
 

@@ -1,29 +1,17 @@
 <?php
 
 /**
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * For more information, please view the LICENSE file that was distributed with
- * this source code.
+ * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace F500\EventSourcing\Test\Core;
+namespace SimpleES\EventSourcing\Test\Core;
 
-use F500\EventSourcing\Aggregate\Factory\ClassMappingFactory;
-use F500\EventSourcing\Example\Basket\BasketId;
-use F500\EventSourcing\Test\TestHelper;
+use SimpleES\EventSourcing\Aggregate\Factory\ClassMappingFactory;
+use SimpleES\EventSourcing\Example\Basket\BasketId;
+use SimpleES\EventSourcing\Test\TestHelper;
 
 /**
- * Test ClassMappingFactory
- *
  * @copyright Copyright (c) 2015 Future500 B.V.
- * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
 class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
@@ -49,7 +37,7 @@ class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
     public function itReconstituteAnAggregateFromHistory()
     {
         $factory = new ClassMappingFactory(
-            ['F500\EventSourcing\Example\Basket\BasketId' => 'F500\EventSourcing\Example\Basket\Basket']
+            ['SimpleES\EventSourcing\Example\Basket\BasketId' => 'SimpleES\EventSourcing\Example\Basket\Basket']
         );
 
         $id               = BasketId::fromString('some-id');
@@ -57,12 +45,12 @@ class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
 
         $aggregate = $factory->reconstituteFromHistory($aggregateHistory);
 
-        $this->assertInstanceOf('F500\EventSourcing\Example\Basket\Basket', $aggregate);
+        $this->assertInstanceOf('SimpleES\EventSourcing\Example\Basket\Basket', $aggregate);
     }
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\IdNotMappedToAggregate
+     * @expectedException \SimpleES\EventSourcing\Exception\IdNotMappedToAggregate
      */
     public function itCannotReconstituteAnAggregateWhenMapNotFound()
     {
@@ -76,23 +64,23 @@ class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\InvalidItemInCollection
+     * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
      */
     public function theMapKeysMustBeClassNamesImplementingIdentifiesAggregate()
     {
         new ClassMappingFactory(
-            ['stdClass' => 'F500\EventSourcing\Example\Basket\Basket']
+            ['stdClass' => 'SimpleES\EventSourcing\Example\Basket\Basket']
         );
     }
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\InvalidItemInCollection
+     * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
      */
     public function theMapValuesMustBeClassNamesImplementingTracksEvents()
     {
         new ClassMappingFactory(
-            ['F500\EventSourcing\Example\Basket\BasketId' => 'stdClass']
+            ['SimpleES\EventSourcing\Example\Basket\BasketId' => 'stdClass']
         );
     }
 }

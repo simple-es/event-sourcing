@@ -1,30 +1,18 @@
 <?php
 
 /**
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * For more information, please view the LICENSE file that was distributed with
- * this source code.
+ * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace F500\EventSourcing\Test\Examples;
+namespace SimpleES\EventSourcing\Test\Examples;
 
-use F500\EventSourcing\Collection\AggregateHistory;
-use F500\EventSourcing\Example\Basket\Basket;
-use F500\EventSourcing\Example\Basket\BasketId;
-use F500\EventSourcing\Example\Product\ProductId;
+use SimpleES\EventSourcing\Collection\AggregateHistory;
+use SimpleES\EventSourcing\Example\Basket\Basket;
+use SimpleES\EventSourcing\Example\Basket\BasketId;
+use SimpleES\EventSourcing\Example\Product\ProductId;
 
 /**
- * Test Basket
- *
  * @copyright Copyright (c) 2015 Future500 B.V.
- * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
 class BasketTest extends \PHPUnit_Framework_TestCase
@@ -57,7 +45,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesAStreamOfRecordedEvents()
     {
-        $this->assertInstanceOf('F500\EventSourcing\Collection\EventStream', $this->basket->recordedEvents());
+        $this->assertInstanceOf('SimpleES\EventSourcing\Collection\EventStream', $this->basket->recordedEvents());
     }
 
     /**
@@ -74,7 +62,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     public function itHasABasketWasPickedUpEvent()
     {
         $this->assertInstanceOf(
-            'F500\EventSourcing\Example\Event\BasketWasPickedUp',
+            'SimpleES\EventSourcing\Example\Event\BasketWasPickedUp',
             $this->basket->recordedEvents()[0]
         );
     }
@@ -85,7 +73,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     public function itHasAProductWasAddedToBasketEvent()
     {
         $this->assertInstanceOf(
-            'F500\EventSourcing\Example\Event\ProductWasAddedToBasket',
+            'SimpleES\EventSourcing\Example\Event\ProductWasAddedToBasket',
             $this->basket->recordedEvents()[1]
         );
     }
@@ -96,14 +84,14 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     public function itHasAProductWasRemovedFromBasketEvent()
     {
         $this->assertInstanceOf(
-            'F500\EventSourcing\Example\Event\ProductWasRemovedFromBasket',
+            'SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket',
             $this->basket->recordedEvents()[2]
         );
     }
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Example\Basket\BasketLimitReached
+     * @expectedException \SimpleES\EventSourcing\Example\Basket\BasketLimitReached
      */
     public function itCannotHaveMoreThanThreeProducts()
     {

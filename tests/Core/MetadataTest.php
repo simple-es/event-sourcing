@@ -1,27 +1,15 @@
 <?php
 
 /**
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * For more information, please view the LICENSE file that was distributed with
- * this source code.
+ * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace F500\EventSourcing\Test\Core;
+namespace SimpleES\EventSourcing\Test\Core;
 
-use F500\EventSourcing\Metadata\Metadata;
+use SimpleES\EventSourcing\Metadata\Metadata;
 
 /**
- * Test Metadata
- *
  * @copyright Copyright (c) 2015 Future500 B.V.
- * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
 class MetadataTest extends \PHPUnit_Framework_TestCase
@@ -74,7 +62,7 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\ObjectIsImmutable
+     * @expectedException \SimpleES\EventSourcing\Exception\ObjectIsImmutable
      */
     public function itCannotChangeAnItem()
     {
@@ -83,7 +71,7 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\ObjectIsImmutable
+     * @expectedException \SimpleES\EventSourcing\Exception\ObjectIsImmutable
      */
     public function itCannotRemoveAnItem()
     {

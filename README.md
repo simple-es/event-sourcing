@@ -1,14 +1,24 @@
-# F500\EventSourcing
+# SimpleES \ EventSourcing
 
-[![Build Status](https://travis-ci.org/f500/event-sourcing.svg?branch=master)](https://travis-ci.org/f500/event-sourcing)
+[![Build Status](https://travis-ci.org/simple-es/event-sourcing.svg?branch=master)](https://travis-ci.org/simple-es/event-sourcing)
 
-A standalone Event Sourcing library for PHP, inspired by [Buttercup.Protects][1] and [Broadway][2].
+A "simple" Event Sourcing library for PHP, inspired by [Buttercup.Protects][buttercup] and [Broadway][broadway], following the philosophy of [SimpleBus][simplebus].
 
-By [Jasper N. Brouwer](https://github.com/jaspernbrouwer).
+Authored by [Jasper N. Brouwer][jaspernbrouwer].
+Under the collective flag of [Future500 B.V.][f500]
 
 ## Work in progress
 
 This library is still in its development stage, more will follow soon...
 
-[1]: https://buttercup-php.github.io/protects/
-[2]: https://github.com/qandidate-labs/broadway
+## License
+
+[The MIT License (MIT)][license]
+
+
+[broadway]: https://github.com/qandidate-labs/broadway
+[buttercup]: https://buttercup-php.github.io/protects/
+[f500]: https://github.com/f500
+[jaspernbrouwer]: https://github.com/jaspernbrouwer
+[license]: https://github.com/simple-es/event-sourcing/blob/master/LICENSE
+[simplebus]: https://github.com/SimpleBus

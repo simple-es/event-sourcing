@@ -1,30 +1,18 @@
 <?php
 
 /**
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * For more information, please view the LICENSE file that was distributed with
- * this source code.
+ * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace F500\EventSourcing\Test\Examples;
+namespace SimpleES\EventSourcing\Test\Examples;
 
-use F500\EventSourcing\Example\Basket\Basket;
-use F500\EventSourcing\Example\Basket\BasketId;
-use F500\EventSourcing\Repository\AggregateRepository;
-use F500\EventSourcing\Test\TestHelper;
+use SimpleES\EventSourcing\Example\Basket\Basket;
+use SimpleES\EventSourcing\Example\Basket\BasketId;
+use SimpleES\EventSourcing\Repository\AggregateRepository;
+use SimpleES\EventSourcing\Test\TestHelper;
 
 /**
- * Test AggregateRepository
- *
  * @copyright Copyright (c) 2015 Future500 B.V.
- * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
 class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
@@ -58,11 +46,11 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->eventWrapper = $this->getMock('F500\EventSourcing\Event\Wrapper\WrapsEvents');
+        $this->eventWrapper = $this->getMock('SimpleES\EventSourcing\Event\Wrapper\WrapsEvents');
 
-        $this->eventStore = $this->getMock('F500\EventSourcing\EventStore\StoresEvents');
+        $this->eventStore = $this->getMock('SimpleES\EventSourcing\EventStore\StoresEvents');
 
-        $this->aggregateFactory = $this->getMock('F500\EventSourcing\Aggregate\Factory\ReconstitutesAggregates');
+        $this->aggregateFactory = $this->getMock('SimpleES\EventSourcing\Aggregate\Factory\ReconstitutesAggregates');
 
         $this->repository = new AggregateRepository($this->eventWrapper, $this->eventStore, $this->aggregateFactory);
     }

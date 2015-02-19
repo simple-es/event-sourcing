@@ -1,9 +1,9 @@
 {
-    "name": "f500/event-sourcing",
-    "description": "A standalone Event Sourcing library for PHP",
+    "name": "simple-es/event-sourcing",
+    "description": "A \"simple\" Event Sourcing library for PHP",
     "type": "library",
-    "keywords": ["event sourcing"],
-    "homepage": "https://github.com/f500/event-sourcing",
+    "keywords": ["simple", "simplees", "simple-es", "event", "sourcing", "event-sourcing"],
+    "homepage": "https://github.com/simple-es/event-sourcing",
     "license": "MIT",
     "authors": [
         {
@@ -15,19 +15,18 @@
     "require": {
         "php": ">=5.4"
     },
-
     "require-dev": {
         "phpunit/phpunit": "~4.3",
         "squizlabs/php_codesniffer": "~2.1"
     },
 
     "autoload": {
-        "psr-4" : { "F500\\EventSourcing\\" : "src" }
+        "psr-4" : { "SimpleES\\EventSourcing\\" : "src" }
     },
     "autoload-dev": {
         "psr-4": {
-            "F500\\EventSourcing\\Example\\": "examples",
-            "F500\\EventSourcing\\Test\\": "tests"
+            "SimpleES\\EventSourcing\\Example\\": "examples",
+            "SimpleES\\EventSourcing\\Test\\": "tests"
         }
     }
 }

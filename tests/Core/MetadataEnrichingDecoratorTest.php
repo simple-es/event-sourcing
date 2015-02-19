@@ -1,29 +1,17 @@
 <?php
 
 /**
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * For more information, please view the LICENSE file that was distributed with
- * this source code.
+ * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace F500\EventSourcing\Test\Core;
+namespace SimpleES\EventSourcing\Test\Core;
 
-use F500\EventSourcing\EventStore\Decorator\MetadataEnrichingDecorator;
-use F500\EventSourcing\Example\Basket\BasketId;
-use F500\EventSourcing\Test\TestHelper;
+use SimpleES\EventSourcing\EventStore\Decorator\MetadataEnrichingDecorator;
+use SimpleES\EventSourcing\Example\Basket\BasketId;
+use SimpleES\EventSourcing\Test\TestHelper;
 
 /**
- * Test MetadataEnrichingDecorator
- *
  * @copyright Copyright (c) 2015 Future500 B.V.
- * @license   https://github.com/f500/event-sourcing/blob/master/LICENSE MIT
  * @author    Jasper N. Brouwer <jasper@nerdsweide.nl>
  */
 class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
@@ -52,9 +40,9 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->nextEventStore = $this->getMock('F500\EventSourcing\EventStore\StoresEvents');
+        $this->nextEventStore = $this->getMock('SimpleES\EventSourcing\EventStore\StoresEvents');
 
-        $this->metadataEnricher = $this->getMock('F500\EventSourcing\Metadata\EnrichesMetadata');
+        $this->metadataEnricher = $this->getMock('SimpleES\EventSourcing\Metadata\EnrichesMetadata');
 
         $this->eventStore = new MetadataEnrichingDecorator([$this->metadataEnricher], $this->nextEventStore);
     }
@@ -90,7 +78,7 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
         $this->nextEventStore
             ->expects($this->once())
             ->method('commit')
-            ->with($this->isInstanceOf('F500\EventSourcing\Collection\EventEnvelopeStream'));
+            ->with($this->isInstanceOf('SimpleES\EventSourcing\Collection\EventEnvelopeStream'));
 
         $this->eventStore->commit($envelopeStream);
     }
@@ -117,7 +105,7 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\InvalidItemInCollection
+     * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
      */
     public function itsListOfMetadataEnrichersMustBeOfTheCorrectType()
     {
@@ -126,7 +114,7 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \F500\EventSourcing\Exception\CollectionIsEmpty
+     * @expectedException \SimpleES\EventSourcing\Exception\CollectionIsEmpty
      */
     public function itsListOfMetadataEnrichersCannotBeEmpty()
     {
