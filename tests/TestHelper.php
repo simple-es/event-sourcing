@@ -333,6 +333,7 @@ class TestHelper
 
         $event = $this->testCase->getMock($class);
         $event
+            ->expects($this->testCase->any())
             ->method('aggregateId')
             ->will($this->testCase->returnValue($id));
 
@@ -349,6 +350,7 @@ class TestHelper
 
         $aggregate = $this->testCase->getMock($class);
         $aggregate
+            ->expects($this->testCase->any())
             ->method('aggregateId')
             ->will($this->testCase->returnValue($id));
 
