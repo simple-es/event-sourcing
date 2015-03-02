@@ -19,7 +19,7 @@ trait AggregateIdentifyingCapabilities
 
     /**
      * @param string $string
-     * @return IdentifiesAggregate
+     * @return static
      */
     public static function fromString($string)
     {
