@@ -6,6 +6,7 @@
 
 namespace SimpleES\EventSourcing\Aggregate;
 
+use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Collection\AggregateHistory;
 use SimpleES\EventSourcing\Collection\EventStream;
 
