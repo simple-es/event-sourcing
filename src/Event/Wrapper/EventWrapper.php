@@ -10,8 +10,8 @@ use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Collection\AggregateHistory;
 use SimpleES\EventSourcing\Collection\EventEnvelopeStream;
 use SimpleES\EventSourcing\Collection\EventStream;
+use SimpleES\EventSourcing\Event\Event;
 use SimpleES\EventSourcing\Event\EventEnvelope;
-use SimpleES\EventSourcing\Event\SerializableEvent;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -37,7 +37,7 @@ final class EventWrapper implements WrapsEvents
 
         $envelopes = [];
 
-        /** @var SerializableEvent $event */
+        /** @var Event $event */
         foreach ($eventStream as $event) {
             $playhead = ++$this->playheads[$lookupKey];
 

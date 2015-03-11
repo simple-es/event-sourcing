@@ -329,7 +329,7 @@ class TestHelper
      */
     public function mockEvent(IdentifiesAggregate $id)
     {
-        $class = 'SimpleES\EventSourcing\Event\SerializableEvent';
+        $class = 'SimpleES\EventSourcing\Event\Event';
 
         $event = $this->testCase->getMock($class);
         $event

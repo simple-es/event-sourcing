@@ -6,14 +6,14 @@
 
 namespace SimpleES\EventSourcing\Example\Event;
 
-use SimpleES\EventSourcing\Event\SerializableEvent;
+use SimpleES\EventSourcing\Event\Event;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-final class BasketWasPickedUp implements SerializableEvent
+final class BasketWasPickedUp implements Event
 {
     /**
      * @var BasketId
@@ -42,25 +42,5 @@ final class BasketWasPickedUp implements SerializableEvent
     public function name()
     {
         return 'basketWasPickedUp';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function deserialize(array $data)
-    {
-        return new BasketWasPickedUp(
-            BasketId::fromString($data['basketId'])
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
-    {
-        return [
-            'basketId' => (string)$this->basketId
-        ];
     }
 }

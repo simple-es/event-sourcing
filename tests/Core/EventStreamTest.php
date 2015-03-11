@@ -133,7 +133,7 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
     public function itCanBeIteratedOver()
     {
         foreach ($this->eventStream as $event) {
-            $this->assertInstanceOf('SimpleES\EventSourcing\Event\SerializableEvent', $event);
+            $this->assertInstanceOf('SimpleES\EventSourcing\Event\Event', $event);
         }
     }
 

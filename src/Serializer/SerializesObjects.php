@@ -10,16 +10,17 @@ namespace SimpleES\EventSourcing\Serializer;
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-interface Serializable
+interface SerializesObjects
 {
     /**
-     * @param array $data
-     * @return Serializable
+     * @param mixed $data
+     * @return string
      */
-    public static function deserialize(array $data);
+    public function serialize($data);
 
     /**
-     * @return array
+     * @param string $data
+     * @return mixed
      */
-    public function serialize();
+    public function deserialize($data);
 }

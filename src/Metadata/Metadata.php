@@ -7,13 +7,12 @@
 namespace SimpleES\EventSourcing\Metadata;
 
 use SimpleES\EventSourcing\Exception\ObjectIsImmutable;
-use SimpleES\EventSourcing\Serializer\Serializable;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-final class Metadata implements \ArrayAccess, Serializable
+final class Metadata implements \ArrayAccess
 {
     /**
      * @var array
@@ -75,21 +74,5 @@ final class Metadata implements \ArrayAccess, Serializable
     public function offsetUnset($offset)
     {
         throw ObjectIsImmutable::create($this, 'offsetSet');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function deserialize(array $data)
-    {
-        return new Metadata($data);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
-    {
-        return $this->data;
     }
 }

@@ -56,26 +56,4 @@ class ProductWasRemovedFromBasketTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame('productWasRemovedFromBasket', $this->event->name());
     }
-
-    /**
-     * @test
-     */
-    public function itIsSerializable()
-    {
-        $serialized = ['basketId' => 'basket-1', 'productId' => 'product-1'];
-
-        $this->assertSame($serialized, $this->event->serialize());
-    }
-
-    /**
-     * @test
-     */
-    public function itIsDeserializable()
-    {
-        $deserializedEvent = ProductWasRemovedFromBasket::deserialize(
-            ['basketId' => 'basket-1', 'productId' => 'product-1']
-        );
-
-        $this->assertEquals($this->event, $deserializedEvent);
-    }
 }

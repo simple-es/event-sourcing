@@ -168,7 +168,7 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
     public function itCanBeIteratedOver()
     {
         foreach ($this->aggregateHistory as $event) {
-            $this->assertInstanceOf('SimpleES\EventSourcing\Event\SerializableEvent', $event);
+            $this->assertInstanceOf('SimpleES\EventSourcing\Event\Event', $event);
         }
     }
 

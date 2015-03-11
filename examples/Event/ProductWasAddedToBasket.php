@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Example\Event;
 
-use SimpleES\EventSourcing\Event\SerializableEvent;
+use SimpleES\EventSourcing\Event\Event;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Example\Product\ProductId;
 
@@ -14,7 +14,7 @@ use SimpleES\EventSourcing\Example\Product\ProductId;
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-final class ProductWasAddedToBasket implements SerializableEvent
+final class ProductWasAddedToBasket implements Event
 {
     /**
      * @var BasketId
@@ -58,27 +58,5 @@ final class ProductWasAddedToBasket implements SerializableEvent
     public function name()
     {
         return 'productWasAddedToBasket';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function deserialize(array $data)
-    {
-        return new ProductWasAddedToBasket(
-            BasketId::fromString($data['basketId']),
-            ProductId::fromString($data['productId'])
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
-    {
-        return [
-            'basketId'  => (string)$this->basketId,
-            'productId' => (string)$this->productId
-        ];
     }
 }

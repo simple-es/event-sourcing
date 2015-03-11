@@ -16,7 +16,7 @@ use SimpleES\EventSourcing\Timestamp\Timestamp;
 final class EventEnvelope implements Event
 {
     /**
-     * @var SerializableEvent
+     * @var Event
      */
     private $event;
 
@@ -36,12 +36,12 @@ final class EventEnvelope implements Event
     private $tookPlaceAt;
 
     /**
-     * @param SerializableEvent $event
-     * @param int               $playhead
-     * @param Metadata          $metadata
-     * @param Timestamp         $tookPlaceAt
+     * @param Event     $event
+     * @param int       $playhead
+     * @param Metadata  $metadata
+     * @param Timestamp $tookPlaceAt
      */
-    public function __construct(SerializableEvent $event, $playhead, Metadata $metadata, Timestamp $tookPlaceAt)
+    public function __construct(Event $event, $playhead, Metadata $metadata, Timestamp $tookPlaceAt)
     {
         $this->event       = $event;
         $this->playhead    = (int)$playhead;
@@ -50,11 +50,11 @@ final class EventEnvelope implements Event
     }
 
     /**
-     * @param SerializableEvent $event
-     * @param int               $playhead
+     * @param Event $event
+     * @param int   $playhead
      * @return EventEnvelope
      */
-    public static function wrap(SerializableEvent $event, $playhead)
+    public static function wrap(Event $event, $playhead)
     {
         return new EventEnvelope(
             $event,
@@ -73,7 +73,7 @@ final class EventEnvelope implements Event
     }
 
     /**
-     * @return SerializableEvent
+     * @return Event
      */
     public function event()
     {

@@ -117,36 +117,4 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Third value', $this->metadata['third-key']);
         $this->assertNull($this->metadata['fourth-key']);
     }
-
-    /**
-     * @test
-     */
-    public function itIsDeserializable()
-    {
-        $deserializedMetadata = Metadata::deserialize(
-            [
-                'some-key'  => 'Some value',
-                'other-key' => 'Other value',
-                'third-key' => 'Third value'
-            ]
-        );
-
-        $this->assertSame('Some value', $deserializedMetadata['some-key']);
-        $this->assertSame('Other value', $deserializedMetadata['other-key']);
-        $this->assertSame('Third value', $deserializedMetadata['third-key']);
-    }
-
-    /**
-     * @test
-     */
-    public function itIsSerializable()
-    {
-        $serialized = [
-            'some-key'  => 'Some value',
-            'other-key' => 'Other value',
-            'third-key' => 'Third value'
-        ];
-
-        $this->assertSame($serialized, $this->metadata->serialize());
-    }
 }

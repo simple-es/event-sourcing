@@ -7,7 +7,7 @@
 namespace SimpleES\EventSourcing\Collection;
 
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
-use SimpleES\EventSourcing\Event\SerializableEvent;
+use SimpleES\EventSourcing\Event\Event;
 use SimpleES\EventSourcing\Exception\AggregateHistoryIsCorrupt;
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
@@ -47,8 +47,8 @@ final class AggregateHistory extends Collection
      */
     protected function guardItem($item)
     {
-        if (!($item instanceof SerializableEvent)) {
-            throw InvalidItemInCollection::create($item, 'SimpleES\EventSourcing\Event\SerializableEvent');
+        if (!($item instanceof Event)) {
+            throw InvalidItemInCollection::create($item, 'SimpleES\EventSourcing\Event\Event');
         }
 
         if (!$item->aggregateId()->equals($this->aggregateId)) {
