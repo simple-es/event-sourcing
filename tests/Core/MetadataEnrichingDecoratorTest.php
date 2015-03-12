@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\EventStore\Decorator\MetadataEnrichingDecorator;
+use SimpleES\EventSourcing\Event\Store\Decorator\MetadataEnrichingDecorator;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Test\TestHelper;
 
@@ -40,7 +40,7 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->nextEventStore = $this->getMock('SimpleES\EventSourcing\EventStore\StoresEvents');
+        $this->nextEventStore = $this->getMock('SimpleES\EventSourcing\Event\Store\StoresEvents');
 
         $this->metadataEnricher = $this->getMock('SimpleES\EventSourcing\Metadata\EnrichesMetadata');
 
@@ -50,6 +50,10 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->testHelper->tearDown();
+
+        $this->testHelper     = null;
+        $this->eventStore     = null;
+        $this->nextEventStore = null;
     }
 
     /**
@@ -59,28 +63,28 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('some-id');
 
-        $envelopeStream = $this->testHelper->getEnvelopeStream($id);
+        $eventStream = $this->testHelper->getEventStream($id);
 
-        $eventEnvelopeOne   = $this->testHelper->getEnvelopeStreamEnvelopeOne($id);
-        $eventEnvelopeTwo   = $this->testHelper->getEnvelopeStreamEnvelopeTwo($id);
-        $eventEnvelopeThree = $this->testHelper->getEnvelopeStreamEnvelopeThree($id);
+        $envelopeOne   = $this->testHelper->getEventStreamEnvelopeOne($id);
+        $envelopeTwo   = $this->testHelper->getEventStreamEnvelopeTwo($id);
+        $envelopeThree = $this->testHelper->getEventStreamEnvelopeThree($id);
 
         $this->metadataEnricher
             ->expects($this->exactly(3))
             ->method('enrich')
             ->withConsecutive(
-                [$this->equalTo($eventEnvelopeOne)],
-                [$this->equalTo($eventEnvelopeTwo)],
-                [$this->equalTo($eventEnvelopeThree)]
+                [$this->equalTo($envelopeOne)],
+                [$this->equalTo($envelopeTwo)],
+                [$this->equalTo($envelopeThree)]
             )
             ->will($this->returnArgument(0));
 
         $this->nextEventStore
             ->expects($this->once())
             ->method('commit')
-            ->with($this->isInstanceOf('SimpleES\EventSourcing\Collection\EventEnvelopeStream'));
+            ->with($this->isInstanceOf('SimpleES\EventSourcing\Event\Stream\EventStream'));
 
-        $this->eventStore->commit($envelopeStream);
+        $this->eventStore->commit($eventStream);
     }
 
     /**
@@ -90,17 +94,17 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('some-id');
 
-        $envelopeStream = $this->testHelper->getEnvelopeStream($id);
+        $eventStream = $this->testHelper->getEventStream($id);
 
         $this->nextEventStore
             ->expects($this->once())
             ->method('get')
             ->with($this->equalTo($id))
-            ->will($this->returnValue($envelopeStream));
+            ->will($this->returnValue($eventStream));
 
         $returnedEnvelopeStream = $this->eventStore->get($id);
 
-        $this->assertSame($envelopeStream, $returnedEnvelopeStream);
+        $this->assertSame($eventStream, $returnedEnvelopeStream);
     }
 
     /**

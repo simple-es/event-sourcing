@@ -6,6 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
+use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Event\Wrapper\EventWrapper;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Test\TestHelper;
@@ -26,59 +27,90 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
      */
     private $eventWrapper;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $uuidGenerator;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $eventNameResolver;
+
     public function setUp()
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->eventWrapper = new EventWrapper();
+        $this->uuidGenerator = $this->getMock('SimpleES\EventSourcing\Uuid\GeneratesUuids');
+
+        $this->eventNameResolver = $this->getMock('SimpleES\EventSourcing\Event\Resolver\ResolvesEventNames');
+
+        $this->eventWrapper = new EventWrapper($this->uuidGenerator, $this->eventNameResolver);
     }
 
     public function tearDown()
     {
         $this->testHelper->tearDown();
+
+        $this->testHelper        = null;
+        $this->eventWrapper      = null;
+        $this->uuidGenerator     = null;
+        $this->eventNameResolver = null;
     }
 
     /**
      * @test
      */
-    public function itConvertsAnEventStreamToAnEventEnvelopeStream()
+    public function itWrapsDomainEventsInAnEventStream()
     {
-        $id          = BasketId::fromString('some-id');
-        $eventStream = $this->testHelper->getEventStream($id);
+        $id           = BasketId::fromString('some-id');
+        $domainEvents = $this->testHelper->getDomainEvents($id);
 
-        $envelopeStream = $this->eventWrapper->wrap($id, $eventStream);
+        $this->uuidGenerator
+            ->expects($this->exactly(3))
+            ->method('generateUuid');
 
-        $this->assertInstanceOf('SimpleES\EventSourcing\Collection\EventEnvelopeStream', $envelopeStream);
+        $this->eventNameResolver
+            ->expects($this->exactly(3))
+            ->method('resolveEventName')
+            ->with($this->isInstanceOf('SimpleES\EventSourcing\Event\DomainEvent'));
+
+        $envelopeStream = $this->eventWrapper->wrap($id, $domainEvents);
+
+        $this->assertInstanceOf('SimpleES\EventSourcing\Event\Stream\EventStream', $envelopeStream);
         $this->assertCount(3, $envelopeStream);
     }
 
     /**
      * @test
      */
-    public function itConvertsAnEventEnvelopeStreamToAnAggregateHistory()
+    public function itUnwrapsAnEventStreamRevealingAggregateHistory()
     {
         $id             = BasketId::fromString('some-id');
-        $envelopeStream = $this->testHelper->getEnvelopeStream($id);
+        $envelopeStream = $this->testHelper->getEventStream($id);
 
         $aggregateHistory = $this->eventWrapper->unwrap($id, $envelopeStream);
 
-        $this->assertInstanceOf('SimpleES\EventSourcing\Collection\AggregateHistory', $aggregateHistory);
+        $this->assertInstanceOf('SimpleES\EventSourcing\Aggregate\AggregateHistory', $aggregateHistory);
         $this->assertCount(3, $aggregateHistory);
     }
 
     /**
      * @test
      */
-    public function itMaintainsConsecutivePlayhead()
+    public function itMaintainsConsecutiveAggregateVersions()
     {
-        $id          = BasketId::fromString('some-id');
-        $eventStream = $this->testHelper->getEventStream($id);
+        $id           = BasketId::fromString('some-id');
+        $domainEvents = $this->testHelper->getDomainEvents($id);
 
-        $envelopeStream = $this->eventWrapper->wrap($id, $eventStream);
+        $eventStream = $this->eventWrapper->wrap($id, $domainEvents);
 
-        $this->assertSame(0, $envelopeStream[0]->playhead());
-        $this->assertSame(1, $envelopeStream[1]->playhead());
-        $this->assertSame(2, $envelopeStream[2]->playhead());
+        /** @var EventEnvelope[] $envelopes */
+        $envelopes = iterator_to_array($eventStream);
+
+        $this->assertSame(0, $envelopes[0]->aggregateVersion());
+        $this->assertSame(1, $envelopes[1]->aggregateVersion());
+        $this->assertSame(2, $envelopes[2]->aggregateVersion());
     }
 
     /**
@@ -86,16 +118,19 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
      */
     public function itMaintainsConsecutivePlayheadAfterUnwrapping()
     {
-        $id             = BasketId::fromString('some-id');
-        $eventStream    = $this->testHelper->getEventStream($id);
-        $envelopeStream = $this->testHelper->getEnvelopeStream($id);
+        $id           = BasketId::fromString('some-id');
+        $domainEvents = $this->testHelper->getDomainEvents($id);
+        $eventStream  = $this->testHelper->getEventStream($id);
 
-        $this->eventWrapper->unwrap($id, $envelopeStream);
+        $this->eventWrapper->unwrap($id, $eventStream);
 
-        $newEnvelopeStream = $this->eventWrapper->wrap($id, $eventStream);
+        $newEnvelopeStream = $this->eventWrapper->wrap($id, $domainEvents);
 
-        $this->assertSame(3, $newEnvelopeStream[0]->playhead());
-        $this->assertSame(4, $newEnvelopeStream[1]->playhead());
-        $this->assertSame(5, $newEnvelopeStream[2]->playhead());
+        /** @var EventEnvelope[] $envelopes */
+        $envelopes = iterator_to_array($newEnvelopeStream);
+
+        $this->assertSame(3, $envelopes[0]->aggregateVersion());
+        $this->assertSame(4, $envelopes[1]->aggregateVersion());
+        $this->assertSame(5, $envelopes[2]->aggregateVersion());
     }
 }

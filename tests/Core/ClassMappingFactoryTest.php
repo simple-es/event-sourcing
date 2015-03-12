@@ -29,6 +29,8 @@ class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->testHelper->tearDown();
+
+        $this->testHelper = null;
     }
 
     /**

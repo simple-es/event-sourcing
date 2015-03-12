@@ -55,7 +55,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->eventWrapper = $this->getMock('SimpleES\EventSourcing\Event\Wrapper\WrapsEvents');
 
-        $this->eventStore = $this->getMock('SimpleES\EventSourcing\EventStore\StoresEvents');
+        $this->eventStore = $this->getMock('SimpleES\EventSourcing\Event\Store\StoresEvents');
 
         $this->aggregateFactory = $this->getMock('SimpleES\EventSourcing\Aggregate\Factory\ReconstitutesAggregates');
 
@@ -70,6 +70,12 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->testHelper->tearDown();
+
+        $this->testHelper   = null;
+        $this->repository   = null;
+        $this->identityMap  = null;
+        $this->eventWrapper = null;
+        $this->eventStore   = null;
     }
 
     /**
@@ -79,14 +85,14 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('some-basket');
 
-        $eventStream    = $this->testHelper->getEventStream($id);
-        $envelopeStream = $this->testHelper->getEnvelopeStream($id);
+        $domainEvents = $this->testHelper->getDomainEvents($id);
+        $eventStream  = $this->testHelper->getEventStream($id);
 
         $aggregate = $this->testHelper->mockAggregate($id);
         $aggregate
             ->expects($this->once())
             ->method('recordedEvents')
-            ->will($this->returnValue($eventStream));
+            ->will($this->returnValue($domainEvents));
         $aggregate
             ->expects($this->once())
             ->method('clearRecordedEvents');
@@ -101,14 +107,14 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('wrap')
             ->with(
                 $this->equalTo($id),
-                $this->equalTo($eventStream)
+                $this->equalTo($domainEvents)
             )
-            ->will($this->returnValue($envelopeStream));
+            ->will($this->returnValue($eventStream));
 
         $this->eventStore
             ->expects($this->once())
             ->method('commit')
-            ->with($this->equalTo($envelopeStream));
+            ->with($this->equalTo($eventStream));
 
         $this->repository->add($aggregate);
     }
@@ -120,7 +126,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('some-basket');
 
-        $envelopeStream   = $this->testHelper->getEnvelopeStream($id);
+        $eventStream      = $this->testHelper->getEventStream($id);
         $aggregateHistory = $this->testHelper->getAggregateHistory($id);
 
         $aggregate = Basket::pickUp($id);
@@ -135,14 +141,14 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('get')
             ->with($this->equalTo($id))
-            ->will($this->returnValue($envelopeStream));
+            ->will($this->returnValue($eventStream));
 
         $this->eventWrapper
             ->expects($this->once())
             ->method('unwrap')
             ->with(
                 $this->equalTo($id),
-                $this->equalTo($envelopeStream)
+                $this->equalTo($eventStream)
             )
             ->will($this->returnValue($aggregateHistory));
 
@@ -164,14 +170,14 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('some-basket');
 
-        $eventStream    = $this->testHelper->getEventStream($id);
-        $envelopeStream = $this->testHelper->getEnvelopeStream($id);
+        $domainEvents = $this->testHelper->getDomainEvents($id);
+        $eventStream  = $this->testHelper->getEventStream($id);
 
         $aggregate = $this->testHelper->mockAggregate($id);
         $aggregate
             ->expects($this->once())
             ->method('recordedEvents')
-            ->will($this->returnValue($eventStream));
+            ->will($this->returnValue($domainEvents));
         $aggregate
             ->expects($this->once())
             ->method('clearRecordedEvents');
@@ -198,14 +204,14 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('wrap')
             ->with(
                 $this->equalTo($id),
-                $this->equalTo($eventStream)
+                $this->equalTo($domainEvents)
             )
-            ->will($this->returnValue($envelopeStream));
+            ->will($this->returnValue($eventStream));
 
         $this->eventStore
             ->expects($this->once())
             ->method('commit')
-            ->with($this->equalTo($envelopeStream));
+            ->with($this->equalTo($eventStream));
 
         $this->repository->add($aggregate);
 
@@ -221,7 +227,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('some-basket');
 
-        $envelopeStream   = $this->testHelper->getEnvelopeStream($id);
+        $eventStream      = $this->testHelper->getEventStream($id);
         $aggregateHistory = $this->testHelper->getAggregateHistory($id);
 
         $aggregate = Basket::pickUp($id);
@@ -247,14 +253,14 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('get')
             ->with($this->equalTo($id))
-            ->will($this->returnValue($envelopeStream));
+            ->will($this->returnValue($eventStream));
 
         $this->eventWrapper
             ->expects($this->once())
             ->method('unwrap')
             ->with(
                 $this->equalTo($id),
-                $this->equalTo($envelopeStream)
+                $this->equalTo($eventStream)
             )
             ->will($this->returnValue($aggregateHistory));
 

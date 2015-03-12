@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\Aggregate\AggregateHistory;
+use SimpleES\EventSourcing\Event\DomainEvents;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Test\TestHelper;
 
@@ -14,7 +14,7 @@ use SimpleES\EventSourcing\Test\TestHelper;
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
+class DomainEventsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TestHelper
@@ -22,9 +22,9 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
     private $testHelper;
 
     /**
-     * @var AggregateHistory
+     * @var DomainEvents
      */
-    private $aggregateHistory;
+    private $domainEvents;
 
     public function setUp()
     {
@@ -32,12 +32,11 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
 
         $id = BasketId::fromString('some-id');
 
-        $this->aggregateHistory = new AggregateHistory(
-            $id,
+        $this->domainEvents = new DomainEvents(
             [
-                $this->testHelper->getAggregateHistoryEventOne($id),
-                $this->testHelper->getAggregateHistoryEventTwo($id),
-                $this->testHelper->getAggregateHistoryEventThree($id)
+                $this->testHelper->getDomainEventsEventOne($id),
+                $this->testHelper->getDomainEventsEventTwo($id),
+                $this->testHelper->getDomainEventsEventThree($id)
             ]
         );
     }
@@ -46,32 +45,17 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper->tearDown();
 
-        $this->testHelper       = null;
-        $this->aggregateHistory = null;
-    }
-
-    /**
-     * @test
-     */
-    public function itExposesAnAggregateId()
-    {
-        $id = BasketId::fromString('some-id');
-
-        $exposedId = $this->aggregateHistory->aggregateId();
-
-        $this->assertTrue($id->equals($exposedId));
+        $this->testHelper   = null;
+        $this->domainEvents = null;
     }
 
     /**
      * @test
      * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
      */
-    public function itContainsOnlyEvents()
+    public function itContainsOnlyDomainEvents()
     {
-        $id = BasketId::fromString('some-id');
-
-        new AggregateHistory(
-            $id,
+        new DomainEvents(
             [new \stdClass()]
         );
     }
@@ -82,10 +66,7 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itCannotBeEmpty()
     {
-        $id = BasketId::fromString('some-id');
-
-        new AggregateHistory(
-            $id,
+        new DomainEvents(
             []
         );
     }
@@ -97,7 +78,7 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
     {
         $iteratedOverEvents = 0;
 
-        foreach ($this->aggregateHistory as $event) {
+        foreach ($this->domainEvents as $event) {
             $this->assertInstanceOf('SimpleES\EventSourcing\Event\DomainEvent', $event);
             $iteratedOverEvents++;
         }
@@ -110,6 +91,6 @@ class AggregateHistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itCanBeCounted()
     {
-        $this->assertCount(3, $this->aggregateHistory);
+        $this->assertCount(3, $this->domainEvents);
     }
 }

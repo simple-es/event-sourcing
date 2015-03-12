@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Example\Event;
 
-use SimpleES\EventSourcing\Event\Event;
+use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Example\Product\ProductId;
 
@@ -14,7 +14,7 @@ use SimpleES\EventSourcing\Example\Product\ProductId;
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-final class ProductWasRemovedFromBasket implements Event
+final class ProductWasRemovedFromBasket implements DomainEvent
 {
     /**
      * @var BasketId

@@ -6,9 +6,8 @@
 
 namespace SimpleES\EventSourcing\Aggregate;
 
-use SimpleES\EventSourcing\Collection\AggregateHistory;
-use SimpleES\EventSourcing\Collection\EventStream;
-use SimpleES\EventSourcing\Event\Event;
+use SimpleES\EventSourcing\Event\DomainEvent;
+use SimpleES\EventSourcing\Event\DomainEvents;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -17,16 +16,16 @@ use SimpleES\EventSourcing\Event\Event;
 trait EventTrackingCapabilities
 {
     /**
-     * @var Event[]
+     * @var DomainEvent[]
      */
     private $recordedEvents = [];
 
     /**
-     * @return EventStream
+     * @return DomainEvents
      */
     public function recordedEvents()
     {
-        return new EventStream(
+        return new DomainEvents(
             $this->recordedEvents
         );
     }
@@ -52,16 +51,16 @@ trait EventTrackingCapabilities
      */
     private function replayHistory(AggregateHistory $aggregateHistory)
     {
-        /** @var Event $event */
+        /** @var DomainEvent $event */
         foreach ($aggregateHistory as $event) {
             $this->when($event);
         }
     }
 
     /**
-     * @param Event $event
+     * @param DomainEvent $event
      */
-    private function recordThat(Event $event)
+    private function recordThat(DomainEvent $event)
     {
         $this->recordedEvents[] = $event;
 
@@ -69,9 +68,9 @@ trait EventTrackingCapabilities
     }
 
     /**
-     * @param Event $event
+     * @param DomainEvent $event
      */
-    private function when(Event $event)
+    private function when(DomainEvent $event)
     {
         $method = get_class($event);
 

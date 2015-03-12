@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Examples;
 
-use SimpleES\EventSourcing\Collection\AggregateHistory;
+use SimpleES\EventSourcing\Aggregate\AggregateHistory;
 use SimpleES\EventSourcing\Example\Basket\Basket;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Example\Product\ProductId;
@@ -45,7 +45,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesAStreamOfRecordedEvents()
     {
-        $this->assertInstanceOf('SimpleES\EventSourcing\Collection\EventStream', $this->basket->recordedEvents());
+        $this->assertInstanceOf('SimpleES\EventSourcing\Event\DomainEvents', $this->basket->recordedEvents());
     }
 
     /**
@@ -61,9 +61,11 @@ class BasketTest extends \PHPUnit_Framework_TestCase
      */
     public function itHasABasketWasPickedUpEvent()
     {
+        $domainEvents = iterator_to_array($this->basket->recordedEvents());
+
         $this->assertInstanceOf(
             'SimpleES\EventSourcing\Example\Event\BasketWasPickedUp',
-            $this->basket->recordedEvents()[0]
+            $domainEvents[0]
         );
     }
 
@@ -72,9 +74,11 @@ class BasketTest extends \PHPUnit_Framework_TestCase
      */
     public function itHasAProductWasAddedToBasketEvent()
     {
+        $domainEvents = iterator_to_array($this->basket->recordedEvents());
+
         $this->assertInstanceOf(
             'SimpleES\EventSourcing\Example\Event\ProductWasAddedToBasket',
-            $this->basket->recordedEvents()[1]
+            $domainEvents[1]
         );
     }
 
@@ -83,9 +87,11 @@ class BasketTest extends \PHPUnit_Framework_TestCase
      */
     public function itHasAProductWasRemovedFromBasketEvent()
     {
+        $domainEvents = iterator_to_array($this->basket->recordedEvents());
+
         $this->assertInstanceOf(
             'SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket',
-            $this->basket->recordedEvents()[2]
+            $domainEvents[2]
         );
     }
 

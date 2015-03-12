@@ -6,12 +6,17 @@
 
 namespace SimpleES\EventSourcing\Event\Wrapper;
 
+use SimpleES\EventSourcing\Aggregate\AggregateHistory;
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
-use SimpleES\EventSourcing\Collection\AggregateHistory;
-use SimpleES\EventSourcing\Collection\EventEnvelopeStream;
-use SimpleES\EventSourcing\Collection\EventStream;
-use SimpleES\EventSourcing\Event\Event;
-use SimpleES\EventSourcing\Event\EventEnvelope;
+use SimpleES\EventSourcing\Event\DomainEvent;
+use SimpleES\EventSourcing\Event\DomainEvents;
+use SimpleES\EventSourcing\Event\Resolver\ResolvesEventNames;
+use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EventId;
+use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Metadata\Metadata;
+use SimpleES\EventSourcing\Timestamp\Timestamp;
+use SimpleES\EventSourcing\Uuid\GeneratesUuids;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -20,47 +25,75 @@ use SimpleES\EventSourcing\Event\EventEnvelope;
 final class EventWrapper implements WrapsEvents
 {
     /**
-     * @var array
+     * @var GeneratesUuids
      */
-    private $playheads;
+    private $uuidGenerator;
 
     /**
-     * {@inheritdoc}
+     * @var ResolvesEventNames
      */
-    public function wrap(IdentifiesAggregate $aggregateId, EventStream $eventStream)
+    private $eventNameResolver;
+
+    /**
+     * @var array
+     */
+    private $aggregateVersions;
+
+    /**
+     * @param GeneratesUuids     $uuidGenerator
+     * @param ResolvesEventNames $eventNameResolver
+     */
+    public function __construct(GeneratesUuids $uuidGenerator, ResolvesEventNames $eventNameResolver)
     {
-        $lookupKey = (string)$aggregateId;
-
-        if (!isset($this->playheads[$lookupKey])) {
-            $this->playheads[$lookupKey] = -1;
-        }
-
-        $envelopes = [];
-
-        /** @var Event $event */
-        foreach ($eventStream as $event) {
-            $playhead = ++$this->playheads[$lookupKey];
-
-            $envelopes[] = EventEnvelope::wrap($event, $playhead);
-        }
-
-        return new EventEnvelopeStream($envelopes);
+        $this->uuidGenerator     = $uuidGenerator;
+        $this->eventNameResolver = $eventNameResolver;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function unwrap(IdentifiesAggregate $aggregateId, EventEnvelopeStream $envelopeStream)
+    public function wrap(IdentifiesAggregate $aggregateId, DomainEvents $domainEvents)
+    {
+        $lookupKey = (string)$aggregateId;
+
+        if (!isset($this->aggregateVersions[$lookupKey])) {
+            $this->aggregateVersions[$lookupKey] = -1;
+        }
+
+        $envelopes = [];
+
+        /** @var DomainEvent $event */
+        foreach ($domainEvents as $event) {
+            $aggregateVersion = ++$this->aggregateVersions[$lookupKey];
+
+            $envelopes[] = new EventEnvelope(
+                EventId::fromString($this->uuidGenerator->generateUuid()),
+                $this->eventNameResolver->resolveEventName($event),
+                $event,
+                $aggregateId,
+                $aggregateVersion,
+                Timestamp::now(),
+                new Metadata([])
+            );
+        }
+
+        return new EventStream($aggregateId, $envelopes);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unwrap(IdentifiesAggregate $aggregateId, EventStream $envelopeStream)
     {
         $lookupKey = (string)$aggregateId;
 
         $events = [];
 
-        /** @var EventEnvelope $eventEnvelope */
-        foreach ($envelopeStream as $eventEnvelope) {
-            $this->playheads[$lookupKey] = $eventEnvelope->playhead();
+        /** @var EventEnvelope $envelope */
+        foreach ($envelopeStream as $envelope) {
+            $this->aggregateVersions[$lookupKey] = $envelope->aggregateVersion();
 
-            $events[] = $eventEnvelope->event();
+            $events[] = $envelope->event();
         }
 
         return new AggregateHistory($aggregateId, $events);

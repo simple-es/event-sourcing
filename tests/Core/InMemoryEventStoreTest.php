@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\EventStore\InMemoryEventStore;
+use SimpleES\EventSourcing\Event\Store\InMemoryEventStore;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Test\TestHelper;
 
@@ -30,21 +30,24 @@ class InMemoryEventStoreTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $idOne             = BasketId::fromString('id-1');
-        $envelopeStreamOne = $this->testHelper->getEnvelopeStream($idOne);
+        $idOne          = BasketId::fromString('id-1');
+        $eventStreamOne = $this->testHelper->getEventStream($idOne);
 
-        $idTwo             = BasketId::fromString('id-2');
-        $envelopeStreamTwo = $this->testHelper->getEnvelopeStream($idTwo);
+        $idTwo          = BasketId::fromString('id-2');
+        $eventStreamTwo = $this->testHelper->getEventStream($idTwo);
 
         $this->eventStore = new InMemoryEventStore();
 
-        $this->eventStore->commit($envelopeStreamOne);
-        $this->eventStore->commit($envelopeStreamTwo);
+        $this->eventStore->commit($eventStreamOne);
+        $this->eventStore->commit($eventStreamTwo);
     }
 
     public function tearDown()
     {
         $this->testHelper->tearDown();
+
+        $this->testHelper = null;
+        $this->eventStore = null;
     }
 
     /**
@@ -54,18 +57,19 @@ class InMemoryEventStoreTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('id-1');
 
-        $envelopeStream = $this->eventStore->get($id);
+        $eventStream = $this->eventStore->get($id);
+        $envelopes   = iterator_to_array($eventStream);
 
-        $this->assertInstanceOf('SimpleES\EventSourcing\Collection\EventEnvelopeStream', $envelopeStream);
-        $this->assertCount(3, $envelopeStream);
+        $this->assertInstanceOf('SimpleES\EventSourcing\Event\Stream\EventStream', $eventStream);
+        $this->assertCount(3, $eventStream);
 
-        $eventEnvelopeOne   = $this->testHelper->getEnvelopeStreamEnvelopeOne($id);
-        $eventEnvelopeTwo   = $this->testHelper->getEnvelopeStreamEnvelopeTwo($id);
-        $eventEnvelopeThree = $this->testHelper->getEnvelopeStreamEnvelopeThree($id);
+        $envelopeOne   = $this->testHelper->getEventStreamEnvelopeOne($id);
+        $envelopeTwo   = $this->testHelper->getEventStreamEnvelopeTwo($id);
+        $envelopeThree = $this->testHelper->getEventStreamEnvelopeThree($id);
 
-        $this->assertSame($eventEnvelopeOne, $envelopeStream[0]);
-        $this->assertSame($eventEnvelopeTwo, $envelopeStream[1]);
-        $this->assertSame($eventEnvelopeThree, $envelopeStream[2]);
+        $this->assertSame($envelopeOne, $envelopes[0]);
+        $this->assertSame($envelopeTwo, $envelopes[1]);
+        $this->assertSame($envelopeThree, $envelopes[2]);
     }
 
     /**

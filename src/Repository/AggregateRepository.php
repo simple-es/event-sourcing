@@ -9,8 +9,8 @@ namespace SimpleES\EventSourcing\Repository;
 use SimpleES\EventSourcing\Aggregate\Factory\ReconstitutesAggregates;
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
+use SimpleES\EventSourcing\Event\Store\StoresEvents;
 use SimpleES\EventSourcing\Event\Wrapper\WrapsEvents;
-use SimpleES\EventSourcing\EventStore\StoresEvents;
 use SimpleES\EventSourcing\IdentityMap\MapsIdentity;
 
 /**

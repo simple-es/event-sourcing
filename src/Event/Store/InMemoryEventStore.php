@@ -4,11 +4,11 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\EventStore;
+namespace SimpleES\EventSourcing\Event\Store;
 
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
-use SimpleES\EventSourcing\Collection\EventEnvelopeStream;
-use SimpleES\EventSourcing\Event\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\AggregateIdNotFound;
 
 /**
@@ -25,10 +25,10 @@ final class InMemoryEventStore implements StoresEvents
     /**
      * {@inheritdoc}
      */
-    public function commit(EventEnvelopeStream $envelopeStream)
+    public function commit(EventStream $eventStream)
     {
-        foreach ($envelopeStream as $eventEnvelope) {
-            $this->store[] = $eventEnvelope;
+        foreach ($eventStream as $envelope) {
+            $this->store[] = $envelope;
         }
     }
 
@@ -37,18 +37,18 @@ final class InMemoryEventStore implements StoresEvents
      */
     public function get(IdentifiesAggregate $aggregateId)
     {
-        $eventEnvelopes = [];
+        $envelopes = [];
 
-        foreach ($this->store as $eventEnvelope) {
-            if ($eventEnvelope->aggregateId()->equals($aggregateId)) {
-                $eventEnvelopes[] = $eventEnvelope;
+        foreach ($this->store as $envelope) {
+            if ($envelope->aggregateId()->equals($aggregateId)) {
+                $envelopes[] = $envelope;
             }
         }
 
-        if (!$eventEnvelopes) {
+        if (!$envelopes) {
             throw AggregateIdNotFound::create($aggregateId);
         }
 
-        return new EventEnvelopeStream($eventEnvelopes);
+        return new EventStream($aggregateId, $envelopes);
     }
 }

@@ -7,8 +7,7 @@
 namespace SimpleES\EventSourcing\Aggregate;
 
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
-use SimpleES\EventSourcing\Collection\AggregateHistory;
-use SimpleES\EventSourcing\Collection\EventStream;
+use SimpleES\EventSourcing\Event\DomainEvents;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -28,7 +27,7 @@ interface TracksEvents
     public function aggregateId();
 
     /**
-     * @return EventStream
+     * @return DomainEvents
      */
     public function recordedEvents();
 

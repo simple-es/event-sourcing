@@ -6,11 +6,14 @@
 
 namespace SimpleES\EventSourcing\Test;
 
+use SimpleES\EventSourcing\Aggregate\AggregateHistory;
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
-use SimpleES\EventSourcing\Collection\AggregateHistory;
-use SimpleES\EventSourcing\Collection\EventEnvelopeStream;
-use SimpleES\EventSourcing\Collection\EventStream;
-use SimpleES\EventSourcing\Event\EventEnvelope;
+use SimpleES\EventSourcing\Event\DomainEvents;
+use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EventId;
+use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Metadata\Metadata;
+use SimpleES\EventSourcing\Timestamp\Timestamp;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -23,23 +26,23 @@ class TestHelper
      */
     private $testCase;
 
-    private $eventStream;
-    private $eventStreamEventOne;
-    private $eventStreamEventTwo;
-    private $eventStreamEventThree;
+    private $domainEvents;
+    private $domainEventsEventOne;
+    private $domainEventsEventTwo;
+    private $domainEventsEventThree;
 
     private $aggregateHistory;
     private $aggregateHistoryEventOne;
     private $aggregateHistoryEventTwo;
     private $aggregateHistoryEventThree;
 
-    private $envelopeStream;
-    private $envelopeStreamEnvelopeOne;
-    private $envelopeStreamEnvelopeTwo;
-    private $envelopeStreamEnvelopeThree;
-    private $envelopeStreamEventOne;
-    private $envelopeStreamEventTwo;
-    private $envelopeStreamEventThree;
+    private $eventStream;
+    private $eventStreamEnvelopeOne;
+    private $eventStreamEnvelopeTwo;
+    private $eventStreamEnvelopeThree;
+    private $eventStreamEventOne;
+    private $eventStreamEventTwo;
+    private $eventStreamEventThree;
 
     /**
      * @param \PHPUnit_Framework_TestCase $testCase
@@ -51,89 +54,89 @@ class TestHelper
 
     public function tearDown()
     {
-        $this->eventStream           = null;
-        $this->eventStreamEventOne   = null;
-        $this->eventStreamEventTwo   = null;
-        $this->eventStreamEventThree = null;
+        $this->domainEvents           = null;
+        $this->domainEventsEventOne   = null;
+        $this->domainEventsEventTwo   = null;
+        $this->domainEventsEventThree = null;
 
         $this->aggregateHistory           = null;
         $this->aggregateHistoryEventOne   = null;
         $this->aggregateHistoryEventTwo   = null;
         $this->aggregateHistoryEventThree = null;
 
-        $this->envelopeStream              = null;
-        $this->envelopeStreamEnvelopeOne   = null;
-        $this->envelopeStreamEnvelopeTwo   = null;
-        $this->envelopeStreamEnvelopeThree = null;
-        $this->envelopeStreamEventOne      = null;
-        $this->envelopeStreamEventTwo      = null;
-        $this->envelopeStreamEventThree    = null;
+        $this->eventStream              = null;
+        $this->eventStreamEnvelopeOne   = null;
+        $this->eventStreamEnvelopeTwo   = null;
+        $this->eventStreamEnvelopeThree = null;
+        $this->eventStreamEventOne      = null;
+        $this->eventStreamEventTwo      = null;
+        $this->eventStreamEventThree    = null;
     }
 
     /**
      * @param IdentifiesAggregate $id
-     * @return EventStream
+     * @return DomainEvents
      */
-    public function getEventStream(IdentifiesAggregate $id)
+    public function getDomainEvents(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->eventStream[$key])) {
-            $this->eventStream[$key] = new EventStream(
+        if (!isset($this->domainEvents[$key])) {
+            $this->domainEvents[$key] = new DomainEvents(
                 [
-                    $this->getEventStreamEventOne($id),
-                    $this->getEventStreamEventTwo($id),
-                    $this->getEventStreamEventThree($id)
+                    $this->getDomainEventsEventOne($id),
+                    $this->getDomainEventsEventTwo($id),
+                    $this->getDomainEventsEventThree($id)
                 ]
             );
         }
 
-        return $this->eventStream[$key];
+        return $this->domainEvents[$key];
     }
 
     /**
      * @param IdentifiesAggregate $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getEventStreamEventOne(IdentifiesAggregate $id)
+    public function getDomainEventsEventOne(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->eventStreamEventOne[$key])) {
-            $this->eventStreamEventOne[$key] = $this->mockEvent($id);
+        if (!isset($this->domainEventsEventOne[$key])) {
+            $this->domainEventsEventOne[$key] = $this->mockEvent();
         }
 
-        return $this->eventStreamEventOne[$key];
+        return $this->domainEventsEventOne[$key];
     }
 
     /**
      * @param IdentifiesAggregate $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getEventStreamEventTwo(IdentifiesAggregate $id)
+    public function getDomainEventsEventTwo(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->eventStreamEventTwo[$key])) {
-            $this->eventStreamEventTwo[$key] = $this->mockEvent($id);
+        if (!isset($this->domainEventsEventTwo[$key])) {
+            $this->domainEventsEventTwo[$key] = $this->mockEvent();
         }
 
-        return $this->eventStreamEventTwo[$key];
+        return $this->domainEventsEventTwo[$key];
     }
 
     /**
      * @param IdentifiesAggregate $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getEventStreamEventThree(IdentifiesAggregate $id)
+    public function getDomainEventsEventThree(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->eventStreamEventThree[$key])) {
-            $this->eventStreamEventThree[$key] = $this->mockEvent($id);
+        if (!isset($this->domainEventsEventThree[$key])) {
+            $this->domainEventsEventThree[$key] = $this->mockEvent();
         }
 
-        return $this->eventStreamEventThree[$key];
+        return $this->domainEventsEventThree[$key];
     }
 
     /**
@@ -167,7 +170,7 @@ class TestHelper
         $key = (string)$id;
 
         if (!isset($this->aggregateHistoryEventOne[$key])) {
-            $this->aggregateHistoryEventOne[$key] = $this->mockEvent($id);
+            $this->aggregateHistoryEventOne[$key] = $this->mockEvent();
         }
 
         return $this->aggregateHistoryEventOne[$key];
@@ -182,7 +185,7 @@ class TestHelper
         $key = (string)$id;
 
         if (!isset($this->aggregateHistoryEventTwo[$key])) {
-            $this->aggregateHistoryEventTwo[$key] = $this->mockEvent($id);
+            $this->aggregateHistoryEventTwo[$key] = $this->mockEvent();
         }
 
         return $this->aggregateHistoryEventTwo[$key];
@@ -197,7 +200,7 @@ class TestHelper
         $key = (string)$id;
 
         if (!isset($this->aggregateHistoryEventThree[$key])) {
-            $this->aggregateHistoryEventThree[$key] = $this->mockEvent($id);
+            $this->aggregateHistoryEventThree[$key] = $this->mockEvent();
         }
 
         return $this->aggregateHistoryEventThree[$key];
@@ -205,137 +208,148 @@ class TestHelper
 
     /**
      * @param IdentifiesAggregate $id
-     * @return EventEnvelopeStream
+     * @return EventStream
      */
-    public function getEnvelopeStream(IdentifiesAggregate $id)
+    public function getEventStream(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->envelopeStream[$key])) {
-            $this->envelopeStream[$key] = new EventEnvelopeStream(
+        if (!isset($this->eventStream[$key])) {
+            $this->eventStream[$key] = new EventStream(
+                $id,
                 [
-                    $this->getEnvelopeStreamEnvelopeOne($id),
-                    $this->getEnvelopeStreamEnvelopeTwo($id),
-                    $this->getEnvelopeStreamEnvelopeThree($id)
+                    $this->getEventStreamEnvelopeOne($id),
+                    $this->getEventStreamEnvelopeTwo($id),
+                    $this->getEventStreamEnvelopeThree($id)
                 ]
             );
         }
 
-        return $this->envelopeStream[$key];
+        return $this->eventStream[$key];
     }
 
     /**
      * @param IdentifiesAggregate $id
      * @return EventEnvelope
      */
-    public function getEnvelopeStreamEnvelopeOne(IdentifiesAggregate $id)
+    public function getEventStreamEnvelopeOne(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->envelopeStreamEnvelopeOne[$key])) {
-            $this->envelopeStreamEnvelopeOne[$key] = EventEnvelope::wrap(
-                $this->getEnvelopeStreamEventOne($id),
-                0
+        if (!isset($this->eventStreamEnvelopeOne[$key])) {
+            $this->eventStreamEnvelopeOne[$key] = new EventEnvelope(
+                EventId::fromString('event-1'),
+                'event_1',
+                $this->getEventStreamEventOne($id),
+                $id,
+                2,
+                Timestamp::now(),
+                new Metadata([])
             );
         }
 
-        return $this->envelopeStreamEnvelopeOne[$key];
+        return $this->eventStreamEnvelopeOne[$key];
     }
 
     /**
      * @param IdentifiesAggregate $id
      * @return EventEnvelope
      */
-    public function getEnvelopeStreamEnvelopeTwo(IdentifiesAggregate $id)
+    public function getEventStreamEnvelopeTwo(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->envelopeStreamEnvelopeTwo[$key])) {
-            $this->envelopeStreamEnvelopeTwo[$key] = EventEnvelope::wrap(
-                $this->getEnvelopeStreamEventTwo($id),
-                1
+        if (!isset($this->eventStreamEnvelopeTwo[$key])) {
+            $this->eventStreamEnvelopeTwo[$key] = new EventEnvelope(
+                EventId::fromString('event-2'),
+                'event_2',
+                $this->getEventStreamEventTwo($id),
+                $id,
+                2,
+                Timestamp::now(),
+                new Metadata([])
             );
         }
 
-        return $this->envelopeStreamEnvelopeTwo[$key];
+        return $this->eventStreamEnvelopeTwo[$key];
     }
 
     /**
      * @param IdentifiesAggregate $id
      * @return EventEnvelope
      */
-    public function getEnvelopeStreamEnvelopeThree(IdentifiesAggregate $id)
+    public function getEventStreamEnvelopeThree(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->envelopeStreamEnvelopeThree[$key])) {
-            $this->envelopeStreamEnvelopeThree[$key] = EventEnvelope::wrap(
-                $this->getEnvelopeStreamEventThree($id),
-                2
+        if (!isset($this->eventStreamEnvelopeThree[$key])) {
+            $this->eventStreamEnvelopeThree[$key] = new EventEnvelope(
+                EventId::fromString('event-3'),
+                'event_3',
+                $this->getEventStreamEventThree($id),
+                $id,
+                2,
+                Timestamp::now(),
+                new Metadata([])
             );
         }
 
-        return $this->envelopeStreamEnvelopeThree[$key];
+        return $this->eventStreamEnvelopeThree[$key];
     }
 
     /**
      * @param IdentifiesAggregate $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getEnvelopeStreamEventOne(IdentifiesAggregate $id)
+    public function getEventStreamEventOne(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->envelopeStreamEventOne[$key])) {
-            $this->envelopeStreamEventOne[$key] = $this->mockEvent($id);
+        if (!isset($this->eventStreamEventOne[$key])) {
+            $this->eventStreamEventOne[$key] = $this->mockEvent();
         }
 
-        return $this->envelopeStreamEventOne[$key];
+        return $this->eventStreamEventOne[$key];
     }
 
     /**
      * @param IdentifiesAggregate $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getEnvelopeStreamEventTwo(IdentifiesAggregate $id)
+    public function getEventStreamEventTwo(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->envelopeStreamEventTwo[$key])) {
-            $this->envelopeStreamEventTwo[$key] = $this->mockEvent($id);
+        if (!isset($this->eventStreamEventTwo[$key])) {
+            $this->eventStreamEventTwo[$key] = $this->mockEvent();
         }
 
-        return $this->envelopeStreamEventTwo[$key];
+        return $this->eventStreamEventTwo[$key];
     }
 
     /**
      * @param IdentifiesAggregate $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getEnvelopeStreamEventThree(IdentifiesAggregate $id)
+    public function getEventStreamEventThree(IdentifiesAggregate $id)
     {
         $key = (string)$id;
 
-        if (!isset($this->envelopeStreamEventThree[$key])) {
-            $this->envelopeStreamEventThree[$key] = $this->mockEvent($id);
+        if (!isset($this->eventStreamEventThree[$key])) {
+            $this->eventStreamEventThree[$key] = $this->mockEvent();
         }
 
-        return $this->envelopeStreamEventThree[$key];
+        return $this->eventStreamEventThree[$key];
     }
 
     /**
-     * @param IdentifiesAggregate $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function mockEvent(IdentifiesAggregate $id)
+    public function mockEvent()
     {
-        $class = 'SimpleES\EventSourcing\Event\Event';
+        $class = 'SimpleES\EventSourcing\Event\DomainEvent';
 
         $event = $this->testCase->getMock($class);
-        $event
-            ->expects($this->testCase->any())
-            ->method('aggregateId')
-            ->will($this->testCase->returnValue($id));
 
         return $event;
     }
@@ -355,49 +369,5 @@ class TestHelper
             ->will($this->testCase->returnValue($id));
 
         return $aggregate;
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    public function mockEventStoreMiddlewareForCommit()
-    {
-        $class = 'SimpleES\EventSourcing\EventStore\Middleware\EventStoreMiddleware';
-
-        $middleware = $this->testCase->getMock($class);
-        $middleware
-            ->expects($this->testCase->once())
-            ->method('commit')
-            ->will(
-                $this->testCase->returnCallback(
-                    function (EventEnvelopeStream $envelopeStream, callable $next) {
-                        $next($envelopeStream);
-                    }
-                )
-            );
-
-        return $middleware;
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    public function mockEventStoreMiddlewareForGet()
-    {
-        $class = 'SimpleES\EventSourcing\EventStore\Middleware\EventStoreMiddleware';
-
-        $middleware = $this->testCase->getMock($class);
-        $middleware
-            ->expects($this->testCase->once())
-            ->method('get')
-            ->will(
-                $this->testCase->returnCallback(
-                    function (IdentifiesAggregate $aggregateId, callable $next) {
-                        return $next($aggregateId);
-                    }
-                )
-            );
-
-        return $middleware;
     }
 }

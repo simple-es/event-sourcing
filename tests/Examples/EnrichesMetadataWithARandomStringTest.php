@@ -37,7 +37,7 @@ class EnrichesMetadataWithARandomStringTest extends \PHPUnit_Framework_TestCase
     public function itEnrichesMetadataWithARondomString()
     {
         $id       = BasketId::fromString('some-id');
-        $envelope = $this->testHelper->getEnvelopeStreamEnvelopeOne($id);
+        $envelope = $this->testHelper->getEventStreamEnvelopeOne($id);
 
         $enricher = new EnrichesMetadataWithARandomString();
 

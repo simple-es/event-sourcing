@@ -4,12 +4,12 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\EventStore\Decorator;
+namespace SimpleES\EventSourcing\Event\Store\Decorator;
 
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
-use SimpleES\EventSourcing\Collection\EventEnvelopeStream;
-use SimpleES\EventSourcing\Event\EventEnvelope;
-use SimpleES\EventSourcing\EventStore\StoresEvents;
+use SimpleES\EventSourcing\Event\Store\StoresEvents;
+use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
 use SimpleES\EventSourcing\Metadata\EnrichesMetadata;
@@ -50,21 +50,21 @@ class MetadataEnrichingDecorator implements StoresEvents
     /**
      * {@inheritdoc}
      */
-    public function commit(EventEnvelopeStream $envelopeStream)
+    public function commit(EventStream $eventStream)
     {
-        $enrichedEventEnvelopes = [];
+        $enrichedEnvelopes = [];
 
-        /** @var EventEnvelope $eventEnvelope */
-        foreach ($envelopeStream as $eventEnvelope) {
+        /** @var EventEnvelope $envelope */
+        foreach ($eventStream as $envelope) {
             /** @var EnrichesMetadata $metadataEnricher */
             foreach ($this->metadataEnrichers as $metadataEnricher) {
-                $eventEnvelope = $metadataEnricher->enrich($eventEnvelope);
+                $envelope = $metadataEnricher->enrich($envelope);
             }
 
-            $enrichedEventEnvelopes[] = $eventEnvelope;
+            $enrichedEnvelopes[] = $envelope;
         }
 
-        $this->next->commit(new EventEnvelopeStream($enrichedEventEnvelopes));
+        $this->next->commit(new EventStream($eventStream->aggregateId(), $enrichedEnvelopes));
     }
 
     /**

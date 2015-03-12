@@ -6,7 +6,6 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\IdentityMap\IdentityMap;
 use SimpleES\EventSourcing\Test\TestHelper;
@@ -28,11 +27,6 @@ class IdentityMapTest extends \PHPUnit_Framework_TestCase
     private $identityMap;
 
     /**
-     * @var IdentifiesAggregate
-     */
-    private $id;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $aggregate;
@@ -41,8 +35,9 @@ class IdentityMapTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->id        = BasketId::fromString('some-id');
-        $this->aggregate = $this->testHelper->mockAggregate($this->id);
+        $id = BasketId::fromString('some-id');
+
+        $this->aggregate = $this->testHelper->mockAggregate($id);
 
         $this->identityMap = new IdentityMap();
 
@@ -52,6 +47,9 @@ class IdentityMapTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->testHelper->tearDown();
+
+        $this->testHelper  = null;
+        $this->identityMap = null;
     }
 
     /**
@@ -59,7 +57,9 @@ class IdentityMapTest extends \PHPUnit_Framework_TestCase
      */
     public function itHoldsAnAggregate()
     {
-        $retrievedAggregate = $this->identityMap->get($this->id);
+        $id = BasketId::fromString('some-id');
+
+        $retrievedAggregate = $this->identityMap->get($id);
 
         $this->assertSame($this->aggregate, $retrievedAggregate);
     }
@@ -69,7 +69,9 @@ class IdentityMapTest extends \PHPUnit_Framework_TestCase
      */
     public function itKnowsItHoldsAnAggregate()
     {
-        $hasAggregate = $this->identityMap->contains($this->id);
+        $id = BasketId::fromString('some-id');
+
+        $hasAggregate = $this->identityMap->contains($id);
 
         $this->assertTrue($hasAggregate);
     }
@@ -101,8 +103,10 @@ class IdentityMapTest extends \PHPUnit_Framework_TestCase
      */
     public function itCanBeCleared()
     {
+        $id = BasketId::fromString('some-id');
+
         $this->identityMap->clear();
 
-        $this->identityMap->get($this->id);
+        $this->identityMap->get($id);
     }
 }

@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\Collection\EventStream;
+use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Test\TestHelper;
 
@@ -33,10 +33,11 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
         $id = BasketId::fromString('some-id');
 
         $this->eventStream = new EventStream(
+            $id,
             [
-                $this->testHelper->getEventStreamEventOne($id),
-                $this->testHelper->getEventStreamEventTwo($id),
-                $this->testHelper->getEventStreamEventThree($id)
+                $this->testHelper->getEventStreamEnvelopeOne($id),
+                $this->testHelper->getEventStreamEnvelopeTwo($id),
+                $this->testHelper->getEventStreamEnvelopeThree($id)
             ]
         );
     }
@@ -44,16 +45,37 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->testHelper->tearDown();
+
+        $this->testHelper  = null;
+        $this->eventStream = null;
     }
 
     /**
      * @test
      * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
      */
-    public function itContainsOnlyEventEnvelopes()
+    public function itContainsOnlyEnvelopes()
     {
+        $id = BasketId::fromString('some-id');
+
         new EventStream(
+            $id,
             [new \stdClass()]
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \SimpleES\EventSourcing\Exception\EventStreamIsCorrupt
+     */
+    public function itContainsOnlyEnvelopesWithTheSameAggregateIdAsItself()
+    {
+        $id      = BasketId::fromString('some-id');
+        $otherId = BasketId::fromString('other-id');
+
+        new EventStream(
+            $id,
+            [$this->testHelper->getEventStreamEnvelopeOne($otherId)]
         );
     }
 
@@ -63,7 +85,10 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function itCannotBeEmpty()
     {
+        $id = BasketId::fromString('some-id');
+
         new EventStream(
+            $id,
             []
         );
     }
@@ -71,52 +96,16 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itExposesWhetherAKeyExistsOrNot()
+    public function itCanBeIteratedOver()
     {
-        $this->assertTrue(isset($this->eventStream[0]));
-        $this->assertTrue(isset($this->eventStream[1]));
-        $this->assertTrue(isset($this->eventStream[2]));
+        $iteratedOverEnvelopes = 0;
 
-        $this->assertFalse(isset($this->eventStream[3]));
-    }
+        foreach ($this->eventStream as $envelope) {
+            $this->assertInstanceOf('SimpleES\EventSourcing\Event\Stream\EventEnvelope', $envelope);
+            $iteratedOverEnvelopes++;
+        }
 
-    /**
-     * @test
-     */
-    public function itExposesItemsByKey()
-    {
-        $id = BasketId::fromString('some-id');
-
-        $eventOne   = $this->testHelper->getEventStreamEventOne($id);
-        $eventTwo   = $this->testHelper->getEventStreamEventTwo($id);
-        $eventThree = $this->testHelper->getEventStreamEventThree($id);
-
-        $this->assertSame($eventOne, $this->eventStream[0]);
-        $this->assertSame($eventTwo, $this->eventStream[1]);
-        $this->assertSame($eventThree, $this->eventStream[2]);
-
-        $this->assertNull($this->eventStream[3]);
-    }
-
-    /**
-     * @test
-     * @expectedException \SimpleES\EventSourcing\Exception\ObjectIsImmutable
-     */
-    public function itemsCannotBeReplaced()
-    {
-        $id    = BasketId::fromString('some-id');
-        $event = $this->testHelper->getEventStreamEventOne($id);
-
-        $this->eventStream[0] = $event;
-    }
-
-    /**
-     * @test
-     * @expectedException \SimpleES\EventSourcing\Exception\ObjectIsImmutable
-     */
-    public function itemsCannotBeRemoved()
-    {
-        unset($this->eventStream[0]);
+        $this->assertSame(3, $iteratedOverEnvelopes);
     }
 
     /**
@@ -125,25 +114,5 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
     public function itCanBeCounted()
     {
         $this->assertCount(3, $this->eventStream);
-    }
-
-    /**
-     * @test
-     */
-    public function itCanBeIteratedOver()
-    {
-        foreach ($this->eventStream as $event) {
-            $this->assertInstanceOf('SimpleES\EventSourcing\Event\Event', $event);
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function itCanBeIterateOverWithIndexes()
-    {
-        foreach ($this->eventStream as $index => $event) {
-            $this->assertInternalType('int', $index);
-        }
     }
 }

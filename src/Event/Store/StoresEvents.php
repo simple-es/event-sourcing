@@ -4,10 +4,10 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\EventStore;
+namespace SimpleES\EventSourcing\Event\Store;
 
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
-use SimpleES\EventSourcing\Collection\EventEnvelopeStream;
+use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\AggregateIdNotFound;
 
 /**
@@ -17,14 +17,14 @@ use SimpleES\EventSourcing\Exception\AggregateIdNotFound;
 interface StoresEvents
 {
     /**
-     * @param EventEnvelopeStream $envelopeStream
+     * @param EventStream $eventStream
      * @return void
      */
-    public function commit(EventEnvelopeStream $envelopeStream);
+    public function commit(EventStream $eventStream);
 
     /**
      * @param IdentifiesAggregate $aggregateId
-     * @return EventEnvelopeStream
+     * @return EventStream
      * @throws AggregateIdNotFound
      */
     public function get(IdentifiesAggregate $aggregateId);

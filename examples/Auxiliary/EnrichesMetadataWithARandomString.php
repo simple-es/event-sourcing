@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Example\Auxiliary;
 
-use SimpleES\EventSourcing\Event\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Metadata\EnrichesMetadata;
 use SimpleES\EventSourcing\Metadata\Metadata;
 
@@ -17,14 +17,14 @@ use SimpleES\EventSourcing\Metadata\Metadata;
 final class EnrichesMetadataWithARandomString implements EnrichesMetadata
 {
     /**
-     * @param EventEnvelope $eventEnvelope
+     * @param EventEnvelope $envelope
      * @return EventEnvelope
      */
-    public function enrich(EventEnvelope $eventEnvelope)
+    public function enrich(EventEnvelope $envelope)
     {
         $randomString = base64_encode(openssl_random_pseudo_bytes(48));
 
-        return $eventEnvelope->enrichMetadata(
+        return $envelope->enrichMetadata(
             new Metadata(['random_string' => $randomString])
         );
     }

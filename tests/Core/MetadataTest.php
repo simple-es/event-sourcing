@@ -30,6 +30,11 @@ class MetadataTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function tearDown()
+    {
+        $this->metadata = null;
+    }
+
     /**
      * @test
      */
