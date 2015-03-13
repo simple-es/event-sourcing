@@ -13,7 +13,7 @@ use SimpleES\EventSourcing\Exception\ItemIsNotMapped;
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-class MappingEventNameResolver implements ResolvesEventNames
+final class MappingEventNameResolver implements ResolvesEventNames
 {
     /**
      * @var array

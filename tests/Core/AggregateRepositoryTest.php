@@ -51,7 +51,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->identityMap = $this->getMock('SimpleES\EventSourcing\IdentityMap\IdentityMap');
+        $this->identityMap = $this->getMock('SimpleES\EventSourcing\IdentityMap\MapsIdentity');
 
         $this->eventWrapper = $this->getMock('SimpleES\EventSourcing\Event\Wrapper\WrapsEvents');
 
