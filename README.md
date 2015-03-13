@@ -8,9 +8,15 @@ Authored by [Jasper N. Brouwer][jaspernbrouwer].
 
 Under the collective flag of [Future500 B.V.][f500]
 
-## Work in progress
+## Installation
 
-This library is still in its development stage, more will follow soon...
+```txt
+composer.phar require simple-es/event-sourcing ~1.0@dev
+```
+
+## Usage
+
+Documentation will follow soon...
 
 ## License
 
