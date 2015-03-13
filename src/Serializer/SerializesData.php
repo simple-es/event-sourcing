@@ -10,7 +10,7 @@ namespace SimpleES\EventSourcing\Serializer;
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-interface SerializesObjects
+interface SerializesData
 {
     /**
      * @param mixed $data
@@ -20,7 +20,8 @@ interface SerializesObjects
 
     /**
      * @param string $data
+     * @param string $type
      * @return mixed
      */
-    public function deserialize($data);
+    public function deserialize($data, $type);
 }
