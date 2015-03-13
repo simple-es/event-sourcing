@@ -4,16 +4,16 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\Uuid;
+namespace SimpleES\EventSourcing\Generator;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-interface GeneratesUuids
+interface GeneratesIdentifiers
 {
     /**
      * @return string
      */
-    public function generateUuid();
+    public function generateIdentifier();
 }

@@ -14,9 +14,9 @@ use SimpleES\EventSourcing\Event\Resolver\ResolvesEventNames;
 use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Generator\GeneratesIdentifiers;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Timestamp\Timestamp;
-use SimpleES\EventSourcing\Uuid\GeneratesUuids;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -25,9 +25,9 @@ use SimpleES\EventSourcing\Uuid\GeneratesUuids;
 final class EventWrapper implements WrapsEvents
 {
     /**
-     * @var GeneratesUuids
+     * @var GeneratesIdentifiers
      */
-    private $uuidGenerator;
+    private $identifierGenerator;
 
     /**
      * @var ResolvesEventNames
@@ -40,13 +40,13 @@ final class EventWrapper implements WrapsEvents
     private $aggregateVersions;
 
     /**
-     * @param GeneratesUuids     $uuidGenerator
-     * @param ResolvesEventNames $eventNameResolver
+     * @param GeneratesIdentifiers $identifierGenerator
+     * @param ResolvesEventNames   $eventNameResolver
      */
-    public function __construct(GeneratesUuids $uuidGenerator, ResolvesEventNames $eventNameResolver)
+    public function __construct(GeneratesIdentifiers $identifierGenerator, ResolvesEventNames $eventNameResolver)
     {
-        $this->uuidGenerator     = $uuidGenerator;
-        $this->eventNameResolver = $eventNameResolver;
+        $this->identifierGenerator = $identifierGenerator;
+        $this->eventNameResolver   = $eventNameResolver;
     }
 
     /**
@@ -67,7 +67,7 @@ final class EventWrapper implements WrapsEvents
             $aggregateVersion = ++$this->aggregateVersions[$lookupKey];
 
             $envelopes[] = new EventEnvelope(
-                EventId::fromString($this->uuidGenerator->generateUuid()),
+                EventId::fromString($this->identifierGenerator->generateIdentifier()),
                 $this->eventNameResolver->resolveEventName($event),
                 $event,
                 $aggregateId,

@@ -30,7 +30,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $uuidGenerator;
+    private $identifierGenerator;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -41,21 +41,21 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->uuidGenerator = $this->getMock('SimpleES\EventSourcing\Uuid\GeneratesUuids');
+        $this->identifierGenerator = $this->getMock('SimpleES\EventSourcing\Generator\GeneratesIdentifiers');
 
         $this->eventNameResolver = $this->getMock('SimpleES\EventSourcing\Event\Resolver\ResolvesEventNames');
 
-        $this->eventWrapper = new EventWrapper($this->uuidGenerator, $this->eventNameResolver);
+        $this->eventWrapper = new EventWrapper($this->identifierGenerator, $this->eventNameResolver);
     }
 
     public function tearDown()
     {
         $this->testHelper->tearDown();
 
-        $this->testHelper        = null;
-        $this->eventWrapper      = null;
-        $this->uuidGenerator     = null;
-        $this->eventNameResolver = null;
+        $this->testHelper          = null;
+        $this->eventWrapper        = null;
+        $this->identifierGenerator = null;
+        $this->eventNameResolver   = null;
     }
 
     /**
@@ -66,9 +66,9 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
         $id           = BasketId::fromString('some-id');
         $domainEvents = $this->testHelper->getDomainEvents($id);
 
-        $this->uuidGenerator
+        $this->identifierGenerator
             ->expects($this->exactly(3))
-            ->method('generateUuid');
+            ->method('generateIdentifier');
 
         $this->eventNameResolver
             ->expects($this->exactly(3))
