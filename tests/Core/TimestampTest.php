@@ -51,7 +51,7 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
     {
         $timestamp = Timestamp::fromString('2014-12-23T17:30:00.000000+0000');
 
-        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string)$timestamp);
+        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string) $timestamp);
     }
 
     /**
@@ -86,7 +86,7 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
 
         $timestamp = $timestamp->add(new \DateInterval('P1DT1H'));
 
-        $this->assertSame('2014-12-24T18:30:00.000000+0000', (string)$timestamp);
+        $this->assertSame('2014-12-24T18:30:00.000000+0000', (string) $timestamp);
     }
 
     /**
@@ -98,7 +98,7 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
 
         $timestamp = $timestamp->sub(new \DateInterval('P1DT1H'));
 
-        $this->assertSame('2014-12-22T16:30:00.000000+0000', (string)$timestamp);
+        $this->assertSame('2014-12-22T16:30:00.000000+0000', (string) $timestamp);
     }
 
     /**
@@ -147,7 +147,7 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
 
         $datetime->add(new \DateInterval('P1D'));
 
-        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string)$timestamp);
+        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string) $timestamp);
     }
 
     /**
@@ -160,7 +160,7 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
         $datetime = $timestamp->toDateTime();
         $datetime->add(new \DateInterval('P1D'));
 
-        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string)$timestamp);
+        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string) $timestamp);
     }
 
     /**
@@ -172,7 +172,7 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
 
         $timestamp->add(new \DateInterval('P1DT1H'));
 
-        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string)$timestamp);
+        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string) $timestamp);
     }
 
     /**
@@ -184,6 +184,6 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
 
         $timestamp->add(new \DateInterval('P1DT1H'));
 
-        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string)$timestamp);
+        $this->assertSame('2014-12-23T17:30:00.000000+0000', (string) $timestamp);
     }
 }

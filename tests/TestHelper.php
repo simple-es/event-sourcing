@@ -79,7 +79,7 @@ class TestHelper
      */
     public function getDomainEvents(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->domainEvents[$key])) {
             $this->domainEvents[$key] = new DomainEvents(
@@ -100,7 +100,7 @@ class TestHelper
      */
     public function getDomainEventsEventOne(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->domainEventsEventOne[$key])) {
             $this->domainEventsEventOne[$key] = $this->mockEvent();
@@ -115,7 +115,7 @@ class TestHelper
      */
     public function getDomainEventsEventTwo(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->domainEventsEventTwo[$key])) {
             $this->domainEventsEventTwo[$key] = $this->mockEvent();
@@ -130,7 +130,7 @@ class TestHelper
      */
     public function getDomainEventsEventThree(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->domainEventsEventThree[$key])) {
             $this->domainEventsEventThree[$key] = $this->mockEvent();
@@ -145,7 +145,7 @@ class TestHelper
      */
     public function getAggregateHistory(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->aggregateHistory[$key])) {
             $this->aggregateHistory[$key] = new AggregateHistory(
@@ -167,7 +167,7 @@ class TestHelper
      */
     public function getAggregateHistoryEventOne(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->aggregateHistoryEventOne[$key])) {
             $this->aggregateHistoryEventOne[$key] = $this->mockEvent();
@@ -182,7 +182,7 @@ class TestHelper
      */
     public function getAggregateHistoryEventTwo(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->aggregateHistoryEventTwo[$key])) {
             $this->aggregateHistoryEventTwo[$key] = $this->mockEvent();
@@ -197,7 +197,7 @@ class TestHelper
      */
     public function getAggregateHistoryEventThree(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->aggregateHistoryEventThree[$key])) {
             $this->aggregateHistoryEventThree[$key] = $this->mockEvent();
@@ -212,7 +212,7 @@ class TestHelper
      */
     public function getEventStream(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->eventStream[$key])) {
             $this->eventStream[$key] = new EventStream(
@@ -234,7 +234,7 @@ class TestHelper
      */
     public function getEventStreamEnvelopeOne(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->eventStreamEnvelopeOne[$key])) {
             $this->eventStreamEnvelopeOne[$key] = new EventEnvelope(
@@ -257,7 +257,7 @@ class TestHelper
      */
     public function getEventStreamEnvelopeTwo(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->eventStreamEnvelopeTwo[$key])) {
             $this->eventStreamEnvelopeTwo[$key] = new EventEnvelope(
@@ -280,7 +280,7 @@ class TestHelper
      */
     public function getEventStreamEnvelopeThree(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->eventStreamEnvelopeThree[$key])) {
             $this->eventStreamEnvelopeThree[$key] = new EventEnvelope(
@@ -303,7 +303,7 @@ class TestHelper
      */
     public function getEventStreamEventOne(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->eventStreamEventOne[$key])) {
             $this->eventStreamEventOne[$key] = $this->mockEvent();
@@ -318,7 +318,7 @@ class TestHelper
      */
     public function getEventStreamEventTwo(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->eventStreamEventTwo[$key])) {
             $this->eventStreamEventTwo[$key] = $this->mockEvent();
@@ -333,7 +333,7 @@ class TestHelper
      */
     public function getEventStreamEventThree(IdentifiesAggregate $id)
     {
-        $key = (string)$id;
+        $key = (string) $id;
 
         if (!isset($this->eventStreamEventThree[$key])) {
             $this->eventStreamEventThree[$key] = $this->mockEvent();

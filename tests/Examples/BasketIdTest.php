@@ -30,7 +30,7 @@ class BasketIdTest extends \PHPUnit_Framework_TestCase
      */
     public function itConvertsToAString()
     {
-        $this->assertSame('basket-1', (string)$this->basketId);
+        $this->assertSame('basket-1', (string) $this->basketId);
     }
 
     /**

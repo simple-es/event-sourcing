@@ -24,7 +24,7 @@ final class DuplicateAggregateFound extends \UnexpectedValueException implements
             sprintf(
                 'Duplicate aggregate with id %s(%s) found',
                 get_class($aggregateId),
-                (string)$aggregateId
+                (string) $aggregateId
             )
         );
     }

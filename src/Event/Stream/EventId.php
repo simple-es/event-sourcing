@@ -48,6 +48,6 @@ final class EventId
      */
     private function __construct($id)
     {
-        $this->id = (string)$id;
+        $this->id = (string) $id;
     }
 }

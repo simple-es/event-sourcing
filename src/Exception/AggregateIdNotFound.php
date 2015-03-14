@@ -24,7 +24,7 @@ final class AggregateIdNotFound extends \RuntimeException implements Exception
             sprintf(
                 'Aggregate id %s(%s) not found',
                 get_class($aggregateId),
-                (string)$aggregateId
+                (string) $aggregateId
             )
         );
     }

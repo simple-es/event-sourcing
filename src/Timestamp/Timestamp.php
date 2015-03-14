@@ -90,7 +90,7 @@ final class Timestamp
      */
     public function equals(Timestamp $other)
     {
-        return ((string)$this === (string)$other);
+        return ((string) $this === (string) $other);
     }
 
     /**

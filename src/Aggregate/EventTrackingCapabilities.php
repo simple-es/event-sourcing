@@ -35,7 +35,7 @@ trait EventTrackingCapabilities
      */
     public function hasRecordedEvents()
     {
-        return (bool)$this->recordedEvents;
+        return (bool) $this->recordedEvents;
     }
 
     /**
