@@ -6,8 +6,8 @@
 
 namespace SimpleES\EventSourcing\Test;
 
-use SimpleES\EventSourcing\Aggregate\AggregateHistory;
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
+use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvents;
 use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Event\Stream\EventId;

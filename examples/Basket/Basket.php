@@ -6,9 +6,9 @@
 
 namespace SimpleES\EventSourcing\Example\Basket;
 
-use SimpleES\EventSourcing\Aggregate\AggregateHistory;
 use SimpleES\EventSourcing\Aggregate\EventTrackingCapabilities;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
+use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Example\Event\BasketWasPickedUp;
 use SimpleES\EventSourcing\Example\Event\ProductWasAddedToBasket;
 use SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket;

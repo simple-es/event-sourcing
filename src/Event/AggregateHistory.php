@@ -4,10 +4,9 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\Aggregate;
+namespace SimpleES\EventSourcing\Event;
 
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
-use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
 

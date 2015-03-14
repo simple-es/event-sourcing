@@ -6,8 +6,8 @@
 
 namespace SimpleES\EventSourcing\Aggregate\Factory;
 
-use SimpleES\EventSourcing\Aggregate\AggregateHistory;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
+use SimpleES\EventSourcing\Event\AggregateHistory;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.

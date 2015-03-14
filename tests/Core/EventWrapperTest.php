@@ -91,7 +91,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
 
         $aggregateHistory = $this->eventWrapper->unwrap($id, $envelopeStream);
 
-        $this->assertInstanceOf('SimpleES\EventSourcing\Aggregate\AggregateHistory', $aggregateHistory);
+        $this->assertInstanceOf('SimpleES\EventSourcing\Event\AggregateHistory', $aggregateHistory);
         $this->assertCount(3, $aggregateHistory);
     }
 

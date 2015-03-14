@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Examples;
 
-use SimpleES\EventSourcing\Aggregate\AggregateHistory;
+use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Example\Basket\Basket;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Example\Product\ProductId;

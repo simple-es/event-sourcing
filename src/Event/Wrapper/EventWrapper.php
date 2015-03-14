@@ -6,8 +6,8 @@
 
 namespace SimpleES\EventSourcing\Event\Wrapper;
 
-use SimpleES\EventSourcing\Aggregate\AggregateHistory;
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
+use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Event\DomainEvents;
 use SimpleES\EventSourcing\Event\Resolver\ResolvesEventNames;

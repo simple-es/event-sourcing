@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Aggregate\Factory;
 
-use SimpleES\EventSourcing\Aggregate\AggregateHistory;
+use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Exception\IdNotMappedToAggregate;
 use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
 

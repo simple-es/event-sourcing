@@ -7,6 +7,7 @@
 namespace SimpleES\EventSourcing\Aggregate;
 
 use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
+use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvents;
 
 /**
