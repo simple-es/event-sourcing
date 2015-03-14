@@ -98,11 +98,11 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
 
         $this->nextEventStore
             ->expects($this->once())
-            ->method('get')
+            ->method('read')
             ->with($this->equalTo($id))
             ->will($this->returnValue($eventStream));
 
-        $returnedEnvelopeStream = $this->eventStore->get($id);
+        $returnedEnvelopeStream = $this->eventStore->read($id);
 
         $this->assertSame($eventStream, $returnedEnvelopeStream);
     }

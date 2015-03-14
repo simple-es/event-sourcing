@@ -57,7 +57,7 @@ class InMemoryEventStoreTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('id-1');
 
-        $eventStream = $this->eventStore->get($id);
+        $eventStream = $this->eventStore->read($id);
         $envelopes   = iterator_to_array($eventStream);
 
         $this->assertInstanceOf('SimpleES\EventSourcing\Event\Stream\EventStream', $eventStream);
@@ -80,6 +80,6 @@ class InMemoryEventStoreTest extends \PHPUnit_Framework_TestCase
     {
         $id = BasketId::fromString('id-3');
 
-        $this->eventStore->get($id);
+        $this->eventStore->read($id);
     }
 }

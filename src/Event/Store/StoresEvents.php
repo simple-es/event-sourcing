@@ -27,5 +27,5 @@ interface StoresEvents
      * @return EventStream
      * @throws AggregateIdNotFound
      */
-    public function get(IdentifiesAggregate $aggregateId);
+    public function read(IdentifiesAggregate $aggregateId);
 }

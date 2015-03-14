@@ -70,9 +70,9 @@ final class MetadataEnrichingDecorator implements StoresEvents
     /**
      * {@inheritdoc}
      */
-    public function get(IdentifiesAggregate $aggregateId)
+    public function read(IdentifiesAggregate $aggregateId)
     {
-        return $this->next->get($aggregateId);
+        return $this->next->read($aggregateId);
     }
 
     /**

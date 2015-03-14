@@ -35,7 +35,7 @@ final class InMemoryEventStore implements StoresEvents
     /**
      * {@inheritdoc}
      */
-    public function get(IdentifiesAggregate $aggregateId)
+    public function read(IdentifiesAggregate $aggregateId)
     {
         $envelopes = [];
 

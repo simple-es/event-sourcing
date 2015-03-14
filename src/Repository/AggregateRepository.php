@@ -60,7 +60,7 @@ final class AggregateRepository implements Repository
     /**
      * {@inheritdoc}
      */
-    public function add(TracksEvents $aggregate)
+    public function save(TracksEvents $aggregate)
     {
         $this->identityMap->add($aggregate);
 
@@ -75,13 +75,13 @@ final class AggregateRepository implements Repository
     /**
      * {@inheritdoc}
      */
-    public function find(IdentifiesAggregate $aggregateId)
+    public function fetch(IdentifiesAggregate $aggregateId)
     {
         if ($this->identityMap->contains($aggregateId)) {
             return $this->identityMap->get($aggregateId);
         }
 
-        $envelopeStream = $this->eventStore->get($aggregateId);
+        $envelopeStream = $this->eventStore->read($aggregateId);
         $history        = $this->eventWrapper->unwrap($aggregateId, $envelopeStream);
 
         $aggregate = $this->aggregateFactory->reconstituteFromHistory($history);

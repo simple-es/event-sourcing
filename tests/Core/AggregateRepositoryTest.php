@@ -116,7 +116,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('commit')
             ->with($this->equalTo($eventStream));
 
-        $this->repository->add($aggregate);
+        $this->repository->save($aggregate);
     }
 
     /**
@@ -139,7 +139,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->eventStore
             ->expects($this->once())
-            ->method('get')
+            ->method('read')
             ->with($this->equalTo($id))
             ->will($this->returnValue($eventStream));
 
@@ -158,7 +158,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($aggregateHistory))
             ->will($this->returnValue($aggregate));
 
-        $foundAggregate = $this->repository->find($id);
+        $foundAggregate = $this->repository->fetch($id);
 
         $this->assertSame($aggregate, $foundAggregate);
     }
@@ -213,9 +213,9 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('commit')
             ->with($this->equalTo($eventStream));
 
-        $this->repository->add($aggregate);
+        $this->repository->save($aggregate);
 
-        $foundAggregate = $this->repository->find($id);
+        $foundAggregate = $this->repository->fetch($id);
 
         $this->assertSame($aggregate, $foundAggregate);
     }
@@ -251,7 +251,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->eventStore
             ->expects($this->once())
-            ->method('get')
+            ->method('read')
             ->with($this->equalTo($id))
             ->will($this->returnValue($eventStream));
 
@@ -270,9 +270,9 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($aggregateHistory))
             ->will($this->returnValue($aggregate));
 
-        $this->repository->find($id);
+        $this->repository->fetch($id);
 
-        $foundAggregate = $this->repository->find($id);
+        $foundAggregate = $this->repository->fetch($id);
 
         $this->assertSame($aggregate, $foundAggregate);
     }
