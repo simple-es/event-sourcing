@@ -6,9 +6,9 @@
 
 namespace SimpleES\EventSourcing\Aggregate;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvents;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -23,7 +23,7 @@ interface TracksEvents
     public static function fromHistory(AggregateHistory $aggregateHistory);
 
     /**
-     * @return IdentifiesAggregate
+     * @return Identifies
      */
     public function aggregateId();
 

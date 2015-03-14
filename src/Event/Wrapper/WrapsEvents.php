@@ -6,10 +6,10 @@
 
 namespace SimpleES\EventSourcing\Event\Wrapper;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvents;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -18,16 +18,16 @@ use SimpleES\EventSourcing\Event\Stream\EventStream;
 interface WrapsEvents
 {
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @param DomainEvents        $domainEvents
+     * @param Identifies   $aggregateId
+     * @param DomainEvents $domainEvents
      * @return EventStream
      */
-    public function wrap(IdentifiesAggregate $aggregateId, DomainEvents $domainEvents);
+    public function wrap(Identifies $aggregateId, DomainEvents $domainEvents);
 
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @param EventStream         $envelopeStream
+     * @param Identifies  $aggregateId
+     * @param EventStream $envelopeStream
      * @return AggregateHistory
      */
-    public function unwrap(IdentifiesAggregate $aggregateId, EventStream $envelopeStream);
+    public function unwrap(Identifies $aggregateId, EventStream $envelopeStream);
 }

@@ -68,7 +68,7 @@ class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
      */
-    public function theMapKeysMustBeClassNamesImplementingIdentifiesAggregate()
+    public function theMapKeysMustBeClassNamesImplementingIdentifies()
     {
         new ClassMappingFactory(
             ['stdClass' => 'SimpleES\EventSourcing\Example\Basket\Basket']

@@ -6,10 +6,10 @@
 
 namespace SimpleES\EventSourcing\Event\Stream;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\EventStreamIsCorrupt;
 use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -18,7 +18,7 @@ use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
 final class EventStream implements \IteratorAggregate, \Countable
 {
     /**
-     * @var IdentifiesAggregate
+     * @var Identifies
      */
     private $aggregateId;
 
@@ -28,10 +28,10 @@ final class EventStream implements \IteratorAggregate, \Countable
     private $envelopes;
 
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @param EventEnvelope[]     $envelopes
+     * @param Identifies      $aggregateId
+     * @param EventEnvelope[] $envelopes
      */
-    public function __construct(IdentifiesAggregate $aggregateId, array $envelopes)
+    public function __construct(Identifies $aggregateId, array $envelopes)
     {
         $this->aggregateId = $aggregateId;
         $this->envelopes   = $envelopes;
@@ -41,7 +41,7 @@ final class EventStream implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return IdentifiesAggregate
+     * @return Identifies
      */
     public function aggregateId()
     {

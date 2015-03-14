@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Exception;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -15,11 +15,11 @@ use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 final class EventStreamIsCorrupt extends \InvalidArgumentException implements Exception
 {
     /**
-     * @param IdentifiesAggregate $invalidId
-     * @param IdentifiesAggregate $expectedId
+     * @param Identifies $invalidId
+     * @param Identifies $expectedId
      * @return EventStreamIsCorrupt
      */
-    public static function create(IdentifiesAggregate $invalidId, IdentifiesAggregate $expectedId)
+    public static function create(Identifies $invalidId, Identifies $expectedId)
     {
         $invalidIdType  = is_object($invalidId) ? get_class($invalidId) : gettype($invalidId);
         $expectedIdType = is_object($expectedId) ? get_class($expectedId) : gettype($expectedId);

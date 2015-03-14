@@ -6,10 +6,10 @@
 
 namespace SimpleES\EventSourcing\IdentityMap;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
 use SimpleES\EventSourcing\Exception\AggregateIdNotFound;
 use SimpleES\EventSourcing\Exception\DuplicateAggregateFound;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -25,17 +25,17 @@ interface MapsIdentity
     public function add(TracksEvents $aggregate);
 
     /**
-     * @param IdentifiesAggregate $aggregateId
+     * @param Identifies $aggregateId
      * @return bool
      */
-    public function contains(IdentifiesAggregate $aggregateId);
+    public function contains(Identifies $aggregateId);
 
     /**
-     * @param IdentifiesAggregate $aggregateId
+     * @param Identifies $aggregateId
      * @return TracksEvents
      * @throws AggregateIdNotFound
      */
-    public function get(IdentifiesAggregate $aggregateId);
+    public function get(Identifies $aggregateId);
 
     /**
      * @return void

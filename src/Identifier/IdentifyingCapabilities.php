@@ -4,13 +4,13 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\Aggregate\Identifier;
+namespace SimpleES\EventSourcing\Identifier;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-trait AggregateIdentifyingCapabilities
+trait IdentifyingCapabilities
 {
     /**
      * @var string
@@ -35,10 +35,10 @@ trait AggregateIdentifyingCapabilities
     }
 
     /**
-     * @param IdentifiesAggregate $other
+     * @param Identifies $other
      * @return bool
      */
-    public function equals(IdentifiesAggregate $other)
+    public function equals(Identifies $other)
     {
         return ($other instanceof static && $other->id === $this->id);
     }

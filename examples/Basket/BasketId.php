@@ -6,14 +6,14 @@
 
 namespace SimpleES\EventSourcing\Example\Basket;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\AggregateIdentifyingCapabilities;
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
+use SimpleES\EventSourcing\Identifier\Identifies;
+use SimpleES\EventSourcing\Identifier\IdentifyingCapabilities;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-final class BasketId implements IdentifiesAggregate
+final class BasketId implements Identifies
 {
-    use AggregateIdentifyingCapabilities;
+    use IdentifyingCapabilities;
 }

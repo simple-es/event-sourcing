@@ -6,7 +6,6 @@
 
 namespace SimpleES\EventSourcing\Event\Wrapper;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Event\DomainEvents;
@@ -14,7 +13,8 @@ use SimpleES\EventSourcing\Event\Resolver\ResolvesEventNames;
 use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
-use SimpleES\EventSourcing\Generator\GeneratesIdentifiers;
+use SimpleES\EventSourcing\Identifier\GeneratesIdentifiers;
+use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Timestamp\Timestamp;
 
@@ -52,7 +52,7 @@ final class EventWrapper implements WrapsEvents
     /**
      * {@inheritdoc}
      */
-    public function wrap(IdentifiesAggregate $aggregateId, DomainEvents $domainEvents)
+    public function wrap(Identifies $aggregateId, DomainEvents $domainEvents)
     {
         $lookupKey = (string) $aggregateId;
 
@@ -83,7 +83,7 @@ final class EventWrapper implements WrapsEvents
     /**
      * {@inheritdoc}
      */
-    public function unwrap(IdentifiesAggregate $aggregateId, EventStream $envelopeStream)
+    public function unwrap(Identifies $aggregateId, EventStream $envelopeStream)
     {
         $lookupKey = (string) $aggregateId;
 

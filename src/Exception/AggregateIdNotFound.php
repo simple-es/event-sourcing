@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Exception;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -15,10 +15,10 @@ use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 final class AggregateIdNotFound extends \RuntimeException implements Exception
 {
     /**
-     * @param IdentifiesAggregate $aggregateId
+     * @param Identifies $aggregateId
      * @return AggregateIdNotFound
      */
-    public static function create(IdentifiesAggregate $aggregateId)
+    public static function create(Identifies $aggregateId)
     {
         return new AggregateIdNotFound(
             sprintf(

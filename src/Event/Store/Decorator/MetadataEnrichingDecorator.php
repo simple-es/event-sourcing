@@ -6,12 +6,12 @@
 
 namespace SimpleES\EventSourcing\Event\Store\Decorator;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Event\Store\StoresEvents;
 use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
+use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\EnrichesMetadata;
 
 /**
@@ -70,7 +70,7 @@ final class MetadataEnrichingDecorator implements StoresEvents
     /**
      * {@inheritdoc}
      */
-    public function read(IdentifiesAggregate $aggregateId)
+    public function read(Identifies $aggregateId)
     {
         return $this->next->read($aggregateId);
     }

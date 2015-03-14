@@ -6,12 +6,12 @@
 
 namespace SimpleES\EventSourcing\Test;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvents;
 use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Timestamp\Timestamp;
 
@@ -74,10 +74,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return DomainEvents
      */
-    public function getDomainEvents(IdentifiesAggregate $id)
+    public function getDomainEvents(Identifies $id)
     {
         $key = (string) $id;
 
@@ -95,10 +95,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getDomainEventsEventOne(IdentifiesAggregate $id)
+    public function getDomainEventsEventOne(Identifies $id)
     {
         $key = (string) $id;
 
@@ -110,10 +110,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getDomainEventsEventTwo(IdentifiesAggregate $id)
+    public function getDomainEventsEventTwo(Identifies $id)
     {
         $key = (string) $id;
 
@@ -125,10 +125,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getDomainEventsEventThree(IdentifiesAggregate $id)
+    public function getDomainEventsEventThree(Identifies $id)
     {
         $key = (string) $id;
 
@@ -140,10 +140,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return AggregateHistory
      */
-    public function getAggregateHistory(IdentifiesAggregate $id)
+    public function getAggregateHistory(Identifies $id)
     {
         $key = (string) $id;
 
@@ -162,10 +162,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getAggregateHistoryEventOne(IdentifiesAggregate $id)
+    public function getAggregateHistoryEventOne(Identifies $id)
     {
         $key = (string) $id;
 
@@ -177,10 +177,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getAggregateHistoryEventTwo(IdentifiesAggregate $id)
+    public function getAggregateHistoryEventTwo(Identifies $id)
     {
         $key = (string) $id;
 
@@ -192,10 +192,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getAggregateHistoryEventThree(IdentifiesAggregate $id)
+    public function getAggregateHistoryEventThree(Identifies $id)
     {
         $key = (string) $id;
 
@@ -207,10 +207,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return EventStream
      */
-    public function getEventStream(IdentifiesAggregate $id)
+    public function getEventStream(Identifies $id)
     {
         $key = (string) $id;
 
@@ -229,10 +229,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return EventEnvelope
      */
-    public function getEventStreamEnvelopeOne(IdentifiesAggregate $id)
+    public function getEventStreamEnvelopeOne(Identifies $id)
     {
         $key = (string) $id;
 
@@ -252,10 +252,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return EventEnvelope
      */
-    public function getEventStreamEnvelopeTwo(IdentifiesAggregate $id)
+    public function getEventStreamEnvelopeTwo(Identifies $id)
     {
         $key = (string) $id;
 
@@ -275,10 +275,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return EventEnvelope
      */
-    public function getEventStreamEnvelopeThree(IdentifiesAggregate $id)
+    public function getEventStreamEnvelopeThree(Identifies $id)
     {
         $key = (string) $id;
 
@@ -298,10 +298,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getEventStreamEventOne(IdentifiesAggregate $id)
+    public function getEventStreamEventOne(Identifies $id)
     {
         $key = (string) $id;
 
@@ -313,10 +313,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getEventStreamEventTwo(IdentifiesAggregate $id)
+    public function getEventStreamEventTwo(Identifies $id)
     {
         $key = (string) $id;
 
@@ -328,10 +328,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getEventStreamEventThree(IdentifiesAggregate $id)
+    public function getEventStreamEventThree(Identifies $id)
     {
         $key = (string) $id;
 
@@ -355,10 +355,10 @@ class TestHelper
     }
 
     /**
-     * @param IdentifiesAggregate $id
+     * @param Identifies $id
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function mockAggregate(IdentifiesAggregate $id)
+    public function mockAggregate(Identifies $id)
     {
         $class = 'SimpleES\EventSourcing\Aggregate\TracksEvents';
 

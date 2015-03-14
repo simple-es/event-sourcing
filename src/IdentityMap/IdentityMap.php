@@ -6,10 +6,10 @@
 
 namespace SimpleES\EventSourcing\IdentityMap;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
 use SimpleES\EventSourcing\Exception\AggregateIdNotFound;
 use SimpleES\EventSourcing\Exception\DuplicateAggregateFound;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -44,7 +44,7 @@ final class IdentityMap implements MapsIdentity
     /**
      * {@inheritdoc}
      */
-    public function contains(IdentifiesAggregate $aggregateId)
+    public function contains(Identifies $aggregateId)
     {
         $lookupKey = $this->createLookupKey($aggregateId);
 
@@ -54,7 +54,7 @@ final class IdentityMap implements MapsIdentity
     /**
      * {@inheritdoc}
      */
-    public function get(IdentifiesAggregate $aggregateId)
+    public function get(Identifies $aggregateId)
     {
         $lookupKey = $this->createLookupKey($aggregateId);
 
@@ -74,10 +74,10 @@ final class IdentityMap implements MapsIdentity
     }
 
     /**
-     * @param IdentifiesAggregate $aggregateId
+     * @param Identifies $aggregateId
      * @return string
      */
-    private function createLookupKey(IdentifiesAggregate $aggregateId)
+    private function createLookupKey(Identifies $aggregateId)
     {
         return sprintf('%s(%s)', get_class($aggregateId), (string) $aggregateId);
     }

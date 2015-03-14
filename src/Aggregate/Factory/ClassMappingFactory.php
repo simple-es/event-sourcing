@@ -64,7 +64,7 @@ final class ClassMappingFactory implements ReconstitutesAggregates
      */
     private function guardIdClass($class)
     {
-        $interface = 'SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate';
+        $interface = 'SimpleES\EventSourcing\Identifier\Identifies';
 
         if (!is_string($class) || !is_subclass_of($class, $interface)) {
             throw InvalidItemInCollection::create($class, $interface);

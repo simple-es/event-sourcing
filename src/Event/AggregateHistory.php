@@ -6,9 +6,9 @@
 
 namespace SimpleES\EventSourcing\Event;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -17,7 +17,7 @@ use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
 final class AggregateHistory implements \IteratorAggregate, \Countable
 {
     /**
-     * @var IdentifiesAggregate
+     * @var Identifies
      */
     private $aggregateId;
 
@@ -27,10 +27,10 @@ final class AggregateHistory implements \IteratorAggregate, \Countable
     private $events;
 
     /**
-     * @param IdentifiesAggregate $aggregateId
-     * @param DomainEvent[]       $events
+     * @param Identifies    $aggregateId
+     * @param DomainEvent[] $events
      */
-    public function __construct(IdentifiesAggregate $aggregateId, array $events)
+    public function __construct(Identifies $aggregateId, array $events)
     {
         $this->aggregateId = $aggregateId;
         $this->events      = $events;
@@ -40,7 +40,7 @@ final class AggregateHistory implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return IdentifiesAggregate
+     * @return Identifies
      */
     public function aggregateId()
     {

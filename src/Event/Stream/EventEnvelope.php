@@ -6,8 +6,8 @@
 
 namespace SimpleES\EventSourcing\Event\Stream;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Event\DomainEvent;
+use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Timestamp\Timestamp;
 
@@ -33,7 +33,7 @@ final class EventEnvelope implements DomainEvent
     private $event;
 
     /**
-     * @var IdentifiesAggregate
+     * @var Identifies
      */
     private $aggregateId;
 
@@ -53,19 +53,19 @@ final class EventEnvelope implements DomainEvent
     private $metadata;
 
     /**
-     * @param EventId             $eventId
-     * @param string              $eventName
-     * @param DomainEvent         $event
-     * @param IdentifiesAggregate $aggregateId
-     * @param int                 $aggregateVersion
-     * @param Timestamp           $tookPlaceAt
-     * @param Metadata            $metadata
+     * @param EventId     $eventId
+     * @param string      $eventName
+     * @param DomainEvent $event
+     * @param Identifies  $aggregateId
+     * @param int         $aggregateVersion
+     * @param Timestamp   $tookPlaceAt
+     * @param Metadata    $metadata
      */
     public function __construct(
         EventId $eventId,
         $eventName,
         DomainEvent $event,
-        IdentifiesAggregate $aggregateId,
+        Identifies $aggregateId,
         $aggregateVersion,
         Timestamp $tookPlaceAt,
         Metadata $metadata
@@ -104,7 +104,7 @@ final class EventEnvelope implements DomainEvent
     }
 
     /**
-     * @return IdentifiesAggregate
+     * @return Identifies
      */
     public function aggregateId()
     {

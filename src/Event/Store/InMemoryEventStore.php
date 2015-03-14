@@ -6,10 +6,10 @@
 
 namespace SimpleES\EventSourcing\Event\Store;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\AggregateIdNotFound;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -35,7 +35,7 @@ final class InMemoryEventStore implements StoresEvents
     /**
      * {@inheritdoc}
      */
-    public function read(IdentifiesAggregate $aggregateId)
+    public function read(Identifies $aggregateId)
     {
         $envelopes = [];
 
