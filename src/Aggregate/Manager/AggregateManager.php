@@ -6,8 +6,8 @@
 
 namespace SimpleES\EventSourcing\Aggregate\Manager;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
+use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\IdentityMap\MapsIdentity;
 use SimpleES\EventSourcing\Repository\Repository;
 
@@ -15,7 +15,7 @@ use SimpleES\EventSourcing\Repository\Repository;
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-class AggregateManager implements ManagesAggregates
+final class AggregateManager implements ManagesAggregates
 {
     /**
      * @var MapsIdentity
@@ -52,13 +52,17 @@ class AggregateManager implements ManagesAggregates
     /**
      * {@inheritdoc}
      */
-    public function fetch(IdentifiesAggregate $aggregateId)
+    public function fetch(Identifies $aggregateId)
     {
         if ($this->identityMap->contains($aggregateId)) {
-            $this->identityMap->get($aggregateId);
+            return $this->identityMap->get($aggregateId);
         }
 
-        $this->repository->fetch($aggregateId);
+        $aggregate = $this->repository->fetch($aggregateId);
+
+        $this->identityMap->add($aggregate);
+
+        return $aggregate;
     }
 
     /**

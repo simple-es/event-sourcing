@@ -11,7 +11,6 @@ use SimpleES\EventSourcing\Aggregate\TracksEvents;
 use SimpleES\EventSourcing\Event\Store\StoresEvents;
 use SimpleES\EventSourcing\Event\Wrapper\WrapsEvents;
 use SimpleES\EventSourcing\Identifier\Identifies;
-use SimpleES\EventSourcing\IdentityMap\MapsIdentity;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -19,11 +18,6 @@ use SimpleES\EventSourcing\IdentityMap\MapsIdentity;
  */
 final class AggregateRepository implements Repository
 {
-    /**
-     * @var MapsIdentity
-     */
-    private $identityMap;
-
     /**
      * @var WrapsEvents
      */
@@ -40,18 +34,15 @@ final class AggregateRepository implements Repository
     private $aggregateFactory;
 
     /**
-     * @param MapsIdentity            $identityMap
      * @param WrapsEvents             $eventWrapper
      * @param StoresEvents            $eventStore
      * @param ReconstitutesAggregates $aggregateFactory
      */
     public function __construct(
-        MapsIdentity $identityMap,
         WrapsEvents $eventWrapper,
         StoresEvents $eventStore,
         ReconstitutesAggregates $aggregateFactory
     ) {
-        $this->identityMap      = $identityMap;
         $this->eventWrapper     = $eventWrapper;
         $this->eventStore       = $eventStore;
         $this->aggregateFactory = $aggregateFactory;
@@ -62,8 +53,6 @@ final class AggregateRepository implements Repository
      */
     public function save(TracksEvents $aggregate)
     {
-        $this->identityMap->add($aggregate);
-
         $recordedEvents = $aggregate->recordedEvents();
         $aggregate->clearRecordedEvents();
 
@@ -77,17 +66,9 @@ final class AggregateRepository implements Repository
      */
     public function fetch(Identifies $aggregateId)
     {
-        if ($this->identityMap->contains($aggregateId)) {
-            return $this->identityMap->get($aggregateId);
-        }
-
         $envelopeStream = $this->eventStore->read($aggregateId);
         $history        = $this->eventWrapper->unwrap($aggregateId, $envelopeStream);
 
-        $aggregate = $this->aggregateFactory->reconstituteFromHistory($history);
-
-        $this->identityMap->add($aggregate);
-
-        return $aggregate;
+        return $this->aggregateFactory->reconstituteFromHistory($history);
     }
 }

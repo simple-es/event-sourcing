@@ -6,8 +6,8 @@
 
 namespace SimpleES\EventSourcing\Aggregate\Manager;
 
-use SimpleES\EventSourcing\Aggregate\Identifier\IdentifiesAggregate;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
+use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -22,10 +22,10 @@ interface ManagesAggregates
     public function save(TracksEvents $aggregate);
 
     /**
-     * @param IdentifiesAggregate $aggregateId
+     * @param Identifies $aggregateId
      * @return TracksEvents
      */
-    public function fetch(IdentifiesAggregate $aggregateId);
+    public function fetch(Identifies $aggregateId);
 
     /**
      * @return void

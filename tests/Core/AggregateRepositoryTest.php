@@ -30,11 +30,6 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $identityMap;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     private $eventWrapper;
 
     /**
@@ -51,8 +46,6 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->identityMap = $this->getMock('SimpleES\EventSourcing\IdentityMap\MapsIdentity');
-
         $this->eventWrapper = $this->getMock('SimpleES\EventSourcing\Event\Wrapper\WrapsEvents');
 
         $this->eventStore = $this->getMock('SimpleES\EventSourcing\Event\Store\StoresEvents');
@@ -60,7 +53,6 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->aggregateFactory = $this->getMock('SimpleES\EventSourcing\Aggregate\Factory\ReconstitutesAggregates');
 
         $this->repository = new AggregateRepository(
-            $this->identityMap,
             $this->eventWrapper,
             $this->eventStore,
             $this->aggregateFactory
@@ -71,17 +63,17 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper->tearDown();
 
-        $this->testHelper   = null;
-        $this->repository   = null;
-        $this->identityMap  = null;
-        $this->eventWrapper = null;
-        $this->eventStore   = null;
+        $this->testHelper       = null;
+        $this->repository       = null;
+        $this->eventWrapper     = null;
+        $this->eventStore       = null;
+        $this->aggregateFactory = null;
     }
 
     /**
      * @test
      */
-    public function anAggregateCanBeAddedToIt()
+    public function itSavesAnAggregate()
     {
         $id = BasketId::fromString('some-basket');
 
@@ -96,11 +88,6 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
         $aggregate
             ->expects($this->once())
             ->method('clearRecordedEvents');
-
-        $this->identityMap
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->equalTo($aggregate));
 
         $this->eventWrapper
             ->expects($this->once())
@@ -122,7 +109,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function anAggregateCanBeRetrievedFromIt()
+    public function itFetchesAnAggregate()
     {
         $id = BasketId::fromString('some-basket');
 
@@ -130,12 +117,6 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
         $aggregateHistory = $this->testHelper->getAggregateHistory($id);
 
         $aggregate = Basket::pickUp($id);
-
-        $this->identityMap
-            ->expects($this->once())
-            ->method('contains')
-            ->with($this->equalTo($id))
-            ->will($this->returnValue(false));
 
         $this->eventStore
             ->expects($this->once())
@@ -157,120 +138,6 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('reconstituteFromHistory')
             ->with($this->equalTo($aggregateHistory))
             ->will($this->returnValue($aggregate));
-
-        $foundAggregate = $this->repository->fetch($id);
-
-        $this->assertSame($aggregate, $foundAggregate);
-    }
-
-    /**
-     * @test
-     */
-    public function itExposesAnAggregateDirectlyWhenAllreadyAdded()
-    {
-        $id = BasketId::fromString('some-basket');
-
-        $domainEvents = $this->testHelper->getDomainEvents($id);
-        $eventStream  = $this->testHelper->getEventStream($id);
-
-        $aggregate = $this->testHelper->mockAggregate($id);
-        $aggregate
-            ->expects($this->once())
-            ->method('recordedEvents')
-            ->will($this->returnValue($domainEvents));
-        $aggregate
-            ->expects($this->once())
-            ->method('clearRecordedEvents');
-
-        $this->identityMap
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->equalTo($aggregate));
-
-        $this->identityMap
-            ->expects($this->once())
-            ->method('contains')
-            ->with($this->equalTo($id))
-            ->will($this->returnValue(true));
-
-        $this->identityMap
-            ->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo($id))
-            ->will($this->returnValue($aggregate));
-
-        $this->eventWrapper
-            ->expects($this->once())
-            ->method('wrap')
-            ->with(
-                $this->equalTo($id),
-                $this->equalTo($domainEvents)
-            )
-            ->will($this->returnValue($eventStream));
-
-        $this->eventStore
-            ->expects($this->once())
-            ->method('commit')
-            ->with($this->equalTo($eventStream));
-
-        $this->repository->save($aggregate);
-
-        $foundAggregate = $this->repository->fetch($id);
-
-        $this->assertSame($aggregate, $foundAggregate);
-    }
-
-    /**
-     * @test
-     */
-    public function itExposesAnAggregateDirectlyWhenRetrievedBefore()
-    {
-        $id = BasketId::fromString('some-basket');
-
-        $eventStream      = $this->testHelper->getEventStream($id);
-        $aggregateHistory = $this->testHelper->getAggregateHistory($id);
-
-        $aggregate = Basket::pickUp($id);
-
-        $this->identityMap
-            ->expects($this->exactly(2))
-            ->method('contains')
-            ->with($this->equalTo($id))
-            ->will(
-                $this->onConsecutiveCalls(
-                    $this->returnValue(false),
-                    $this->returnValue(true)
-                )
-            );
-
-        $this->identityMap
-            ->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo($id))
-            ->will($this->returnValue($aggregate));
-
-        $this->eventStore
-            ->expects($this->once())
-            ->method('read')
-            ->with($this->equalTo($id))
-            ->will($this->returnValue($eventStream));
-
-        $this->eventWrapper
-            ->expects($this->once())
-            ->method('unwrap')
-            ->with(
-                $this->equalTo($id),
-                $this->equalTo($eventStream)
-            )
-            ->will($this->returnValue($aggregateHistory));
-
-        $this->aggregateFactory
-            ->expects($this->once())
-            ->method('reconstituteFromHistory')
-            ->with($this->equalTo($aggregateHistory))
-            ->will($this->returnValue($aggregate));
-
-        $this->repository->fetch($id);
 
         $foundAggregate = $this->repository->fetch($id);
 
