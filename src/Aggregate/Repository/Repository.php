@@ -4,7 +4,7 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\Repository;
+namespace SimpleES\EventSourcing\Aggregate\Repository;
 
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
 use SimpleES\EventSourcing\Exception\AggregateIdNotFound;

@@ -6,9 +6,9 @@
 
 namespace SimpleES\EventSourcing\Test\Examples;
 
+use SimpleES\EventSourcing\Aggregate\Repository\AggregateRepository;
 use SimpleES\EventSourcing\Example\Basket\Basket;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
-use SimpleES\EventSourcing\Repository\AggregateRepository;
 use SimpleES\EventSourcing\Test\TestHelper;
 
 /**

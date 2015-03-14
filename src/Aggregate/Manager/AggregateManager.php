@@ -6,10 +6,10 @@
 
 namespace SimpleES\EventSourcing\Aggregate\Manager;
 
+use SimpleES\EventSourcing\Aggregate\Repository\Repository;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
 use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\IdentityMap\MapsIdentity;
-use SimpleES\EventSourcing\Repository\Repository;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.

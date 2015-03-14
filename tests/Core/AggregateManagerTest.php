@@ -34,7 +34,7 @@ class AggregateManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->identityMap = $this->getMock('SimpleES\EventSourcing\IdentityMap\MapsIdentity');
 
-        $this->repository = $this->getMock('SimpleES\EventSourcing\Repository\Repository');
+        $this->repository = $this->getMock('SimpleES\EventSourcing\Aggregate\Repository\Repository');
 
         $this->aggregateManager = new AggregateManager($this->identityMap, $this->repository);
     }
