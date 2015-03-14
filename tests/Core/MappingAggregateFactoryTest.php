@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\Aggregate\Factory\ClassMappingFactory;
+use SimpleES\EventSourcing\Aggregate\Factory\MappingAggregateFactory;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Test\TestHelper;
 
@@ -14,7 +14,7 @@ use SimpleES\EventSourcing\Test\TestHelper;
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
+class MappingAggregateFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TestHelper
@@ -38,7 +38,7 @@ class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itReconstituteAnAggregateFromHistory()
     {
-        $factory = new ClassMappingFactory(
+        $factory = new MappingAggregateFactory(
             ['SimpleES\EventSourcing\Example\Basket\BasketId' => 'SimpleES\EventSourcing\Example\Basket\Basket']
         );
 
@@ -56,7 +56,7 @@ class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function itCannotReconstituteAnAggregateWhenMapNotFound()
     {
-        $factory = new ClassMappingFactory([]);
+        $factory = new MappingAggregateFactory([]);
 
         $id               = BasketId::fromString('some-id');
         $aggregateHistory = $this->testHelper->getAggregateHistory($id);
@@ -70,7 +70,7 @@ class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function theMapKeysMustBeClassNamesImplementingIdentifies()
     {
-        new ClassMappingFactory(
+        new MappingAggregateFactory(
             ['stdClass' => 'SimpleES\EventSourcing\Example\Basket\Basket']
         );
     }
@@ -81,7 +81,7 @@ class ClassMappingFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function theMapValuesMustBeClassNamesImplementingTracksEvents()
     {
-        new ClassMappingFactory(
+        new MappingAggregateFactory(
             ['SimpleES\EventSourcing\Example\Basket\BasketId' => 'stdClass']
         );
     }
