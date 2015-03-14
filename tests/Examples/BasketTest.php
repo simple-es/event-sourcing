@@ -64,7 +64,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $domainEvents = iterator_to_array($this->basket->recordedEvents());
 
         $this->assertInstanceOf(
-            'SimpleES\EventSourcing\Example\Event\BasketWasPickedUp',
+            'SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp',
             $domainEvents[0]
         );
     }
@@ -77,7 +77,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $domainEvents = iterator_to_array($this->basket->recordedEvents());
 
         $this->assertInstanceOf(
-            'SimpleES\EventSourcing\Example\Event\ProductWasAddedToBasket',
+            'SimpleES\EventSourcing\Example\Basket\Events\ProductWasAddedToBasket',
             $domainEvents[1]
         );
     }
@@ -90,7 +90,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $domainEvents = iterator_to_array($this->basket->recordedEvents());
 
         $this->assertInstanceOf(
-            'SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket',
+            'SimpleES\EventSourcing\Example\Basket\Events\ProductWasRemovedFromBasket',
             $domainEvents[2]
         );
     }

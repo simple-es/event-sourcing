@@ -7,7 +7,7 @@
 namespace SimpleES\EventSourcing\Test\Examples;
 
 use SimpleES\EventSourcing\Example\Basket\BasketId;
-use SimpleES\EventSourcing\Example\Event\BasketWasPickedUp;
+use SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.

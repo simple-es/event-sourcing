@@ -7,7 +7,7 @@
 namespace SimpleES\EventSourcing\Test\Examples;
 
 use SimpleES\EventSourcing\Example\Basket\BasketId;
-use SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket;
+use SimpleES\EventSourcing\Example\Basket\Events\ProductWasRemovedFromBasket;
 use SimpleES\EventSourcing\Example\Product\ProductId;
 
 /**

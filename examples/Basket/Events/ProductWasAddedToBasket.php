@@ -4,7 +4,7 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\Example\Event;
+namespace SimpleES\EventSourcing\Example\Basket\Events;
 
 use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Example\Basket\BasketId;

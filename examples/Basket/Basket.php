@@ -9,9 +9,9 @@ namespace SimpleES\EventSourcing\Example\Basket;
 use SimpleES\EventSourcing\Aggregate\EventTrackingCapabilities;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
 use SimpleES\EventSourcing\Event\AggregateHistory;
-use SimpleES\EventSourcing\Example\Event\BasketWasPickedUp;
-use SimpleES\EventSourcing\Example\Event\ProductWasAddedToBasket;
-use SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket;
+use SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp;
+use SimpleES\EventSourcing\Example\Basket\Events\ProductWasAddedToBasket;
+use SimpleES\EventSourcing\Example\Basket\Events\ProductWasRemovedFromBasket;
 use SimpleES\EventSourcing\Example\Product\ProductId;
 
 /**

@@ -8,9 +8,9 @@ namespace SimpleES\EventSourcing\Test\Examples;
 
 use SimpleES\EventSourcing\Event\Resolver\ClassBasedEventNameResolver;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
-use SimpleES\EventSourcing\Example\Event\BasketWasPickedUp;
-use SimpleES\EventSourcing\Example\Event\ProductWasAddedToBasket;
-use SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket;
+use SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp;
+use SimpleES\EventSourcing\Example\Basket\Events\ProductWasAddedToBasket;
+use SimpleES\EventSourcing\Example\Basket\Events\ProductWasRemovedFromBasket;
 use SimpleES\EventSourcing\Example\Product\ProductId;
 
 /**
@@ -43,17 +43,17 @@ class ClassBasedEventNameResolverTest extends \PHPUnit_Framework_TestCase
         $productId = ProductId::fromString('some-product');
 
         $this->assertSame(
-            'SimpleES\EventSourcing\Example\Event\BasketWasPickedUp',
+            'SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp',
             $this->eventNameResolver->resolveEventName(new BasketWasPickedUp($basketId))
         );
 
         $this->assertSame(
-            'SimpleES\EventSourcing\Example\Event\ProductWasAddedToBasket',
+            'SimpleES\EventSourcing\Example\Basket\Events\ProductWasAddedToBasket',
             $this->eventNameResolver->resolveEventName(new ProductWasAddedToBasket($basketId, $productId))
         );
 
         $this->assertSame(
-            'SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket',
+            'SimpleES\EventSourcing\Example\Basket\Events\ProductWasRemovedFromBasket',
             $this->eventNameResolver->resolveEventName(new ProductWasRemovedFromBasket($basketId, $productId))
         );
     }
@@ -64,23 +64,23 @@ class ClassBasedEventNameResolverTest extends \PHPUnit_Framework_TestCase
     public function itResolvesEventClasses()
     {
         $this->assertSame(
-            'SimpleES\EventSourcing\Example\Event\BasketWasPickedUp',
+            'SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp',
             $this->eventNameResolver->resolveEventClass(
-                'SimpleES\EventSourcing\Example\Event\BasketWasPickedUp'
+                'SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp'
             )
         );
 
         $this->assertSame(
-            'SimpleES\EventSourcing\Example\Event\ProductWasAddedToBasket',
+            'SimpleES\EventSourcing\Example\Basket\Events\ProductWasAddedToBasket',
             $this->eventNameResolver->resolveEventClass(
-                'SimpleES\EventSourcing\Example\Event\ProductWasAddedToBasket'
+                'SimpleES\EventSourcing\Example\Basket\Events\ProductWasAddedToBasket'
             )
         );
 
         $this->assertSame(
-            'SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket',
+            'SimpleES\EventSourcing\Example\Basket\Events\ProductWasRemovedFromBasket',
             $this->eventNameResolver->resolveEventClass(
-                'SimpleES\EventSourcing\Example\Event\ProductWasRemovedFromBasket'
+                'SimpleES\EventSourcing\Example\Basket\Events\ProductWasRemovedFromBasket'
             )
         );
     }
