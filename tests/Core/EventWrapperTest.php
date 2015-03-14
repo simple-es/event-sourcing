@@ -89,7 +89,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
         $id             = BasketId::fromString('some-id');
         $envelopeStream = $this->testHelper->getEventStream($id);
 
-        $aggregateHistory = $this->eventWrapper->unwrap($id, $envelopeStream);
+        $aggregateHistory = $this->eventWrapper->unwrap($envelopeStream);
 
         $this->assertInstanceOf('SimpleES\EventSourcing\Event\AggregateHistory', $aggregateHistory);
         $this->assertCount(3, $aggregateHistory);
@@ -122,7 +122,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
         $domainEvents = $this->testHelper->getDomainEvents($id);
         $eventStream  = $this->testHelper->getEventStream($id);
 
-        $this->eventWrapper->unwrap($id, $eventStream);
+        $this->eventWrapper->unwrap($eventStream);
 
         $newEnvelopeStream = $this->eventWrapper->wrap($id, $domainEvents);
 

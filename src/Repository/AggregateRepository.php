@@ -67,7 +67,7 @@ final class AggregateRepository implements Repository
     public function fetch(Identifies $aggregateId)
     {
         $envelopeStream = $this->eventStore->read($aggregateId);
-        $history        = $this->eventWrapper->unwrap($aggregateId, $envelopeStream);
+        $history        = $this->eventWrapper->unwrap($envelopeStream);
 
         return $this->aggregateFactory->reconstituteFromHistory($history);
     }

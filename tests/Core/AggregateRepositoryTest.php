@@ -127,10 +127,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->eventWrapper
             ->expects($this->once())
             ->method('unwrap')
-            ->with(
-                $this->equalTo($id),
-                $this->equalTo($eventStream)
-            )
+            ->with($this->equalTo($eventStream))
             ->will($this->returnValue($aggregateHistory));
 
         $this->aggregateFactory

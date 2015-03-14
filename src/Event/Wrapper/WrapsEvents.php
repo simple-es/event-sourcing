@@ -25,9 +25,8 @@ interface WrapsEvents
     public function wrap(Identifies $aggregateId, DomainEvents $domainEvents);
 
     /**
-     * @param Identifies  $aggregateId
      * @param EventStream $envelopeStream
      * @return AggregateHistory
      */
-    public function unwrap(Identifies $aggregateId, EventStream $envelopeStream);
+    public function unwrap(EventStream $envelopeStream);
 }

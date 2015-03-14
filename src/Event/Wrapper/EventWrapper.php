@@ -83,9 +83,9 @@ final class EventWrapper implements WrapsEvents
     /**
      * {@inheritdoc}
      */
-    public function unwrap(Identifies $aggregateId, EventStream $envelopeStream)
+    public function unwrap(EventStream $envelopeStream)
     {
-        $lookupKey = (string) $aggregateId;
+        $lookupKey = (string) $envelopeStream->aggregateId();
 
         $events = [];
 
@@ -96,6 +96,6 @@ final class EventWrapper implements WrapsEvents
             $events[] = $envelope->event();
         }
 
-        return new AggregateHistory($aggregateId, $events);
+        return new AggregateHistory($envelopeStream->aggregateId(), $events);
     }
 }
