@@ -9,7 +9,7 @@ namespace SimpleES\EventSourcing\Event\Wrapper;
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Event\DomainEvents;
-use SimpleES\EventSourcing\Event\Resolver\ResolvesEventNames;
+use SimpleES\EventSourcing\Event\NameResolver\ResolvesEventNames;
 use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Event\Stream\EventStream;

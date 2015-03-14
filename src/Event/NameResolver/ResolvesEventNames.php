@@ -4,7 +4,7 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\Event\Resolver;
+namespace SimpleES\EventSourcing\Event\NameResolver;
 
 use SimpleES\EventSourcing\Event\DomainEvent;
 

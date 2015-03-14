@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Examples;
 
-use SimpleES\EventSourcing\Event\Resolver\MappingEventNameResolver;
+use SimpleES\EventSourcing\Event\NameResolver\MappingEventNameResolver;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp;
 use SimpleES\EventSourcing\Example\Basket\Events\ProductWasAddedToBasket;
