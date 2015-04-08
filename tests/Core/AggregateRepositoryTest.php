@@ -83,6 +83,10 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
         $aggregate = $this->testHelper->mockAggregate($id);
         $aggregate
             ->expects($this->once())
+            ->method('hasRecordedEvents')
+            ->will($this->returnValue(true));
+        $aggregate
+            ->expects($this->once())
             ->method('recordedEvents')
             ->will($this->returnValue($domainEvents));
         $aggregate
@@ -102,6 +106,30 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('commit')
             ->with($this->equalTo($eventStream));
+
+        $this->repository->save($aggregate);
+    }
+
+    /**
+     * @test
+     */
+    public function itDoesNotSaveAnAggregateWhenItHasNotRecordedEvents()
+    {
+        $id = BasketId::fromString('some-basket');
+
+        $aggregate = $this->testHelper->mockAggregate($id);
+        $aggregate
+            ->expects($this->once())
+            ->method('hasRecordedEvents')
+            ->will($this->returnValue(false));
+
+        $this->eventWrapper
+            ->expects($this->never())
+            ->method('wrap');
+
+        $this->eventStore
+            ->expects($this->never())
+            ->method('commit');
 
         $this->repository->save($aggregate);
     }

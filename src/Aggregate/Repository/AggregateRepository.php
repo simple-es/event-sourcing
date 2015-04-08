@@ -53,6 +53,10 @@ final class AggregateRepository implements Repository
      */
     public function save(TracksEvents $aggregate)
     {
+        if (!$aggregate->hasRecordedEvents()) {
+            return;
+        }
+
         $recordedEvents = $aggregate->recordedEvents();
         $aggregate->clearRecordedEvents();
 
