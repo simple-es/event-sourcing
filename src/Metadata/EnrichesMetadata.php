@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Metadata;
 
-use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -15,8 +15,8 @@ use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 interface EnrichesMetadata
 {
     /**
-     * @param EventEnvelope $envelope
-     * @return EventEnvelope
+     * @param EnvelopsEvent $envelope
+     * @return EnvelopsEvent
      */
-    public function enrich(EventEnvelope $envelope);
+    public function enrich(EnvelopsEvent $envelope);
 }

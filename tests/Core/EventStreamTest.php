@@ -101,7 +101,7 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
         $iteratedOverEnvelopes = 0;
 
         foreach ($this->eventStream as $envelope) {
-            $this->assertInstanceOf('SimpleES\EventSourcing\Event\Stream\EventEnvelope', $envelope);
+            $this->assertInstanceOf('SimpleES\EventSourcing\Event\Stream\EnvelopsEvent', $envelope);
             $iteratedOverEnvelopes++;
         }
 

@@ -11,7 +11,6 @@ use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Test\TestHelper;
-use SimpleES\EventSourcing\Timestamp\Timestamp;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -34,16 +33,6 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     private $event;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $metadata;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $tookPlaceAt;
-
     public function setUp()
     {
         $this->testHelper = new TestHelper($this);
@@ -51,18 +40,14 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
         $aggregateId = BasketId::fromString('some-id');
         $eventId     = EventId::fromString('some-id');
 
-        $this->event       = $this->testHelper->mockEvent();
-        $this->metadata    = new Metadata(['some-key' => 'Some value']);
-        $this->tookPlaceAt = Timestamp::now();
+        $this->event = $this->testHelper->mockEvent();
 
-        $this->envelope = new EventEnvelope(
+        $this->envelope = EventEnvelope::envelop(
             $eventId,
             'some.name',
             $this->event,
             $aggregateId,
-            123,
-            $this->tookPlaceAt,
-            $this->metadata
+            123
         );
     }
 
@@ -70,11 +55,9 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper->tearDown();
 
-        $this->testHelper  = null;
-        $this->envelope    = null;
-        $this->event       = null;
-        $this->metadata    = null;
-        $this->tookPlaceAt = null;
+        $this->testHelper = null;
+        $this->envelope   = null;
+        $this->event      = null;
     }
 
     /**
@@ -138,7 +121,7 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
     {
         $exposedTimestamp = $this->envelope->tookPlaceAt();
 
-        $this->assertSame($this->tookPlaceAt, $exposedTimestamp);
+        $this->assertInstanceOf('SimpleES\EventSourcing\Timestamp\Timestamp', $exposedTimestamp);
     }
 
     /**
@@ -148,7 +131,7 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
     {
         $exposedMetadata = $this->envelope->metadata();
 
-        $this->assertSame($this->metadata, $exposedMetadata);
+        $this->assertInstanceOf('SimpleES\EventSourcing\Metadata\Metadata', $exposedMetadata);
     }
 
     /**
@@ -156,13 +139,10 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     public function itEnrichesMetadata()
     {
-        $metadata = new Metadata(['other-key' => 'Other value']);
-
-        $enrichedEnvelope = $this->envelope->enrichMetadata($metadata);
+        $enrichedEnvelope = $this->envelope->enrichMetadata(new Metadata(['some-key' => 'Some value']));
         $enrichedMetadata = $enrichedEnvelope->metadata();
 
         $this->assertSame('Some value', $enrichedMetadata['some-key']);
-        $this->assertSame('Other value', $enrichedMetadata['other-key']);
     }
 
     /**
@@ -170,10 +150,10 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     public function itDoesNotChangeItselfWhenMetadataIsenrich()
     {
-        $metadata = new Metadata(['other-key' => 'Other value']);
+        $originalMetadata = $this->envelope->metadata();
 
-        $this->envelope->enrichMetadata($metadata);
+        $this->envelope->enrichMetadata(new Metadata(['some-key' => 'Some value']));
 
-        $this->assertSame($this->metadata, $this->envelope->metadata());
+        $this->assertSame($originalMetadata, $this->envelope->metadata());
     }
 }

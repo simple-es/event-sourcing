@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
 use SimpleES\EventSourcing\Event\Wrapper\EventWrapper;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Test\TestHelper;
@@ -45,7 +45,11 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
 
         $this->eventNameResolver = $this->getMock('SimpleES\EventSourcing\Event\NameResolver\ResolvesEventNames');
 
-        $this->eventWrapper = new EventWrapper($this->identifierGenerator, $this->eventNameResolver);
+        $this->eventWrapper = new EventWrapper(
+            $this->identifierGenerator,
+            $this->eventNameResolver,
+            'SimpleES\EventSourcing\Event\Stream\EventEnvelope'
+        );
     }
 
     public function tearDown()
@@ -105,7 +109,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
 
         $eventStream = $this->eventWrapper->wrap($id, $domainEvents);
 
-        /** @var EventEnvelope[] $envelopes */
+        /** @var EnvelopsEvent[] $envelopes */
         $envelopes = iterator_to_array($eventStream);
 
         $this->assertSame(0, $envelopes[0]->aggregateVersion());
@@ -126,11 +130,24 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
 
         $newEnvelopeStream = $this->eventWrapper->wrap($id, $domainEvents);
 
-        /** @var EventEnvelope[] $envelopes */
+        /** @var EnvelopsEvent[] $envelopes */
         $envelopes = iterator_to_array($newEnvelopeStream);
 
         $this->assertSame(3, $envelopes[0]->aggregateVersion());
         $this->assertSame(4, $envelopes[1]->aggregateVersion());
         $this->assertSame(5, $envelopes[2]->aggregateVersion());
+    }
+
+    /**
+     * @test
+     * @expectedException \SimpleES\EventSourcing\Exception\InvalidType
+     */
+    public function theEventEnvelopeClassMustImplementEnvelopsEvent()
+    {
+        $this->eventWrapper = new EventWrapper(
+            $this->identifierGenerator,
+            $this->eventNameResolver,
+            'stdClass'
+        );
     }
 }

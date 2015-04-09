@@ -7,7 +7,7 @@
 namespace SimpleES\EventSourcing\Event\Store\Decorator;
 
 use SimpleES\EventSourcing\Event\Store\StoresEvents;
-use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
@@ -54,9 +54,8 @@ final class MetadataEnrichingDecorator implements StoresEvents
     {
         $enrichedEnvelopes = [];
 
-        /** @var EventEnvelope $envelope */
+        /** @var EnvelopsEvent $envelope */
         foreach ($eventStream as $envelope) {
-            /** @var EnrichesMetadata $metadataEnricher */
             foreach ($this->metadataEnrichers as $metadataEnricher) {
                 $envelope = $metadataEnricher->enrich($envelope);
             }

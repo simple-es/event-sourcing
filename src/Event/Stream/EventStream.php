@@ -23,13 +23,13 @@ final class EventStream implements \IteratorAggregate, \Countable
     private $aggregateId;
 
     /**
-     * @var EventEnvelope[]
+     * @var EnvelopsEvent[]
      */
     private $envelopes;
 
     /**
      * @param Identifies      $aggregateId
-     * @param EventEnvelope[] $envelopes
+     * @param EnvelopsEvent[] $envelopes
      */
     public function __construct(Identifies $aggregateId, array $envelopes)
     {
@@ -71,8 +71,8 @@ final class EventStream implements \IteratorAggregate, \Countable
     private function ensureCollectionContainsEnvelopesWithSameAggregateId()
     {
         foreach ($this->envelopes as $envelope) {
-            if (!($envelope instanceof EventEnvelope)) {
-                throw InvalidItemInCollection::create($envelope, 'SimpleES\EventSourcing\Event\Stream\EventEnvelope');
+            if (!($envelope instanceof EnvelopsEvent)) {
+                throw InvalidItemInCollection::create($envelope, 'SimpleES\EventSourcing\Event\Stream\EnvelopsEvent');
             }
 
             if (!$envelope->aggregateId()->equals($this->aggregateId)) {

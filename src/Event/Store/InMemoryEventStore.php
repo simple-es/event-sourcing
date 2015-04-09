@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Event\Store;
 
-use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\AggregateIdNotFound;
 use SimpleES\EventSourcing\Identifier\Identifies;
@@ -18,7 +18,7 @@ use SimpleES\EventSourcing\Identifier\Identifies;
 final class InMemoryEventStore implements StoresEvents
 {
     /**
-     * @var EventEnvelope[]
+     * @var EnvelopsEvent[]
      */
     private $store;
 

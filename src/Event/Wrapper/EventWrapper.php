@@ -10,9 +10,10 @@ use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Event\DomainEvents;
 use SimpleES\EventSourcing\Event\NameResolver\ResolvesEventNames;
-use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
 use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Exception\InvalidType;
 use SimpleES\EventSourcing\Identifier\GeneratesIdentifiers;
 use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\Metadata;
@@ -35,6 +36,11 @@ final class EventWrapper implements WrapsEvents
     private $eventNameResolver;
 
     /**
+     * @var string
+     */
+    private $eventEnvelopeClass;
+
+    /**
      * @var array
      */
     private $aggregateVersions;
@@ -42,11 +48,18 @@ final class EventWrapper implements WrapsEvents
     /**
      * @param GeneratesIdentifiers $identifierGenerator
      * @param ResolvesEventNames   $eventNameResolver
+     * @param string               $eventEnvelopeClass
      */
-    public function __construct(GeneratesIdentifiers $identifierGenerator, ResolvesEventNames $eventNameResolver)
-    {
+    public function __construct(
+        GeneratesIdentifiers $identifierGenerator,
+        ResolvesEventNames $eventNameResolver,
+        $eventEnvelopeClass
+    ) {
         $this->identifierGenerator = $identifierGenerator;
         $this->eventNameResolver   = $eventNameResolver;
+        $this->eventEnvelopeClass  = $eventEnvelopeClass;
+
+        $this->guardEventEnvelopeClass($this->eventEnvelopeClass);
     }
 
     /**
@@ -66,7 +79,8 @@ final class EventWrapper implements WrapsEvents
         foreach ($domainEvents as $event) {
             $aggregateVersion = ++$this->aggregateVersions[$lookupKey];
 
-            $envelopes[] = new EventEnvelope(
+            $envelopes[] = call_user_func(
+                [$this->eventEnvelopeClass, 'envelop'],
                 EventId::fromString($this->identifierGenerator->generateIdentifier()),
                 $this->eventNameResolver->resolveEventName($event),
                 $event,
@@ -89,7 +103,7 @@ final class EventWrapper implements WrapsEvents
 
         $events = [];
 
-        /** @var EventEnvelope $envelope */
+        /** @var EnvelopsEvent $envelope */
         foreach ($envelopeStream as $envelope) {
             $this->aggregateVersions[$lookupKey] = $envelope->aggregateVersion();
 
@@ -97,5 +111,18 @@ final class EventWrapper implements WrapsEvents
         }
 
         return new AggregateHistory($envelopeStream->aggregateId(), $events);
+    }
+
+    /**
+     * @param string $class
+     * @throws InvalidType
+     */
+    private function guardEventEnvelopeClass($class)
+    {
+        $interface = 'SimpleES\EventSourcing\Event\Stream\EnvelopsEvent';
+
+        if (!is_string($class) || !is_subclass_of($class, $interface)) {
+            throw InvalidType::create($class, $interface);
+        }
     }
 }

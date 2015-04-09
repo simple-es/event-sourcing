@@ -8,7 +8,6 @@ namespace SimpleES\EventSourcing\Test;
 
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvents;
-use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
 use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Identifier\Identifies;
@@ -230,22 +229,14 @@ class TestHelper
 
     /**
      * @param Identifies $id
-     * @return EventEnvelope
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function getEventStreamEnvelopeOne(Identifies $id)
     {
         $key = (string) $id;
 
         if (!isset($this->eventStreamEnvelopeOne[$key])) {
-            $this->eventStreamEnvelopeOne[$key] = new EventEnvelope(
-                EventId::fromString('event-1'),
-                'event_1',
-                $this->getEventStreamEventOne($id),
-                $id,
-                2,
-                Timestamp::now(),
-                new Metadata([])
-            );
+            $this->eventStreamEnvelopeOne[$key] = $this->mockEnvelope($id, 0);
         }
 
         return $this->eventStreamEnvelopeOne[$key];
@@ -253,22 +244,14 @@ class TestHelper
 
     /**
      * @param Identifies $id
-     * @return EventEnvelope
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function getEventStreamEnvelopeTwo(Identifies $id)
     {
         $key = (string) $id;
 
         if (!isset($this->eventStreamEnvelopeTwo[$key])) {
-            $this->eventStreamEnvelopeTwo[$key] = new EventEnvelope(
-                EventId::fromString('event-2'),
-                'event_2',
-                $this->getEventStreamEventTwo($id),
-                $id,
-                2,
-                Timestamp::now(),
-                new Metadata([])
-            );
+            $this->eventStreamEnvelopeTwo[$key] = $this->mockEnvelope($id, 1);
         }
 
         return $this->eventStreamEnvelopeTwo[$key];
@@ -276,22 +259,14 @@ class TestHelper
 
     /**
      * @param Identifies $id
-     * @return EventEnvelope
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function getEventStreamEnvelopeThree(Identifies $id)
     {
         $key = (string) $id;
 
         if (!isset($this->eventStreamEnvelopeThree[$key])) {
-            $this->eventStreamEnvelopeThree[$key] = new EventEnvelope(
-                EventId::fromString('event-3'),
-                'event_3',
-                $this->getEventStreamEventThree($id),
-                $id,
-                2,
-                Timestamp::now(),
-                new Metadata([])
-            );
+            $this->eventStreamEnvelopeThree[$key] = $this->mockEnvelope($id, 2);
         }
 
         return $this->eventStreamEnvelopeThree[$key];
@@ -340,6 +315,71 @@ class TestHelper
         }
 
         return $this->eventStreamEventThree[$key];
+    }
+
+    /**
+     * @param Identifies    $id
+     * @param int           $version
+     * @param Metadata|null $metadata
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    public function mockEnvelope(Identifies $id, $version, Metadata $metadata = null)
+    {
+        $class = 'SimpleES\EventSourcing\Event\Stream\EnvelopsEvent';
+
+        $envelope = $this->testCase->getMock($class);
+
+        $envelope
+            ->expects($this->testCase->any())
+            ->method('eventId')
+            ->will($this->testCase->returnValue(EventId::fromString('event-' . ($version + 1))));
+
+        $envelope
+            ->expects($this->testCase->any())
+            ->method('eventName')
+            ->will($this->testCase->returnValue('event_' . ($version + 1)));
+
+        $envelope
+            ->expects($this->testCase->any())
+            ->method('event')
+            ->will($this->testCase->returnValue($this->getEventStreamEventOne($id)));
+
+        $envelope
+            ->expects($this->testCase->any())
+            ->method('aggregateId')
+            ->will($this->testCase->returnValue($id));
+
+        $envelope
+            ->expects($this->testCase->any())
+            ->method('aggregateVersion')
+            ->will($this->testCase->returnValue($version));
+
+        $envelope
+            ->expects($this->testCase->any())
+            ->method('tookPlaceAt')
+            ->will($this->testCase->returnValue(Timestamp::now()));
+
+        if ($metadata === null) {
+            $metadata = new Metadata([]);
+        }
+
+        $envelope
+            ->expects($this->testCase->any())
+            ->method('metadata')
+            ->will($this->testCase->returnValue($metadata));
+
+        $envelope
+            ->expects($this->testCase->any())
+            ->method('enrichMetadata')
+            ->will(
+                $this->testCase->returnCallback(
+                    function (Metadata $newMetadata) use ($id, $version, $metadata) {
+                        return $this->mockEnvelope($id, $version, $metadata->merge($newMetadata));
+                    }
+                )
+            );
+
+        return $envelope;
     }
 
     /**
