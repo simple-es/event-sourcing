@@ -7,7 +7,7 @@
 namespace SimpleES\EventSourcing\Event;
 
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
-use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
+use SimpleES\EventSourcing\Exception\InvalidTypeInCollection;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -48,13 +48,13 @@ final class DomainEvents implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @throws InvalidItemInCollection
+     * @throws InvalidTypeInCollection
      */
     private function ensureCollectionContainsEvents()
     {
         foreach ($this->events as $event) {
             if (!($event instanceof DomainEvent)) {
-                throw InvalidItemInCollection::create($event, 'SimpleES\EventSourcing\Event\DomainEvent');
+                throw InvalidTypeInCollection::create($event, 'SimpleES\EventSourcing\Event\DomainEvent');
             }
         }
     }

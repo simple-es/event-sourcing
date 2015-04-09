@@ -10,22 +10,22 @@ namespace SimpleES\EventSourcing\Exception;
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
  */
-final class InvalidItemInCollection extends \InvalidArgumentException implements Exception
+final class InvalidTypeInCollection extends \InvalidArgumentException implements Exception
 {
     /**
-     * @param mixed  $invalidItem
+     * @param mixed  $item
      * @param string $expectedType
-     * @return InvalidItemInCollection
+     * @return InvalidTypeInCollection
      */
-    public static function create($invalidItem, $expectedType)
+    public static function create($item, $expectedType)
     {
-        $invalidType = is_object($invalidItem) ? get_class($invalidItem) : gettype($invalidItem);
+        $itemType = is_object($item) ? get_class($item) : gettype($item);
 
-        return new InvalidItemInCollection(
+        return new InvalidTypeInCollection(
             sprintf(
                 'Collection can only contain items of type %s, but got %s',
                 $expectedType,
-                $invalidType
+                $itemType
             )
         );
     }

@@ -13,19 +13,19 @@ namespace SimpleES\EventSourcing\Exception;
 final class InvalidType extends \InvalidArgumentException implements Exception
 {
     /**
-     * @param mixed  $invalidItem
+     * @param mixed  $item
      * @param string $expectedType
      * @return InvalidType
      */
-    public static function create($invalidItem, $expectedType)
+    public static function create($item, $expectedType)
     {
-        $invalidType = is_object($invalidItem) ? get_class($invalidItem) : gettype($invalidItem);
+        $itemType = is_object($item) ? get_class($item) : gettype($item);
 
         return new InvalidType(
             sprintf(
                 'Expected type %s, but got %s',
                 $expectedType,
-                $invalidType
+                $itemType
             )
         );
     }

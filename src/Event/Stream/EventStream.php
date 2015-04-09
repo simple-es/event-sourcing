@@ -8,7 +8,7 @@ namespace SimpleES\EventSourcing\Event\Stream;
 
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\EventStreamIsCorrupt;
-use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
+use SimpleES\EventSourcing\Exception\InvalidTypeInCollection;
 use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**
@@ -65,14 +65,14 @@ final class EventStream implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @throws InvalidItemInCollection
+     * @throws InvalidTypeInCollection
      * @throws EventStreamIsCorrupt
      */
     private function ensureCollectionContainsEnvelopesWithSameAggregateId()
     {
         foreach ($this->envelopes as $envelope) {
             if (!($envelope instanceof EnvelopsEvent)) {
-                throw InvalidItemInCollection::create($envelope, 'SimpleES\EventSourcing\Event\Stream\EnvelopsEvent');
+                throw InvalidTypeInCollection::create($envelope, 'SimpleES\EventSourcing\Event\Stream\EnvelopsEvent');
             }
 
             if (!$envelope->aggregateId()->equals($this->aggregateId)) {

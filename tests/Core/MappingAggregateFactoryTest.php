@@ -66,7 +66,7 @@ class MappingAggregateFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
+     * @expectedException \SimpleES\EventSourcing\Exception\InvalidTypeInCollection
      */
     public function theMapKeysMustBeClassNamesImplementingIdentifies()
     {
@@ -77,7 +77,7 @@ class MappingAggregateFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
+     * @expectedException \SimpleES\EventSourcing\Exception\InvalidTypeInCollection
      */
     public function theMapValuesMustBeClassNamesImplementingTracksEvents()
     {

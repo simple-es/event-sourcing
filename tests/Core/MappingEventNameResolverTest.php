@@ -66,7 +66,7 @@ class MappingEventNameResolverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \SimpleES\EventSourcing\Exception\ItemIsNotMapped
+     * @expectedException \SimpleES\EventSourcing\Exception\MapNotFound
      */
     public function itCannotResolveAnEventNameThatIsNotMapped()
     {
@@ -98,7 +98,7 @@ class MappingEventNameResolverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \SimpleES\EventSourcing\Exception\ItemIsNotMapped
+     * @expectedException \SimpleES\EventSourcing\Exception\MapNotFound
      */
     public function itCannotResolveAnEventClassThatIsNotMapped()
     {

@@ -8,7 +8,7 @@ namespace SimpleES\EventSourcing\Aggregate\Factory;
 
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Exception\IdNotMappedToAggregate;
-use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
+use SimpleES\EventSourcing\Exception\InvalidTypeInCollection;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
@@ -60,27 +60,27 @@ final class MappingAggregateFactory implements ReconstitutesAggregates
 
     /**
      * @param string $class
-     * @throws InvalidItemInCollection
+     * @throws InvalidTypeInCollection
      */
     private function guardIdClass($class)
     {
         $interface = 'SimpleES\EventSourcing\Identifier\Identifies';
 
         if (!is_string($class) || !is_subclass_of($class, $interface)) {
-            throw InvalidItemInCollection::create($class, $interface);
+            throw InvalidTypeInCollection::create($class, $interface);
         }
     }
 
     /**
      * @param string $class
-     * @throws InvalidItemInCollection
+     * @throws InvalidTypeInCollection
      */
     private function guardAggregateClass($class)
     {
         $interface = 'SimpleES\EventSourcing\Aggregate\TracksEvents';
 
         if (!is_string($class) || !is_subclass_of($class, $interface)) {
-            throw InvalidItemInCollection::create($class, $interface);
+            throw InvalidTypeInCollection::create($class, $interface);
         }
     }
 }

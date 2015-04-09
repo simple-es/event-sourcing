@@ -51,7 +51,7 @@ class DomainEventsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \SimpleES\EventSourcing\Exception\InvalidItemInCollection
+     * @expectedException \SimpleES\EventSourcing\Exception\InvalidTypeInCollection
      */
     public function itContainsOnlyDomainEvents()
     {

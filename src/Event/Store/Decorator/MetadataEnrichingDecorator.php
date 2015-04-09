@@ -10,7 +10,7 @@ use SimpleES\EventSourcing\Event\Store\StoresEvents;
 use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
-use SimpleES\EventSourcing\Exception\InvalidItemInCollection;
+use SimpleES\EventSourcing\Exception\InvalidTypeInCollection;
 use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\EnrichesMetadata;
 
@@ -76,12 +76,12 @@ final class MetadataEnrichingDecorator implements StoresEvents
 
     /**
      * @param mixed $metadataEnricher
-     * @throws InvalidItemInCollection
+     * @throws InvalidTypeInCollection
      */
     private function guardMetadataEnricherType($metadataEnricher)
     {
         if (!($metadataEnricher instanceof EnrichesMetadata)) {
-            throw InvalidItemInCollection::create(
+            throw InvalidTypeInCollection::create(
                 $metadataEnricher,
                 'SimpleES\EventSourcing\Metadata\EnrichesMetadata'
             );
