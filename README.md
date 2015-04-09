@@ -14,9 +14,9 @@ Under the collective flag of [Future500 B.V.][f500]
 composer.phar require simple-es/event-sourcing ~1.0@dev
 ```
 
-## Usage
+## Documentation
 
-Documentation will follow soon...
+Please visit [https://simple-es.github.io](https://simple-es.github.io) for the complete documentation.
 
 ## License
 

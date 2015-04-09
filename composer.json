@@ -3,7 +3,7 @@
   "description": "A \"simple\" Event Sourcing library for PHP",
   "type": "library",
   "keywords": ["simple", "simplees", "simple-es", "event", "sourcing", "event-sourcing"],
-  "homepage": "https://github.com/simple-es/event-sourcing",
+  "homepage": "https://simple-es.github.io",
   "license": "MIT",
   "authors": [
     {
