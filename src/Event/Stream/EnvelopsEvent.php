@@ -34,6 +34,26 @@ interface EnvelopsEvent
     );
 
     /**
+     * @param EventId     $eventId
+     * @param string      $eventName
+     * @param DomainEvent $event
+     * @param Identifies  $aggregateId
+     * @param int         $aggregateVersion
+     * @param Timestamp   $tookPlaceAt
+     * @param Metadata    $metadata
+     * @return static
+     */
+    public static function fromStore(
+        EventId $eventId,
+        $eventName,
+        DomainEvent $event,
+        Identifies $aggregateId,
+        $aggregateVersion,
+        Timestamp $tookPlaceAt,
+        Metadata $metadata
+    );
+
+    /**
      * @return EventId
      */
     public function eventId();

@@ -156,4 +156,22 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($originalMetadata, $this->envelope->metadata());
     }
+
+    /**
+     * @test
+     */
+    public function itReconstitutesItselfFromAnEventStore()
+    {
+        $envelopeFromStore = EventEnvelope::fromStore(
+            $this->envelope->eventId(),
+            $this->envelope->eventName(),
+            $this->envelope->event(),
+            $this->envelope->aggregateId(),
+            $this->envelope->aggregateVersion(),
+            $this->envelope->tookPlaceAt(),
+            $this->envelope->metadata()
+        );
+
+        $this->assertEquals($this->envelope, $envelopeFromStore);
+    }
 }
