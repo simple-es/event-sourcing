@@ -67,7 +67,7 @@ final class EventWrapper implements WrapsEvents
      */
     public function wrap(Identifies $aggregateId, DomainEvents $domainEvents)
     {
-        $lookupKey = (string) $aggregateId;
+        $lookupKey = $aggregateId->toString();
 
         if (!isset($this->aggregateVersions[$lookupKey])) {
             $this->aggregateVersions[$lookupKey] = -1;
@@ -100,7 +100,7 @@ final class EventWrapper implements WrapsEvents
      */
     public function unwrap(EventStream $envelopeStream)
     {
-        $lookupKey = (string) $envelopeStream->aggregateId();
+        $lookupKey = $envelopeStream->aggregateId()->toString();
 
         $events = [];
 

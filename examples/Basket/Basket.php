@@ -105,7 +105,7 @@ final class Basket implements TracksEvents
      */
     private function whenProductWasAddedToBasket(ProductWasAddedToBasket $event)
     {
-        $productId = (string) $event->productId();
+        $productId = $event->productId()->toString();
 
         if (!isset($this->products[$productId])) {
             $this->products[$productId] = 0;
@@ -120,7 +120,7 @@ final class Basket implements TracksEvents
      */
     private function whenProductWasRemovedFromBasket(ProductWasRemovedFromBasket $event)
     {
-        $this->products[(string) $event->productId()]--;
+        $this->products[$event->productId()->toString()]--;
         $this->productCount--;
     }
 
@@ -140,7 +140,7 @@ final class Basket implements TracksEvents
      */
     private function productNotInBasket(ProductId $productId)
     {
-        return empty($this->products[(string) $productId]);
+        return empty($this->products[$productId->toString()]);
     }
 
     private function __construct()

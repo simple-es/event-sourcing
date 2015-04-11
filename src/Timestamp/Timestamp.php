@@ -36,6 +36,17 @@ final class Timestamp
     }
 
     /**
+     * @param \DateTime $datetime
+     * @return Timestamp
+     */
+    public static function fromDateTime(\DateTime $datetime)
+    {
+        $datetime = clone $datetime;
+
+        return new Timestamp($datetime);
+    }
+
+    /**
      * @param string $string
      * @return Timestamp
      */
@@ -47,17 +58,6 @@ final class Timestamp
                 $string
             )
         );
-    }
-
-    /**
-     * @param \DateTime $datetime
-     * @return Timestamp
-     */
-    public static function fromDateTime(\DateTime $datetime)
-    {
-        $datetime = clone $datetime;
-
-        return new Timestamp($datetime);
     }
 
     /**
@@ -76,7 +76,7 @@ final class Timestamp
      * @param \DateInterval $interval
      * @return Timestamp
      */
-    public function sub(\DateInterval $interval)
+    public function subtract(\DateInterval $interval)
     {
         $datetime = clone $this->datetime;
         $datetime->sub($interval);
@@ -85,12 +85,16 @@ final class Timestamp
     }
 
     /**
-     * @param Timestamp $other
+     * @param mixed $other
      * @return bool
      */
-    public function equals(Timestamp $other)
+    public function equals($other)
     {
-        return ((string) $this === (string) $other);
+        if (!$other instanceof Timestamp) {
+            return false;
+        }
+
+        return $this->toString() === $other->toString();
     }
 
     /**
@@ -113,19 +117,27 @@ final class Timestamp
     }
 
     /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->datetime->format(self::ISO8601_TIME_FORMAT);
-    }
-
-    /**
      * @return \DateTime
      */
     public function toDateTime()
     {
         return clone $this->datetime;
+    }
+
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->datetime->format(self::ISO8601_TIME_FORMAT);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toString();
     }
 
     /**

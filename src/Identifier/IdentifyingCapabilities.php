@@ -27,20 +27,28 @@ trait IdentifyingCapabilities
     }
 
     /**
+     * @param mixed $other
+     * @return bool
+     */
+    public function equals($other)
+    {
+        return $other == $this;
+    }
+
+    /**
      * @return string
      */
-    public function __toString()
+    public function toString()
     {
         return $this->id;
     }
 
     /**
-     * @param Identifies $other
-     * @return bool
+     * @return string
      */
-    public function equals(Identifies $other)
+    public function __toString()
     {
-        return ($other instanceof static && $other->id === $this->id);
+        return $this->toString();
     }
 
     /**

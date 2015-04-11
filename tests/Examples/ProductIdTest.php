@@ -30,6 +30,14 @@ class ProductIdTest extends \PHPUnit_Framework_TestCase
      */
     public function itConvertsToAString()
     {
+        $this->assertSame('product-1', $this->productId->toString());
+    }
+
+    /**
+     * @test
+     */
+    public function itConvertsToAStringMagically()
+    {
         $this->assertSame('product-1', (string) $this->productId);
     }
 

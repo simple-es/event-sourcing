@@ -79,6 +79,6 @@ final class IdentityMap implements MapsIdentity
      */
     private function createLookupKey(Identifies $aggregateId)
     {
-        return sprintf('%s(%s)', get_class($aggregateId), (string) $aggregateId);
+        return sprintf('%s(%s)', get_class($aggregateId), $aggregateId->toString());
     }
 }

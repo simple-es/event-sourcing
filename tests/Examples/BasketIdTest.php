@@ -30,6 +30,14 @@ class BasketIdTest extends \PHPUnit_Framework_TestCase
      */
     public function itConvertsToAString()
     {
+        $this->assertSame('basket-1', $this->basketId->toString());
+    }
+
+    /**
+     * @test
+     */
+    public function itConvertsToAStringMagically()
+    {
         $this->assertSame('basket-1', (string) $this->basketId);
     }
 

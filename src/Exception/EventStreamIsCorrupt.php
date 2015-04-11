@@ -28,9 +28,9 @@ final class EventStreamIsCorrupt extends \InvalidArgumentException implements Ex
             sprintf(
                 'Event-stream can only contain events for identifier %s(%s), but got %s(%s)',
                 $expectedIdType,
-                (string) $expectedId,
+                $expectedId->toString(),
                 $invalidIdType,
-                (string) $invalidId
+                $invalidId->toString()
             )
         );
     }

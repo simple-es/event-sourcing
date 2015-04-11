@@ -34,7 +34,7 @@ class EventIdTest extends \PHPUnit_Framework_TestCase
      */
     public function itConvertsToAString()
     {
-        $this->assertSame('event-1', (string) $this->eventId);
+        $this->assertSame('event-1', $this->eventId->toString());
     }
 
     /**

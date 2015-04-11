@@ -21,11 +21,11 @@ interface Identifies
     /**
      * @return string
      */
-    public function __toString();
+    public function toString();
 
     /**
-     * @param Identifies $other
+     * @param mixed $other
      * @return bool
      */
-    public function equals(Identifies $other);
+    public function equals($other);
 }
