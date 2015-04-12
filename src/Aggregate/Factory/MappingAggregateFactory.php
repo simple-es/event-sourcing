@@ -42,7 +42,7 @@ final class MappingAggregateFactory implements ReconstitutesAggregates
         $idClass        = get_class($aggregateHistory->aggregateId());
         $aggregateClass = $this->mapIdClassToAggregateClass($idClass);
 
-        return call_user_func([$aggregateClass, 'fromHistory'], $aggregateHistory);
+        return $aggregateClass::fromHistory($aggregateHistory);
     }
 
     /**

@@ -75,12 +75,13 @@ final class EventWrapper implements WrapsEvents
 
         $envelopes = [];
 
+        $eventEnvelopeClass = $this->eventEnvelopeClass;
+
         /** @var DomainEvent $event */
         foreach ($domainEvents as $event) {
             $aggregateVersion = ++$this->aggregateVersions[$lookupKey];
 
-            $envelopes[] = call_user_func(
-                [$this->eventEnvelopeClass, 'envelop'],
+            $envelopes[] = $eventEnvelopeClass::envelop(
                 EventId::fromString($this->identifierGenerator->generateIdentifier()),
                 $this->eventNameResolver->resolveEventName($event),
                 $event,
