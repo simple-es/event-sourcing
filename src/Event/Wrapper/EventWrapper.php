@@ -73,15 +73,15 @@ final class EventWrapper implements WrapsEvents
             $this->aggregateVersions[$lookupKey] = -1;
         }
 
-        $envelopes = [];
-
-        $eventEnvelopeClass = $this->eventEnvelopeClass;
+        $envelopeClass = $this->eventEnvelopeClass;
+        $envelopes     = [];
 
         /** @var DomainEvent $event */
         foreach ($domainEvents as $event) {
             $aggregateVersion = ++$this->aggregateVersions[$lookupKey];
 
-            $envelopes[] = $eventEnvelopeClass::envelop(
+            /** @noinspection PhpUndefinedMethodInspection */
+            $envelopes[] = $envelopeClass::envelop(
                 EventId::fromString($this->identifierGenerator->generateIdentifier()),
                 $this->eventNameResolver->resolveEventName($event),
                 $event,
