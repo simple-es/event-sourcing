@@ -73,16 +73,24 @@ trait EventTrackingCapabilities
      */
     private function when(DomainEvent $event)
     {
-        $method = get_class($event);
+        $method = $this->getWhenMethod($event);
 
-        if (($pos = strrpos($method, '\\')) !== false) {
-            $method = substr($method, $pos + 1);
+        if (!method_exists($this, $method)) {
+            return;
         }
+        
+        $this->$method($event);
+    }
 
-        $method = 'when' . ucfirst($method);
+    /**
+     * @param DomainEvent $event
+     *
+     * @return string
+     */
+    private function getWhenMethod(DomainEvent $event)
+    {
+        $classParts = explode('\\', get_class($event));
 
-        if (is_callable([$this, $method])) {
-            call_user_func([$this, $method], $event);
-        }
+        return 'when' . ucfirst(end($classParts));
     }
 }
