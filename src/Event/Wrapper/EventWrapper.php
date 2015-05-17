@@ -53,7 +53,7 @@ final class EventWrapper implements WrapsEvents
     public function __construct(
         GeneratesIdentifiers $identifierGenerator,
         ResolvesEventNames $eventNameResolver,
-        $eventEnvelopeClass
+        $eventEnvelopeClass = 'SimpleES\EventSourcing\Event\Stream\EventEnvelope'
     ) {
         $this->identifierGenerator = $identifierGenerator;
         $this->eventNameResolver   = $eventNameResolver;

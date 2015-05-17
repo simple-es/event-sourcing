@@ -47,8 +47,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
 
         $this->eventWrapper = new EventWrapper(
             $this->identifierGenerator,
-            $this->eventNameResolver,
-            'SimpleES\EventSourcing\Event\Stream\EventEnvelope'
+            $this->eventNameResolver
         );
     }
 
