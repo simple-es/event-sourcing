@@ -22,6 +22,18 @@ trait EventTrackingCapabilities
     private $recordedEvents = [];
 
     /**
+     * @param AggregateHistory $aggregateHistory
+     * @return TracksEvents
+     */
+    public static function fromHistory(AggregateHistory $aggregateHistory)
+    {
+        $aggregate = new static();
+        $aggregate->replayHistory($aggregateHistory);
+
+        return $aggregate;
+    }
+
+    /**
      * @return DomainEvents
      */
     public function recordedEvents()
@@ -96,5 +108,9 @@ trait EventTrackingCapabilities
         }
 
         return 'when' . ucfirst($classPart);
+    }
+
+    private function __construct()
+    {
     }
 }

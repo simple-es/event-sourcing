@@ -8,7 +8,6 @@ namespace SimpleES\EventSourcing\Example\Basket;
 
 use SimpleES\EventSourcing\Aggregate\EventTrackingCapabilities;
 use SimpleES\EventSourcing\Aggregate\TracksEvents;
-use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp;
 use SimpleES\EventSourcing\Example\Basket\Events\ProductWasAddedToBasket;
 use SimpleES\EventSourcing\Example\Basket\Events\ProductWasRemovedFromBasket;
@@ -36,17 +35,6 @@ final class Basket implements TracksEvents
      * @var int
      */
     private $productCount;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromHistory(AggregateHistory $aggregateHistory)
-    {
-        $basket = new Basket();
-        $basket->replayHistory($aggregateHistory);
-
-        return $basket;
-    }
 
     /**
      * @param BasketId $basketId
@@ -141,9 +129,5 @@ final class Basket implements TracksEvents
     private function productNotInBasket(ProductId $productId)
     {
         return empty($this->products[$productId->toString()]);
-    }
-
-    private function __construct()
-    {
     }
 }
