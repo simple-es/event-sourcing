@@ -49,7 +49,7 @@ class AggregateManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itSavesAnAggregate()
+    public function itAddsAnAggregateToTheRepository()
     {
         $id = BasketId::fromString('some-id');
 
@@ -65,13 +65,13 @@ class AggregateManagerTest extends \PHPUnit_Framework_TestCase
             ->with($id)
             ->will($this->returnValue(false));
 
-        $this->aggregateManager->save($aggregate);
+        $this->aggregateManager->add($aggregate);
     }
 
     /**
      * @test
      */
-    public function itAddsAnAggregateToTheIdentityMapWhileSaving()
+    public function itAlsoAddsTheAggregateToTheIdentityMap()
     {
         $id = BasketId::fromString('some-id');
 
@@ -92,13 +92,13 @@ class AggregateManagerTest extends \PHPUnit_Framework_TestCase
             ->method('add')
             ->with($aggregate);
 
-        $this->aggregateManager->save($aggregate);
+        $this->aggregateManager->add($aggregate);
     }
 
     /**
      * @test
      */
-    public function itDoesNotAddAnAggregateToTheIdentityMapWhileSavingIfItIsAllreadyInThere()
+    public function itDoesNotAddTheAggregateToTheIdentityMapIfItIsAlreadyInThere()
     {
         $id = BasketId::fromString('some-id');
 
@@ -118,13 +118,13 @@ class AggregateManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('add');
 
-        $this->aggregateManager->save($aggregate);
+        $this->aggregateManager->add($aggregate);
     }
 
     /**
      * @test
      */
-    public function itFetchesAnAggregate()
+    public function itGetsAnAggregateFromTheRepository()
     {
         $id = BasketId::fromString('some-id');
 
@@ -142,19 +142,19 @@ class AggregateManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->repository
             ->expects($this->once())
-            ->method('fetch')
+            ->method('get')
             ->with($id)
             ->will($this->returnValue($aggregate));
 
-        $fetchedAggregate = $this->aggregateManager->fetch($id);
+        $gotAggregate = $this->aggregateManager->get($id);
 
-        $this->assertSame($aggregate, $fetchedAggregate);
+        $this->assertSame($aggregate, $gotAggregate);
     }
 
     /**
      * @test
      */
-    public function itAddsAnAggregateToTheIdentityMapWhenFetching()
+    public function itAddsTheAggregateToTheIdentityMapWhenGettingItFromTheRepository()
     {
         $id = BasketId::fromString('some-id');
 
@@ -177,19 +177,19 @@ class AggregateManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->repository
             ->expects($this->once())
-            ->method('fetch')
+            ->method('get')
             ->with($id)
             ->will($this->returnValue($aggregate));
 
-        $fetchedAggregate = $this->aggregateManager->fetch($id);
+        $gotAggregate = $this->aggregateManager->get($id);
 
-        $this->assertSame($aggregate, $fetchedAggregate);
+        $this->assertSame($aggregate, $gotAggregate);
     }
 
     /**
      * @test
      */
-    public function itFetchesAnAggregateFromTheIdentityMapIfItIsInThere()
+    public function itGetsTheAggregateFromTheIdentityMapIfItIsInThere()
     {
         $id = BasketId::fromString('some-id');
 
@@ -217,11 +217,11 @@ class AggregateManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->repository
             ->expects($this->never())
-            ->method('fetch');
+            ->method('get');
 
-        $fetchedAggregate = $this->aggregateManager->fetch($id);
+        $gotAggregate = $this->aggregateManager->get($id);
 
-        $this->assertSame($aggregate, $fetchedAggregate);
+        $this->assertSame($aggregate, $gotAggregate);
     }
 
     /**

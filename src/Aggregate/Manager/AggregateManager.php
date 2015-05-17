@@ -40,25 +40,25 @@ final class AggregateManager implements ManagesAggregates
     /**
      * {@inheritdoc}
      */
-    public function save(TracksEvents $aggregate)
+    public function add(TracksEvents $aggregate)
     {
         if (!$this->identityMap->contains($aggregate->aggregateId())) {
             $this->identityMap->add($aggregate);
         }
 
-        $this->repository->save($aggregate);
+        $this->repository->add($aggregate);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function fetch(Identifies $aggregateId)
+    public function get(Identifies $aggregateId)
     {
         if ($this->identityMap->contains($aggregateId)) {
             return $this->identityMap->get($aggregateId);
         }
 
-        $aggregate = $this->repository->fetch($aggregateId);
+        $aggregate = $this->repository->get($aggregateId);
 
         $this->identityMap->add($aggregate);
 

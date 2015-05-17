@@ -73,7 +73,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itSavesAnAggregate()
+    public function itCommitsTheRecordedEventsOfAnAggregateInTheEventStore()
     {
         $id = BasketId::fromString('some-basket');
 
@@ -107,13 +107,13 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('commit')
             ->with($this->equalTo($eventStream));
 
-        $this->repository->save($aggregate);
+        $this->repository->add($aggregate);
     }
 
     /**
      * @test
      */
-    public function itDoesNotSaveAnAggregateWhenItHasNotRecordedEvents()
+    public function itDoesNothingIfTheAggregateHasNoRecordedEvents()
     {
         $id = BasketId::fromString('some-basket');
 
@@ -131,13 +131,13 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('commit');
 
-        $this->repository->save($aggregate);
+        $this->repository->add($aggregate);
     }
 
     /**
      * @test
      */
-    public function itFetchesAnAggregate()
+    public function itReconstitutesAnAggregateFromHistoryRetrievedFromTheEventStore()
     {
         $id = BasketId::fromString('some-basket');
 
@@ -164,7 +164,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($aggregateHistory))
             ->will($this->returnValue($aggregate));
 
-        $foundAggregate = $this->repository->fetch($id);
+        $foundAggregate = $this->repository->get($id);
 
         $this->assertSame($aggregate, $foundAggregate);
     }

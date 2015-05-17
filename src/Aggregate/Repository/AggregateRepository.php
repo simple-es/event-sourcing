@@ -51,7 +51,7 @@ final class AggregateRepository implements Repository
     /**
      * {@inheritdoc}
      */
-    public function save(TracksEvents $aggregate)
+    public function add(TracksEvents $aggregate)
     {
         if (!$aggregate->hasRecordedEvents()) {
             return;
@@ -68,7 +68,7 @@ final class AggregateRepository implements Repository
     /**
      * {@inheritdoc}
      */
-    public function fetch(Identifies $aggregateId)
+    public function get(Identifies $aggregateId)
     {
         $envelopeStream = $this->eventStore->read($aggregateId);
         $history        = $this->eventWrapper->unwrap($envelopeStream);

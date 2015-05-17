@@ -20,12 +20,12 @@ interface Repository
      * @param TracksEvents $aggregate
      * @return void
      */
-    public function save(TracksEvents $aggregate);
+    public function add(TracksEvents $aggregate);
 
     /**
      * @param Identifies $aggregateId
      * @return TracksEvents
      * @throws AggregateIdNotFound
      */
-    public function fetch(Identifies $aggregateId);
+    public function get(Identifies $aggregateId);
 }
