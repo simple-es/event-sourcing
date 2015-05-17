@@ -35,6 +35,28 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function itExposesItsBasketId()
+    {
+        $basketId        = BasketId::fromString('basket-1');
+        $exposedBasketId = $this->basket->basketId();
+
+        $this->assertTrue($basketId->equals($exposedBasketId));
+    }
+
+    /**
+     * @test
+     */
+    public function itExposesItsAggregateId()
+    {
+        $basketId           = BasketId::fromString('basket-1');
+        $exposedAggregateId = $this->basket->aggregateId();
+
+        $this->assertTrue($basketId->equals($exposedAggregateId));
+    }
+
+    /**
+     * @test
+     */
     public function itExposesItRecordedEvents()
     {
         $this->assertTrue($this->basket->hasRecordedEvents());

@@ -71,6 +71,14 @@ final class Basket implements TracksEvents
     }
 
     /**
+     * @return BasketId
+     */
+    public function basketId()
+    {
+        return $this->basketId;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function aggregateId()
@@ -83,7 +91,7 @@ final class Basket implements TracksEvents
      */
     private function whenBasketWasPickedUp(BasketWasPickedUp $event)
     {
-        $this->basketId     = $event->aggregateId();
+        $this->basketId     = $event->basketId();
         $this->products     = [];
         $this->productCount = 0;
     }

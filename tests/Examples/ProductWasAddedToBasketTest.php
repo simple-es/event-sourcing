@@ -32,11 +32,11 @@ class ProductWasAddedToBasketTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itExposesAnAggregateId()
+    public function itExposesItsBasketId()
     {
         $basketId = BasketId::fromString('basket-1');
 
-        $this->assertTrue($basketId->equals($this->event->aggregateId()));
+        $this->assertTrue($basketId->equals($this->event->basketId()));
     }
 
     /**
@@ -47,13 +47,5 @@ class ProductWasAddedToBasketTest extends \PHPUnit_Framework_TestCase
         $productId = ProductId::fromString('product-1');
 
         $this->assertTrue($productId->equals($this->event->productId()));
-    }
-
-    /**
-     * @test
-     */
-    public function itExposesAName()
-    {
-        $this->assertSame('productWasAddedToBasket', $this->event->name());
     }
 }

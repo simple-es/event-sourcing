@@ -39,7 +39,7 @@ final class ProductWasAddedToBasket implements DomainEvent
     /**
      * {@inheritdoc}
      */
-    public function aggregateId()
+    public function basketId()
     {
         return $this->basketId;
     }
@@ -50,13 +50,5 @@ final class ProductWasAddedToBasket implements DomainEvent
     public function productId()
     {
         return $this->productId;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function name()
-    {
-        return 'productWasAddedToBasket';
     }
 }

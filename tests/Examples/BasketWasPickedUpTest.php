@@ -30,18 +30,10 @@ class BasketWasPickedUpTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itExposesAnAggregateId()
+    public function itExposesItsBasketId()
     {
         $basketId = BasketId::fromString('basket-1');
 
-        $this->assertTrue($basketId->equals($this->event->aggregateId()));
-    }
-
-    /**
-     * @test
-     */
-    public function itExposesAName()
-    {
-        $this->assertSame('basketWasPickedUp', $this->event->name());
+        $this->assertTrue($basketId->equals($this->event->basketId()));
     }
 }

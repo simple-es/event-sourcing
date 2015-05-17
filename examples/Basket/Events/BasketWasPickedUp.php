@@ -31,16 +31,8 @@ final class BasketWasPickedUp implements DomainEvent
     /**
      * {@inheritdoc}
      */
-    public function aggregateId()
+    public function basketId()
     {
         return $this->basketId;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function name()
-    {
-        return 'basketWasPickedUp';
     }
 }
