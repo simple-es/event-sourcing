@@ -57,7 +57,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itExposesItRecordedEvents()
+    public function itHasRecordedEvents()
     {
         $this->assertTrue($this->basket->hasRecordedEvents());
     }
