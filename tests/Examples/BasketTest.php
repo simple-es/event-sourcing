@@ -155,7 +155,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
             $events[] = $event;
         }
 
-        $this->basket->clearRecordedEvents();
+        $this->basket->eraseRecordedEvents();
 
         $history             = new AggregateHistory($this->basket->aggregateId(), $events);
         $reconstitutedBasket = Basket::fromHistory($history);

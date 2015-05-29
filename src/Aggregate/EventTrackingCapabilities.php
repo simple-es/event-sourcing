@@ -54,7 +54,7 @@ trait EventTrackingCapabilities
     /**
      * @return void
      */
-    public function clearRecordedEvents()
+    public function eraseRecordedEvents()
     {
         $this->recordedEvents = [];
     }

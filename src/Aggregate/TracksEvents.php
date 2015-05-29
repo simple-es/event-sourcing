@@ -40,5 +40,5 @@ interface TracksEvents
     /**
      * @return void
      */
-    public function clearRecordedEvents();
+    public function eraseRecordedEvents();
 }

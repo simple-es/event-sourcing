@@ -91,7 +91,7 @@ class AggregateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($domainEvents));
         $aggregate
             ->expects($this->once())
-            ->method('clearRecordedEvents');
+            ->method('eraseRecordedEvents');
 
         $this->eventWrapper
             ->expects($this->once())

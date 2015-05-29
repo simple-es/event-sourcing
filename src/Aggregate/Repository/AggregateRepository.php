@@ -58,7 +58,7 @@ final class AggregateRepository implements Repository
         }
 
         $recordedEvents = $aggregate->recordedEvents();
-        $aggregate->clearRecordedEvents();
+        $aggregate->eraseRecordedEvents();
 
         $envelopeStream = $this->eventWrapper->wrap($aggregate->aggregateId(), $recordedEvents);
 
