@@ -50,6 +50,7 @@ final class MappingAggregateFactory implements ReconstitutesAggregates
     /**
      * @param string $class
      * @return string
+     * @throws IdNotMappedToAggregate
      */
     private function mapIdClassToAggregateClass($class)
     {
