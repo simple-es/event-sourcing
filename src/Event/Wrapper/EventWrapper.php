@@ -14,7 +14,7 @@ use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
 use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\InvalidType;
-use SimpleES\EventSourcing\Identifier\GeneratesIdentifiers;
+use SimpleES\EventSourcing\Identifier\Generator\GeneratesIdentifiers;
 use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Timestamp\Timestamp;
