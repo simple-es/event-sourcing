@@ -23,7 +23,7 @@
   "suggest": {
     "simple-es/doctrine-dbal-bridge": "A bridge for using Doctrine DBAL as event store",
     "simple-es/jms-serializer-bridge": "A bridge for using JMS Serializer to (de)serialize data",
-    "simple-es/ramsey-uuid-bridge": "A bridge for using Rhumsaa Uuid to generate UUIDs",
+    "simple-es/ramsey-uuid-bridge": "A bridge for using Ramsey Uuid to generate UUIDs",
     "simple-es/message-bus-bridge": "A bridge for using SimpleBus MessageBus"
   },
 
