@@ -62,27 +62,29 @@ final class MappingAggregateFactory implements ReconstitutesAggregates
 
     /**
      * @param string $class
-     * @throws InvalidTypeInCollection
      */
     private function guardIdClass($class)
     {
-        $interface = 'SimpleES\EventSourcing\Identifier\Identifies';
-
-        if (!is_string($class) || !is_subclass_of($class, $interface)) {
-            throw InvalidTypeInCollection::create($class, $interface);
-        }
+        $this->ensureInstanceOf('SimpleES\EventSourcing\Identifier\Identifies', $class);
     }
 
     /**
      * @param string $class
-     * @throws InvalidTypeInCollection
      */
     private function guardAggregateClass($class)
     {
-        $interface = 'SimpleES\EventSourcing\Aggregate\TracksEvents';
+        $this->ensureInstanceOf('SimpleES\EventSourcing\Aggregate\TracksEvents', $class);
+    }
 
-        if (!is_string($class) || !is_subclass_of($class, $interface)) {
-            throw InvalidTypeInCollection::create($class, $interface);
+    /**
+     * @param string $expected
+     * @param string $actual
+     * @throws InvalidTypeInCollection
+     */
+    private function ensureInstanceOf($expected, $actual)
+    {
+        if (!is_string($actual) || !is_subclass_of($actual, $expected)) {
+            throw InvalidTypeInCollection::create($actual, $expected);
         }
     }
 }
