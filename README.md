@@ -1,6 +1,8 @@
 # SimpleES \ EventSourcing
 
 [![Build Status](https://travis-ci.org/simple-es/event-sourcing.svg?branch=master)](https://travis-ci.org/simple-es/event-sourcing)
+[![Code Coverage](https://scrutinizer-ci.com/g/simple-es/event-sourcing/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/simple-es/event-sourcing/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/simple-es/event-sourcing/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/simple-es/event-sourcing/?branch=master)
 
 A "simple" Event Sourcing library for PHP, inspired by [Buttercup.Protects][buttercup] and [Broadway][broadway], following the philosophy of [SimpleBus][simplebus].
 

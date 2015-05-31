@@ -14,5 +14,9 @@ install:
   - composer install --prefer-dist --dev --no-progress --optimize-autoloader
 
 script:
-  - vendor/bin/phpunit --coverage-text
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
   - vendor/bin/phpcs --report=full --standard=PSR2 --encoding=utf-8 src examples tests
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
