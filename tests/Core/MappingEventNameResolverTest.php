@@ -26,11 +26,13 @@ class MappingEventNameResolverTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $ns = 'SimpleES\EventSourcing\Example\Basket\Events';
+
         $this->eventNameResolver = new MappingEventNameResolver(
             [
-                'SimpleES\EventSourcing\Example\Basket\Events\BasketWasPickedUp'           => 'basket_was_picked_up',
-                'SimpleES\EventSourcing\Example\Basket\Events\ProductWasAddedToBasket'     => 'product_was_added_to_basket',
-                'SimpleES\EventSourcing\Example\Basket\Events\ProductWasRemovedFromBasket' => 'product_was_removed_from_basket',
+                $ns . '\BasketWasPickedUp'           => 'basket_was_picked_up',
+                $ns . '\ProductWasAddedToBasket'     => 'product_was_added_to_basket',
+                $ns . '\ProductWasRemovedFromBasket' => 'product_was_removed_from_basket',
             ]
         );
     }

@@ -15,4 +15,4 @@ install:
 
 script:
   - vendor/bin/phpunit --coverage-text
-  - vendor/bin/phpcs --report=full --standard=PSR2 --encoding=utf-8 src examples
+  - vendor/bin/phpcs --report=full --standard=PSR2 --encoding=utf-8 src examples tests
