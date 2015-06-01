@@ -36,6 +36,15 @@ class TimestampTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException \SimpleES\EventSourcing\Exception\InvalidTimestamp
+     */
+    public function itIsNotCreatedWhenTheStringIsInvalid()
+    {
+        Timestamp::fromString('not-a-timestamp');
+    }
+
+    /**
+     * @test
      */
     public function itIsCreatedFromADateTimeObject()
     {

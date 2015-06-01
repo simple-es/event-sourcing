@@ -6,6 +6,8 @@
 
 namespace SimpleES\EventSourcing\Timestamp;
 
+use SimpleES\EventSourcing\Exception\InvalidTimestamp;
+
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
@@ -26,12 +28,10 @@ final class Timestamp
      */
     public static function now()
     {
-        return new Timestamp(
-            \DateTime::createFromFormat(
-                'U.u',
-                sprintf('%.6f', microtime(true)),
-                new \DateTimeZone('UTC')
-            )
+        return self::fromFormat(
+            'U.u',
+            sprintf('%.6f', microtime(true)),
+            new \DateTimeZone('UTC')
         );
     }
 
@@ -52,11 +52,9 @@ final class Timestamp
      */
     public static function fromString($string)
     {
-        return new Timestamp(
-            \DateTime::createFromFormat(
-                self::ISO8601_TIME_FORMAT,
-                $string
-            )
+        return self::fromFormat(
+            self::ISO8601_TIME_FORMAT,
+            $string
         );
     }
 
@@ -138,6 +136,30 @@ final class Timestamp
     public function __toString()
     {
         return $this->toString();
+    }
+
+    /**
+     * @param string        $format
+     * @param string        $time
+     * @param \DateTimeZone $timezone
+     * @return Timestamp
+     */
+    private static function fromFormat($format, $time, \DateTimeZone $timezone = null)
+    {
+        // Contrary to what the docs say, PHP doesn't support passing null as 3rd argument:
+        // DateTime::createFromFormat() expects parameter 3 to be DateTimeZone, null given
+
+        if ($timezone === null) {
+            $datetime = \DateTime::createFromFormat($format, $time);
+        } else {
+            $datetime = \DateTime::createFromFormat($format, $time, $timezone);
+        }
+
+        if ($datetime === false) {
+            throw InvalidTimestamp::create($format, $time);
+        }
+
+        return new Timestamp($datetime);
     }
 
     /**
