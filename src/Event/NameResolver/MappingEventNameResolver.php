@@ -52,7 +52,7 @@ final class MappingEventNameResolver implements ResolvesEventNames
         $class = array_search($name, $this->map, true);
 
         if ($class === false) {
-            throw MapNotFound::create($class);
+            throw MapNotFound::create($name);
         }
 
         return $class;
