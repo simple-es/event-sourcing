@@ -23,7 +23,7 @@ interface EnvelopsEvent
      * @param DomainEvent $event
      * @param Identifies  $aggregateId
      * @param int         $aggregateVersion
-     * @return static
+     * @return EnvelopsEvent
      */
     public static function envelop(
         Identifies $eventId,
@@ -41,7 +41,7 @@ interface EnvelopsEvent
      * @param int         $aggregateVersion
      * @param Timestamp   $tookPlaceAt
      * @param Metadata    $metadata
-     * @return static
+     * @return EnvelopsEvent
      */
     public static function fromStore(
         Identifies $eventId,
@@ -90,7 +90,7 @@ interface EnvelopsEvent
 
     /**
      * @param Metadata $metadata
-     * @return static
+     * @return EnvelopsEvent
      */
     public function enrichMetadata(Metadata $metadata);
 }

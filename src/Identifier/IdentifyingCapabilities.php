@@ -19,7 +19,7 @@ trait IdentifyingCapabilities
 
     /**
      * @param string $string
-     * @return static
+     * @return Identifies
      */
     public static function fromString($string)
     {

@@ -29,7 +29,7 @@ final class Metadata implements \ArrayAccess
 
     /**
      * @param Metadata $other
-     * @return static
+     * @return Metadata
      */
     public function merge(Metadata $other)
     {
