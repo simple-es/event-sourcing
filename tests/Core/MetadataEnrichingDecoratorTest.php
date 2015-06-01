@@ -82,7 +82,7 @@ class MetadataEnrichingDecoratorTest extends \PHPUnit_Framework_TestCase
         $this->nextEventStore
             ->expects($this->once())
             ->method('commit')
-            ->with($this->isInstanceOf('SimpleES\EventSourcing\Event\Stream\EventStream'));
+            ->with($this->isInstanceOf('SimpleES\EventSourcing\Event\EventStream'));
 
         $this->eventStore->commit($eventStream);
     }

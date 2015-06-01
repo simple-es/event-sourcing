@@ -4,7 +4,7 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\Event\Stream;
+namespace SimpleES\EventSourcing\Event;
 
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\EventStreamIsCorrupt;
@@ -72,7 +72,7 @@ final class EventStream implements \IteratorAggregate, \Countable
     {
         foreach ($this->envelopes as $envelope) {
             if (!($envelope instanceof EnvelopsEvent)) {
-                throw InvalidTypeInCollection::create($envelope, 'SimpleES\EventSourcing\Event\Stream\EnvelopsEvent');
+                throw InvalidTypeInCollection::create($envelope, 'SimpleES\EventSourcing\Event\EnvelopsEvent');
             }
 
             if (!$envelope->aggregateId()->equals($this->aggregateId)) {

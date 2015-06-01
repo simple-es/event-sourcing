@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
+use SimpleES\EventSourcing\Event\EventEnvelope;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Test\TestHelper;

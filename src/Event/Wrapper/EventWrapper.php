@@ -9,9 +9,9 @@ namespace SimpleES\EventSourcing\Event\Wrapper;
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Event\DomainEvents;
+use SimpleES\EventSourcing\Event\EnvelopsEvent;
+use SimpleES\EventSourcing\Event\EventStream;
 use SimpleES\EventSourcing\Event\NameResolver\ResolvesEventNames;
-use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
-use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\InvalidType;
 use SimpleES\EventSourcing\Identifier\Generator\GeneratesIdentifiers;
 use SimpleES\EventSourcing\Identifier\Identifies;
@@ -52,7 +52,7 @@ final class EventWrapper implements WrapsEvents
     public function __construct(
         GeneratesIdentifiers $eventIdGenerator,
         ResolvesEventNames $eventNameResolver,
-        $eventEnvelopeClass = 'SimpleES\EventSourcing\Event\Stream\EventEnvelope'
+        $eventEnvelopeClass = 'SimpleES\EventSourcing\Event\EventEnvelope'
     ) {
         $this->eventIdGenerator   = $eventIdGenerator;
         $this->eventNameResolver  = $eventNameResolver;
@@ -119,7 +119,7 @@ final class EventWrapper implements WrapsEvents
      */
     private function guardEventEnvelopeClass($class)
     {
-        $interface = 'SimpleES\EventSourcing\Event\Stream\EnvelopsEvent';
+        $interface = 'SimpleES\EventSourcing\Event\EnvelopsEvent';
 
         if (!is_string($class) || !is_subclass_of($class, $interface)) {
             throw InvalidType::create($class, $interface);

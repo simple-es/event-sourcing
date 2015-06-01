@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Event\Store;
 
-use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Event\EventStream;
 use SimpleES\EventSourcing\Exception\AggregateIdNotFound;
 use SimpleES\EventSourcing\Identifier\Identifies;
 

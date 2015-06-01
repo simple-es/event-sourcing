@@ -60,7 +60,7 @@ class InMemoryEventStoreTest extends \PHPUnit_Framework_TestCase
         $eventStream = $this->eventStore->read($id);
         $envelopes   = iterator_to_array($eventStream);
 
-        $this->assertInstanceOf('SimpleES\EventSourcing\Event\Stream\EventStream', $eventStream);
+        $this->assertInstanceOf('SimpleES\EventSourcing\Event\EventStream', $eventStream);
         $this->assertCount(3, $eventStream);
 
         $envelopeOne   = $this->testHelper->getEventStreamEnvelopeOne($id);

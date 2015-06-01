@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Event\EventStream;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Test\TestHelper;
 
@@ -101,7 +101,7 @@ class EventStreamTest extends \PHPUnit_Framework_TestCase
         $iteratedOverEnvelopes = 0;
 
         foreach ($this->eventStream as $envelope) {
-            $this->assertInstanceOf('SimpleES\EventSourcing\Event\Stream\EnvelopsEvent', $envelope);
+            $this->assertInstanceOf('SimpleES\EventSourcing\Event\EnvelopsEvent', $envelope);
             $iteratedOverEnvelopes++;
         }
 

@@ -8,7 +8,7 @@ namespace SimpleES\EventSourcing\Event\Wrapper;
 
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvents;
-use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Event\EventStream;
 use SimpleES\EventSourcing\Identifier\Identifies;
 
 /**

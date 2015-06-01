@@ -8,7 +8,7 @@ namespace SimpleES\EventSourcing\Test;
 
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvents;
-use SimpleES\EventSourcing\Event\Stream\EventStream;
+use SimpleES\EventSourcing\Event\EventStream;
 use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Timestamp\Timestamp;
@@ -324,7 +324,7 @@ class TestHelper
      */
     public function mockEnvelope(Identifies $id, $version, Metadata $metadata = null)
     {
-        $class = 'SimpleES\EventSourcing\Event\Stream\EnvelopsEvent';
+        $class = 'SimpleES\EventSourcing\Event\EnvelopsEvent';
 
         $envelope = $this->testCase->getMock($class);
 

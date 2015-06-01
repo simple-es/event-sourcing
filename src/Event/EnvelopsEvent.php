@@ -4,9 +4,8 @@
  * @license https://github.com/simple-es/event-sourcing/blob/master/LICENSE MIT
  */
 
-namespace SimpleES\EventSourcing\Event\Stream;
+namespace SimpleES\EventSourcing\Event;
 
-use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Timestamp\Timestamp;

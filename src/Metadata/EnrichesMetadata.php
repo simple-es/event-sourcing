@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Metadata;
 
-use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
+use SimpleES\EventSourcing\Event\EnvelopsEvent;
 
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.

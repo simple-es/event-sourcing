@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Example\Auxiliary;
 
-use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
+use SimpleES\EventSourcing\Event\EnvelopsEvent;
 use SimpleES\EventSourcing\Metadata\EnrichesMetadata;
 use SimpleES\EventSourcing\Metadata\Metadata;
 

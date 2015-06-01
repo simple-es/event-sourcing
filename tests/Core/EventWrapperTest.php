@@ -6,7 +6,7 @@
 
 namespace SimpleES\EventSourcing\Test\Core;
 
-use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
+use SimpleES\EventSourcing\Event\EnvelopsEvent;
 use SimpleES\EventSourcing\Event\Wrapper\EventWrapper;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Test\TestHelper;
@@ -85,7 +85,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
 
         $envelopeStream = $this->eventWrapper->wrap($id, $domainEvents);
 
-        $this->assertInstanceOf('SimpleES\EventSourcing\Event\Stream\EventStream', $envelopeStream);
+        $this->assertInstanceOf('SimpleES\EventSourcing\Event\EventStream', $envelopeStream);
         $this->assertCount(3, $envelopeStream);
     }
 

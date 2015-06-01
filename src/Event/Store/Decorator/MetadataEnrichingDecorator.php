@@ -6,9 +6,9 @@
 
 namespace SimpleES\EventSourcing\Event\Store\Decorator;
 
+use SimpleES\EventSourcing\Event\EnvelopsEvent;
+use SimpleES\EventSourcing\Event\EventStream;
 use SimpleES\EventSourcing\Event\Store\StoresEvents;
-use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
-use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\CollectionIsEmpty;
 use SimpleES\EventSourcing\Exception\InvalidTypeInCollection;
 use SimpleES\EventSourcing\Identifier\Identifies;
