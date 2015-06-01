@@ -30,7 +30,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $identifierGenerator;
+    private $eventIdGenerator;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -41,12 +41,16 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->identifierGenerator = $this->getMock('SimpleES\EventSourcing\Identifier\Generator\GeneratesIdentifiers');
+        $this->eventIdGenerator = $this->getMock('SimpleES\EventSourcing\Identifier\Generator\GeneratesIdentifiers');
+        $this->eventIdGenerator
+            ->expects($this->any())
+            ->method('generateIdentifier')
+            ->will($this->returnValue($this->testHelper->mockIdentifier()));
 
         $this->eventNameResolver = $this->getMock('SimpleES\EventSourcing\Event\NameResolver\ResolvesEventNames');
 
         $this->eventWrapper = new EventWrapper(
-            $this->identifierGenerator,
+            $this->eventIdGenerator,
             $this->eventNameResolver
         );
     }
@@ -55,10 +59,10 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper->tearDown();
 
-        $this->testHelper          = null;
-        $this->eventWrapper        = null;
-        $this->identifierGenerator = null;
-        $this->eventNameResolver   = null;
+        $this->testHelper        = null;
+        $this->eventWrapper      = null;
+        $this->eventIdGenerator  = null;
+        $this->eventNameResolver = null;
     }
 
     /**
@@ -69,9 +73,10 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
         $id           = BasketId::fromString('some-id');
         $domainEvents = $this->testHelper->getDomainEvents($id);
 
-        $this->identifierGenerator
+        $this->eventIdGenerator
             ->expects($this->exactly(3))
-            ->method('generateIdentifier');
+            ->method('generateIdentifier')
+            ->will($this->returnValue($this->testHelper->mockIdentifier()));
 
         $this->eventNameResolver
             ->expects($this->exactly(3))
@@ -144,7 +149,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
     public function theEventEnvelopeClassMustImplementEnvelopsEvent()
     {
         $this->eventWrapper = new EventWrapper(
-            $this->identifierGenerator,
+            $this->eventIdGenerator,
             $this->eventNameResolver,
             'stdClass'
         );

@@ -8,7 +8,6 @@ namespace SimpleES\EventSourcing\Test;
 
 use SimpleES\EventSourcing\Event\AggregateHistory;
 use SimpleES\EventSourcing\Event\DomainEvents;
-use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Identifier\Identifies;
 use SimpleES\EventSourcing\Metadata\Metadata;
@@ -332,7 +331,7 @@ class TestHelper
         $envelope
             ->expects($this->testCase->any())
             ->method('eventId')
-            ->will($this->testCase->returnValue(EventId::fromString('event-' . ($version + 1))));
+            ->will($this->testCase->returnValue($this->mockIdentifier()));
 
         $envelope
             ->expects($this->testCase->any())
@@ -380,6 +379,18 @@ class TestHelper
             );
 
         return $envelope;
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    public function mockIdentifier()
+    {
+        $class = 'SimpleES\EventSourcing\Identifier\Identifies';
+
+        $identifier = $this->testCase->getMock($class);
+
+        return $identifier;
     }
 
     /**

@@ -18,7 +18,7 @@ use SimpleES\EventSourcing\Timestamp\Timestamp;
 trait EventEnvelopingCapabilities
 {
     /**
-     * @param EventId     $eventId
+     * @param Identifies  $eventId
      * @param string      $eventName
      * @param DomainEvent $event
      * @param Identifies  $aggregateId
@@ -26,7 +26,7 @@ trait EventEnvelopingCapabilities
      * @return static
      */
     public static function envelop(
-        EventId $eventId,
+        Identifies $eventId,
         $eventName,
         DomainEvent $event,
         Identifies $aggregateId,
@@ -44,7 +44,7 @@ trait EventEnvelopingCapabilities
     }
 
     /**
-     * @param EventId     $eventId
+     * @param Identifies  $eventId
      * @param string      $eventName
      * @param DomainEvent $event
      * @param Identifies  $aggregateId
@@ -54,7 +54,7 @@ trait EventEnvelopingCapabilities
      * @return static
      */
     public static function fromStore(
-        EventId $eventId,
+        Identifies $eventId,
         $eventName,
         DomainEvent $event,
         Identifies $aggregateId,
@@ -74,7 +74,7 @@ trait EventEnvelopingCapabilities
     }
 
     /**
-     * @var EventId
+     * @var Identifies
      */
     private $eventId;
 
@@ -109,7 +109,7 @@ trait EventEnvelopingCapabilities
     private $metadata;
 
     /**
-     * @return EventId
+     * @return Identifies
      */
     public function eventId()
     {
@@ -182,7 +182,7 @@ trait EventEnvelopingCapabilities
     }
 
     /**
-     * @param EventId     $eventId
+     * @param Identifies  $eventId
      * @param string      $eventName
      * @param DomainEvent $event
      * @param Identifies  $aggregateId
@@ -191,7 +191,7 @@ trait EventEnvelopingCapabilities
      * @param Metadata    $metadata
      */
     private function __construct(
-        EventId $eventId,
+        Identifies $eventId,
         $eventName,
         DomainEvent $event,
         Identifies $aggregateId,

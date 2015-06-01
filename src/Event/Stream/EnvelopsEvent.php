@@ -18,7 +18,7 @@ use SimpleES\EventSourcing\Timestamp\Timestamp;
 interface EnvelopsEvent
 {
     /**
-     * @param EventId     $eventId
+     * @param Identifies  $eventId
      * @param string      $eventName
      * @param DomainEvent $event
      * @param Identifies  $aggregateId
@@ -26,7 +26,7 @@ interface EnvelopsEvent
      * @return static
      */
     public static function envelop(
-        EventId $eventId,
+        Identifies $eventId,
         $eventName,
         DomainEvent $event,
         Identifies $aggregateId,
@@ -34,7 +34,7 @@ interface EnvelopsEvent
     );
 
     /**
-     * @param EventId     $eventId
+     * @param Identifies  $eventId
      * @param string      $eventName
      * @param DomainEvent $event
      * @param Identifies  $aggregateId
@@ -44,7 +44,7 @@ interface EnvelopsEvent
      * @return static
      */
     public static function fromStore(
-        EventId $eventId,
+        Identifies $eventId,
         $eventName,
         DomainEvent $event,
         Identifies $aggregateId,
@@ -54,7 +54,7 @@ interface EnvelopsEvent
     );
 
     /**
-     * @return EventId
+     * @return Identifies
      */
     public function eventId();
 

@@ -11,7 +11,6 @@ use SimpleES\EventSourcing\Event\DomainEvent;
 use SimpleES\EventSourcing\Event\DomainEvents;
 use SimpleES\EventSourcing\Event\NameResolver\ResolvesEventNames;
 use SimpleES\EventSourcing\Event\Stream\EnvelopsEvent;
-use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Event\Stream\EventStream;
 use SimpleES\EventSourcing\Exception\InvalidType;
 use SimpleES\EventSourcing\Identifier\Generator\GeneratesIdentifiers;
@@ -28,7 +27,7 @@ final class EventWrapper implements WrapsEvents
     /**
      * @var GeneratesIdentifiers
      */
-    private $identifierGenerator;
+    private $eventIdGenerator;
 
     /**
      * @var ResolvesEventNames
@@ -46,18 +45,18 @@ final class EventWrapper implements WrapsEvents
     private $aggregateVersions;
 
     /**
-     * @param GeneratesIdentifiers $identifierGenerator
+     * @param GeneratesIdentifiers $eventIdGenerator
      * @param ResolvesEventNames   $eventNameResolver
      * @param string               $eventEnvelopeClass
      */
     public function __construct(
-        GeneratesIdentifiers $identifierGenerator,
+        GeneratesIdentifiers $eventIdGenerator,
         ResolvesEventNames $eventNameResolver,
         $eventEnvelopeClass = 'SimpleES\EventSourcing\Event\Stream\EventEnvelope'
     ) {
-        $this->identifierGenerator = $identifierGenerator;
-        $this->eventNameResolver   = $eventNameResolver;
-        $this->eventEnvelopeClass  = $eventEnvelopeClass;
+        $this->eventIdGenerator   = $eventIdGenerator;
+        $this->eventNameResolver  = $eventNameResolver;
+        $this->eventEnvelopeClass = $eventEnvelopeClass;
 
         $this->guardEventEnvelopeClass($this->eventEnvelopeClass);
     }
@@ -82,7 +81,7 @@ final class EventWrapper implements WrapsEvents
 
             /** @noinspection PhpUndefinedMethodInspection */
             $envelopes[] = $envelopeClass::envelop(
-                EventId::fromString($this->identifierGenerator->generateIdentifier()),
+                $this->eventIdGenerator->generateIdentifier(),
                 $this->eventNameResolver->resolveEventName($event),
                 $event,
                 $aggregateId,

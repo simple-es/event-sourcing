@@ -7,7 +7,6 @@
 namespace SimpleES\EventSourcing\Test\Core;
 
 use SimpleES\EventSourcing\Event\Stream\EventEnvelope;
-use SimpleES\EventSourcing\Event\Stream\EventId;
 use SimpleES\EventSourcing\Example\Basket\BasketId;
 use SimpleES\EventSourcing\Metadata\Metadata;
 use SimpleES\EventSourcing\Test\TestHelper;
@@ -33,17 +32,23 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     private $event;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $eventId;
+
     public function setUp()
     {
         $this->testHelper = new TestHelper($this);
 
         $aggregateId = BasketId::fromString('some-id');
-        $eventId     = EventId::fromString('some-id');
+
+        $this->eventId = $this->testHelper->mockIdentifier();
 
         $this->event = $this->testHelper->mockEvent();
 
         $this->envelope = EventEnvelope::envelop(
-            $eventId,
+            $this->eventId,
             'some.name',
             $this->event,
             $aggregateId,
@@ -65,11 +70,9 @@ class EventEnvelopeTest extends \PHPUnit_Framework_TestCase
      */
     public function itExposesAnEventId()
     {
-        $id = EventId::fromString('some-id');
-
         $exposedId = $this->envelope->eventId();
 
-        $this->assertTrue($id->equals($exposedId));
+        $this->assertSame($this->eventId, $exposedId);
     }
 
     /**

@@ -6,6 +6,8 @@
 
 namespace SimpleES\EventSourcing\Identifier\Generator;
 
+use SimpleES\EventSourcing\Identifier\Identifies;
+
 /**
  * @copyright Copyright (c) 2015 Future500 B.V.
  * @author    Jasper N. Brouwer <jasper@future500.nl>
@@ -13,7 +15,7 @@ namespace SimpleES\EventSourcing\Identifier\Generator;
 interface GeneratesIdentifiers
 {
     /**
-     * @return string
+     * @return Identifies
      */
     public function generateIdentifier();
 }
