@@ -41,10 +41,10 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->testHelper = new TestHelper($this);
 
-        $this->eventIdGenerator = $this->getMock('SimpleES\EventSourcing\Identifier\Generator\GeneratesIdentifiers');
+        $this->eventIdGenerator = $this->getMock('SimpleES\EventSourcing\Identifier\CreatesIdentifiers');
         $this->eventIdGenerator
             ->expects($this->any())
-            ->method('generateIdentifier')
+            ->method('generate')
             ->will($this->returnValue($this->testHelper->mockIdentifier()));
 
         $this->eventNameResolver = $this->getMock('SimpleES\EventSourcing\Event\NameResolver\ResolvesEventNames');
@@ -75,7 +75,7 @@ class EventWrapperTest extends \PHPUnit_Framework_TestCase
 
         $this->eventIdGenerator
             ->expects($this->exactly(3))
-            ->method('generateIdentifier')
+            ->method('generate')
             ->will($this->returnValue($this->testHelper->mockIdentifier()));
 
         $this->eventNameResolver
